@@ -9,11 +9,21 @@ intrachain distances for residues separated by at least `--min-separation`
 
 Output: CSV with one row per residue pair:
 PDB_ID,Residue_Type_1,Chain_ID_1,Residue_Seq_Num_1,X_Coord_1,Y_Coord_1,Z_Coord_1,Residue_Type_2,Chain_ID_2,Residue_Seq_Num_2,X_Coord_2,Y_Coord_2,Z_Coord_2,Distance
-
+    
 Usage example:
-    python3 src/data_preparation.py --ids-file data/examples/example.txt --output data/examples/prepared.csv
 
-Where `example.txt` contains PDB IDs, one per line, optionally followed by chain ID.
+python3 src/data_preparation.py --ids-file data/examples/rna_chains.txt --output data/examples/prepared.csv
+    
+Options:
+--ids-file         Text/CSV file with PDB IDs (optionally followed by chain).
+--output           Destination CSV path.
+--cache-dir       Directory to cache downloaded structures.
+--atom             Atom to use for distance calculations (C3' or C5').
+--max-distance     Maximum distance (Å) to retain.
+--min-separation   Minimum sequence separation between residues (i, i+N).
+--structure-format Preferred download format when fetching from RCSB (auto, pdb, cif, mmcif).
+--log-level       Logging level (DEBUG, INFO, WARNING, ERROR).
+
 """
 from __future__ import annotations
 
