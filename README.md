@@ -45,10 +45,4 @@ rna-score score --folder rna_structures/mmcif --tables training_output --format 
 rna-score plot --input-dir training_output --output-dir plots --combined
 ```
 
-Each subcommand supports `--help`.
-
-## Notes
-
-- Histograms are created per base pair (AA, AC, AG, AU, CC, CG, GG, UC, UG, UU) plus reference XX. If `hist_UC.csv` or `hist_UG.csv` is missing after extract, it means none of the processed structures contained those pairs within the cutoff/seq-sep, not a crash.
-- Use mmCIF input for best compatibility; atom mode defaults are set for quoted atom names in mmCIF.
-- Download step uses the JSON queries in `queries/` via the access script.
+Each subcommand supports `--help / -h`.

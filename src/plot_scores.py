@@ -92,7 +92,7 @@ def main():
     os.makedirs(args.output_dir, exist_ok=True)
     
     # Base pairs
-    pairs = ['AA', 'AC', 'AG', 'AU', 'CC', 'CG', 'GG', 'UC', 'UG', 'UU']
+    pairs = ['AA', 'AC', 'AG', 'AU', 'CC', 'CG', 'GG', 'CU', 'GU', 'UU']
     
     print(f"Plotting scoring profiles...")
     print(f"  Input directory: {args.input_dir}")

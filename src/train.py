@@ -116,7 +116,7 @@ def main():
     os.makedirs(args.output_dir, exist_ok=True)
     
     # Base pairs to process
-    pairs = ['AA', 'AC', 'AG', 'AU', 'CC', 'CG', 'GG', 'UC', 'UG', 'UU']
+    pairs = ['AA', 'AC', 'AG', 'AU', 'CC', 'CG', 'GG', 'CU', 'GU', 'UU']
     
     # Load reference histogram (XX - all pairs)
     ref_file = os.path.join(args.input_dir, 'XX_histogram.txt')
