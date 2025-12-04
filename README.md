@@ -21,7 +21,9 @@ pip install -e .
 rna-score access -n 50 -f cif -o rna_structures --workers 4
 ```
 
-2) **Extract distances** (mmCIF preferred)
+Could validate downloaded files with `--validate` flag.
+
+2) **Extract distances** 
 
 ```bash
 rna-score extract --folder rna_structures/mmcif --format mmcif --out-dir dist_data
@@ -39,7 +41,7 @@ rna-score train --hist-dir dist_data --out-dir training_output
 rna-score score --folder rna_structures/mmcif --tables training_output --format mmcif --output scores.csv
 ```
 
-5) **Plot (optional)**
+5) **Plot**
 
 ```bash
 rna-score plot --input-dir training_output --output-dir plots --combined
