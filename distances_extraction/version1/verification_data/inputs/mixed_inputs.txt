@@ -1,3 +1,0 @@
-verification_data/inputs/dummy.pdb A
-
-1Y26

@@ -1,2 +1,0 @@
-PDB,Model,Chain1,Res1,ResID1,Atom1,AltLoc1,B_Factor1,Chain2,Res2,ResID2,Atom2,AltLoc2,B_Factor2,Distance,Type
-verification_data/inputs/dummy.pdb,1,A,G,1,C3', ,0.0,A,C,5,C3', ,0.0,5.0,CG
