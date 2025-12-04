@@ -7,3 +7,4 @@ tmp/
 pdb/
 mmcif/
 validated/
+*egg-info*

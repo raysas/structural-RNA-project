@@ -87,7 +87,9 @@ def parse_structure(filepath, file_format='pdb'):
         return None
     
     # Parse structure
-    parser = FastParser(atom_mode="C3'")
+    # Use quoted atom mode for mmCIF compatibility (mmCIF files have quoted atom names)
+    atom_mode = '"C3\'"' if file_format == 'mmcif' else "C3'"
+    parser = FastParser(atom_mode=atom_mode)
     data = parser.parse(
         content,
         file_format=file_format,
@@ -341,6 +343,11 @@ def main():
     if args.output and all_results:
         import pandas as pd
         
+        # Create output directory if it doesn't exist
+        output_dir = os.path.dirname(args.output)
+        if output_dir and not os.path.exists(output_dir):
+            os.makedirs(output_dir, exist_ok=True)
+        
         if len(files_to_score) == 1:
             # Single file: save detailed interactions
             df = pd.DataFrame(all_results[0]['interactions'])
@@ -359,22 +366,6 @@ def main():
             df.to_csv(args.output, index=False)
             print(f"\n✓ Scored {len(all_results)}/{len(files_to_score)} structures")
             print(f"Summary saved to: {args.output}")
-    print(f"Number of interactions: {result['n_interactions']}")
-    print(f"Total Gibbs free energy estimate: {result['total_score']:.3f}")
-    print(f"{'='*60}")
-    
-    # Print detailed scores if requested
-    if args.detailed and result['interactions']:
-        print(f"\nDetailed interaction scores:")
-        print(f"{'Res1':<6} {'Res2':<6} {'Chain1':<7} {'Chain2':<7} {'Seq1':<6} {'Seq2':<6} {'Dist(Å)':<8} {'Pair':<6} {'Score':<8}")
-        print("-" * 70)
-        for inter in result['interactions'][:20]:  # Show first 20
-            print(f"{inter['res1']:<6} {inter['res2']:<6} {inter['chain1']:<7} {inter['chain2']:<7} "
-                  f"{inter['seq1']:<6} {inter['seq2']:<6} {inter['distance']:<8.2f} "
-                  f"{inter['pair']:<6} {inter['score']:<8.3f}")
-        
-        if len(result['interactions']) > 20:
-            print(f"... ({len(result['interactions']) - 20} more interactions)")
     
     return 0
 
