@@ -35,11 +35,7 @@ class RNAStructureDownloader:
         self.cif_dir = self.output_dir / "mmcif"
         self.max_workers = max_workers
         self.delay = delay
-        
-        # Create directories
-        self.pdb_dir.mkdir(parents=True, exist_ok=True)
-        self.cif_dir.mkdir(parents=True, exist_ok=True)
-        
+                
         # PDB API endpoints
         self.search_url = "https://search.rcsb.org/rcsbsearch/v2/query"
         self.download_base = "https://files.rcsb.org/download/"
@@ -121,6 +117,11 @@ class RNAStructureDownloader:
         Returns:
             True if successful, False otherwise
         """
+        # Create directories
+        self.pdb_dir.mkdir(parents=True, exist_ok=True)
+        self.cif_dir.mkdir(parents=True, exist_ok=True)
+
+        
         pdb_id = pdb_id.lower()
         
         # Determine file extension and directory
@@ -257,19 +258,7 @@ def main():
     """Main function."""
     parser = argparse.ArgumentParser(
         description="Download RNA structures from PDB database",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-  # Download 100 RNA structures in both formats
-  python download_rna_structures.py -n 100
-  
-  # Download 50 RNA-only structures in PDB format only
-  python download_rna_structures.py -n 50 --rna-only --formats pdb
-  
-  # Download all RNA structures (be careful!)
-  python download_rna_structures.py --all
-        """
-    )
+        formatter_class=argparse.RawDescriptionHelpFormatter)
     
     parser.add_argument(
         "-n", "--number",

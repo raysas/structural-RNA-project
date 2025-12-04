@@ -12,7 +12,10 @@ Usage:
 import argparse
 import os
 import numpy as np
-from core import FastParser, DistanceComputer
+from utils.structure_io import FastParser
+from scipy.spatial import cKDTree
+from collections import defaultdict
+import pandas as pd
 
 
 class ScoringTables:
@@ -109,35 +112,69 @@ def compute_structure_score(data, scoring_tables, cutoff=20.0, seq_sep=4):
     Returns:
         Dictionary with total score and detailed interactions
     """
-    # Compute distances
-    computer = DistanceComputer(cutoff=cutoff, seq_separation=seq_sep)
-    dists, detailed_df = computer.compute(data, dist_mode='intra', detailed_output=True)
+    # Compute distances inline
+    if data is None:
+        return {'total_score': 0.0, 'n_interactions': 0, 'interactions': []}
+    
+    coords = data['coords']
+    chains = data['chain_ids']
+    res_ids = data['res_ids']
+    res_names = data['res_names']
+    model_ids = data['model_ids']
+    pdb_name = data['pdb_name']
+    
+    # Build KDTree for fast neighbor search
+    tree = cKDTree(coords, compact_nodes=True, balanced_tree=True)
+    pairs = tree.query_pairs(cutoff)
+    
+    if not pairs:
+        return {'total_score': 0.0, 'n_interactions': 0, 'interactions': []}
+    
+    pairs_np = np.array(list(pairs))
+    idx_i = pairs_np[:, 0]
+    idx_j = pairs_np[:, 1]
+    
+    same_model = (model_ids[idx_i] == model_ids[idx_j])
+    same_chain = (chains[idx_i] == chains[idx_j])
+    seq_diff = np.abs(res_ids[idx_i] - res_ids[idx_j])
+    mask = same_model & same_chain & (seq_diff >= seq_sep)
+    
+    final_i = idx_i[mask]
+    final_j = idx_j[mask]
+    
+    if len(final_i) == 0:
+        return {'total_score': 0.0, 'n_interactions': 0, 'interactions': []}
+    
+    diffs = coords[final_i] - coords[final_j]
+    dists = np.linalg.norm(diffs, axis=1)
+    
+    types_i = res_names[final_i]
+    types_j = res_names[final_j]
     
     total_score = 0.0
     interaction_scores = []
     
     # Score each interaction
-    if detailed_df is not None and len(detailed_df) > 0:
-        for _, row in detailed_df.iterrows():
-            res1 = row['Res1']
-            res2 = row['Res2']
-            distance = row['Distance']
-            
-            pair_key = scoring_tables.canonical_pair_key(res1, res2)
-            score = scoring_tables.get_score(pair_key, distance)
-            
-            total_score += score
-            interaction_scores.append({
-                'res1': res1,
-                'res2': res2,
-                'chain1': row['Chain1'],
-                'chain2': row['Chain2'],
-                'seq1': row['ResID1'],
-                'seq2': row['ResID2'],
-                'distance': distance,
-                'pair': pair_key,
-                'score': score
-            })
+    for i in range(len(dists)):
+        res1 = types_i[i]
+        res2 = types_j[i]
+        distance = dists[i]
+        
+        pair_key = scoring_tables.canonical_pair_key(res1, res2)
+        score = scoring_tables.get_score(pair_key, distance)
+        
+        total_score += score
+        interaction_scores.append({
+            'res1': res1,
+            'res2': res2,
+            'chain1': chains[final_i[i]],
+            'chain2': chains[final_j[i]],
+            'seq1': res_ids[final_i[i]],
+            'seq2': res_ids[final_j[i]],
+            'distance': distance,
+            'pair': pair_key,
+            'score': score
+        })
     
     return {
         'total_score': total_score,
@@ -211,6 +248,7 @@ def main():
     )
     parser.add_argument(
         '--output',
+        default="score_results.csv",
         type=str,
         help='Save scores to CSV file (required for batch mode)'
     )

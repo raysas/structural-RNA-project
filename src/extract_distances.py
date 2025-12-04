@@ -80,8 +80,10 @@ import numpy as np
 import pandas as pd
 import time
 from concurrent.futures import ProcessPoolExecutor
-import glob # New import for efficient file searching
-from core import FastParser, OnlineFetcher, DistanceComputer
+import glob
+from scipy.spatial import cKDTree
+from collections import defaultdict
+from utils.structure_io import FastParser, OnlineFetcher
 
 # Global configuration shared with worker processes
 _WORKER_CONFIG = {}
@@ -147,12 +149,120 @@ def worker_process(target):
             return None, None
 
         # Compute distances
-        computer = DistanceComputer(cutoff=cfg['cutoff'], seq_separation=cfg['seq_sep'])
-        dists, detailed_df = computer.compute(data, dist_mode=cfg['dist_mode'], detailed_output=cfg['detailed'])
+        dists, detailed_df = compute_distances(
+            data,
+            cutoff=cfg['cutoff'],
+            seq_separation=cfg['seq_sep'],
+            dist_mode=cfg['dist_mode'],
+            detailed_output=cfg['detailed']
+        )
         
         return dists, detailed_df
     except Exception:
         return None, None
+
+
+def compute_distances(data, cutoff=20.0, seq_separation=4, dist_mode='intra', detailed_output=False):
+    """
+    Computes pairwise distances between atoms in an RNA structure.
+
+    Parameters:
+    -----------
+    data : dict
+        Parsed RNA structure data from FastParser.
+    cutoff : float
+        Maximum distance between atoms to be considered a contact (in Ångströms).
+    seq_separation : int
+        Minimum sequence separation for intra-chain distance computations.
+    dist_mode : str
+        Either 'intra' (within the same chain) or 'inter' (between different chains).
+    detailed_output : bool, optional
+        Whether to return a detailed pandas DataFrame with all distances.
+
+    Returns:
+    --------
+    tuple:
+        results : dict
+            Dictionary mapping residue pair types to lists of distances.
+        detailed_df : pandas.DataFrame or None
+            DataFrame with detailed distance information if requested.
+    """
+    if data is None:
+        return {}, None
+    
+    coords = data['coords']
+    chains = data['chain_ids']
+    res_ids = data['res_ids']
+    res_names = data['res_names']
+    
+    atom_names = data['atom_names']
+    alt_locs = data['alt_locs']
+    b_factors = data['b_factors']
+    model_ids = data['model_ids']
+    pdb_name = data['pdb_name']
+    
+    # Build a KDTree for fast neighbor search
+    tree = cKDTree(coords, compact_nodes=True, balanced_tree=True)
+    pairs = tree.query_pairs(cutoff)
+    
+    if not pairs:
+        return {}, None
+    
+    pairs_np = np.array(list(pairs))
+    idx_i = pairs_np[:, 0]
+    idx_j = pairs_np[:, 1]
+    
+    same_model = (model_ids[idx_i] == model_ids[idx_j])
+    same_chain = (chains[idx_i] == chains[idx_j])
+    
+    if dist_mode == 'intra':
+        seq_diff = np.abs(res_ids[idx_i] - res_ids[idx_j])
+        mask = same_model & same_chain & (seq_diff >= seq_separation)
+    else:
+        mask = same_model & (~same_chain)
+
+    final_i = idx_i[mask]
+    final_j = idx_j[mask]
+    
+    diffs = coords[final_i] - coords[final_j]
+    dists = np.linalg.norm(diffs, axis=1)
+    
+    types_i = res_names[final_i]
+    types_j = res_names[final_j]
+    
+    results = defaultdict(list)
+    pair_keys = []
+
+    # Organize distances by residue type
+    for t1, t2, d in zip(types_i, types_j, dists):
+        key = t1 + t2 if t1 < t2 else t2 + t1
+        pair_keys.append(key)
+        results[key].append(d)
+        results['XX'].append(d)
+        
+    detailed_df = None
+    if detailed_output and len(dists) > 0:
+        detailed_df = pd.DataFrame({
+            'PDB': pdb_name,
+            'Model': model_ids[final_i],
+            'Chain1': chains[final_i],
+            'Res1': types_i,
+            'ResID1': res_ids[final_i],
+            'Atom1': atom_names[final_i],
+            'AltLoc1': alt_locs[final_i],
+            'B_Factor1': b_factors[final_i],
+            'Chain2': chains[final_j],
+            'Res2': types_j,
+            'ResID2': res_ids[final_j],
+            'Atom2': atom_names[final_j],
+            'AltLoc2': alt_locs[final_j],
+            'B_Factor2': b_factors[final_j],
+            'Distance': dists,
+            'Type': pair_keys
+        })
+        
+    return results, detailed_df
+
 
 def process_dataset_parallel(targets, config, max_workers=None):
     """
@@ -206,7 +316,7 @@ def main():
     parser.add_argument('--format', choices=['pdb', 'mmcif'], default='pdb', help="Input file format. Default: pdb")
     parser.add_argument('--all-models', action='store_true', help="Process all NMR models. Default: False")
     parser.add_argument('--cores', type=int, default=None, help="Number of CPU cores to use. Default: all available cores")
-    parser.add_argument('--atom-mode', nargs='+', default=["C3'"], help="Atom selection mode (e.g., C3', centroid, all, or list). Default: C3'")
+    parser.add_argument('--atom-mode', nargs='+', default=['"C3\'"'], help="Atom selection mode (e.g., C3', centroid, all, or list). Default: C3'")
     parser.add_argument('--dist-mode', choices=['intra', 'inter'], default='intra', help="Interaction mode. Default: intra")
     parser.add_argument('--cutoff', type=float, default=20.0, help="Maximum distance (Å) to consider an interaction. Default: 20.0")
     parser.add_argument('--seq-sep', type=int, default=4, help="Minimum sequence separation for intra-chain interactions. Default: 4")
