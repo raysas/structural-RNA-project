@@ -22,8 +22,12 @@ Parameters / Command-line options:
           2OEU
       Default: None
 
+  --folder FOLDER
+      Directory containing local PDB or mmCIF files to process in batch.
+      Default: None
+
   --chains CHAINS [CHAINS ...]
-      Specific chains to process for a single PDB. Default: all chains
+      Specific chains to process for a single PDB or files in a folder. Default: all chains
 
   --format {pdb,mmcif}
       Input file format. Default: pdb
@@ -76,6 +80,7 @@ import numpy as np
 import pandas as pd
 import time
 from concurrent.futures import ProcessPoolExecutor
+import glob # New import for efficient file searching
 from core import FastParser, OnlineFetcher, DistanceComputer
 
 # Global configuration shared with worker processes
@@ -111,23 +116,32 @@ def worker_process(target):
     try:
         cfg = _WORKER_CONFIG
         ident = target['id']
+        file_id = os.path.basename(ident).split('.')[0] # Use filename as ID for local files
 
         # Fetch file content
         if target['is_local']:
             try:
                 with open(ident, 'r') as f:
                     content = f.read().splitlines()
+                # Infer format for local files if not explicitly set
+                if ident.lower().endswith(('.cif', '.mmcif')):
+                    file_format = 'mmcif'
+                else:
+                    file_format = 'pdb'
+
             except:
                 return None, None
         else:
             content = OnlineFetcher.get_content(ident, file_format=cfg['fmt'])
+            file_format = cfg['fmt']
+            file_id = ident # Use PDB ID for remote files
         
         if not content:
             return None, None
 
         # Parse structure
         parser = FastParser(atom_mode=cfg['atom_mode'])
-        data = parser.parse(content, file_format=cfg['fmt'], pdb_name=ident,
+        data = parser.parse(content, file_format=file_format, pdb_name=file_id,
                             chains_filter=target['chains'], use_all_models=cfg['all_models'])
         if data is None:
             return None, None
@@ -158,6 +172,10 @@ def process_dataset_parallel(targets, config, max_workers=None):
 
     print(f"Starting Parallel Processing (Atom Mode: {atom_mode_print})...")
     start_time = time.time()
+    
+    # Determine max_workers safely
+    if max_workers is None or max_workers <= 0:
+        max_workers = os.cpu_count() or 1
 
     with ProcessPoolExecutor(max_workers=max_workers) as executor:
         results = list(executor.map(worker_process, targets))
@@ -182,6 +200,7 @@ def main():
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('--pdb', type=str, help="Single RNA PDB ID or filename.")
     group.add_argument('--list', type=str, help="Text file containing a list of RNA PDB IDs and optional chain IDs.")
+    group.add_argument('--folder', type=str, help="Directory containing local PDB or mmCIF files to process in batch.")
     
     parser.add_argument('--chains', nargs='+', help="Specific chains to process. Default: all chains")
     parser.add_argument('--format', choices=['pdb', 'mmcif'], default='pdb', help="Input file format. Default: pdb")
@@ -217,10 +236,42 @@ def main():
     if args.pdb:
         is_local = os.path.exists(args.pdb)
         targets.append({'id': args.pdb, 'chains': args.chains, 'is_local': is_local})
-        final_results, all_detailed_dfs = process_dataset_parallel(targets, config, max_workers=1)
+        # Single PDB processing uses one core unless it's a local file.
+        final_results, all_detailed_dfs = process_dataset_parallel(targets, config, max_workers=1 if not is_local else args.cores)
+    
     elif args.list:
         targets = parse_input_file(args.list)
         final_results, all_detailed_dfs = process_dataset_parallel(targets, config, max_workers=args.cores)
+
+    elif args.folder:
+        print(f"Searching for files in: {args.folder}")
+        targets = []
+        
+        # Define extensions to search based on format preference
+        exts = []
+        # Look for both common PDB and mmCIF extensions regardless of explicit format argument
+        exts.extend(['pdb', 'ent', 'cif', 'mmcif'])
+
+        # Use glob to find all matching files efficiently
+        for ext in exts:
+            pattern = os.path.join(args.folder, f"*.{ext}")
+            for filepath in glob.glob(pattern):
+                targets.append({
+                    'id': filepath,
+                    'chains': args.chains, # Apply common chain filter to all files
+                    'is_local': True
+                })
+        
+        if not targets:
+            print(f"No files found in {args.folder} matching {exts} extensions.")
+            return
+
+        print(f"Found {len(targets)} files to process. Starting batch processing...")
+        final_results, all_detailed_dfs = process_dataset_parallel(targets, config, max_workers=args.cores)
+        
+    else:
+        # Should not be reached due to argparse mutual exclusivity, but for safety
+        return 
 
     os.makedirs(args.out_dir, exist_ok=True)
     print(f"\nWriting results to '{args.out_dir}/' (Method: {args.method.upper()})...")
