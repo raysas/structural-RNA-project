@@ -78,6 +78,20 @@ rna-score score --folder rna_structures/mmcif --tables training_output --format 
 
 ```bash
 rna-score plot --input-dir training_output --output-dir plots --combined
+
+### 6. Full Workflow (all steps in one command)
+
+```bash
+# add pdb ids and chains for scoring
+cat <<EOF > score_list.txt
+1EHZ A
+1Y26 B C
+EOF
+
+rna-score workflow --train-folder rna_structures/mmcif --score-list score_list.txt --output-dir workflow_output --format mmcif --method histogram
+```
+
+This runs extraction, training, scoring, and plotting in a single step. See `rna-score workflow --help` for all options.
 ```
 
 *Each subcommand supports `--help` / `-h` for details.*
