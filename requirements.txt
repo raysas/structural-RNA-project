@@ -5,3 +5,5 @@ numpy
 pandas
 matplotlib
 requests
+scipy
+rpy2>=3.5

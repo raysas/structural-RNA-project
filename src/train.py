@@ -120,8 +120,14 @@ def main():
     parser.add_argument(
         '--input-dir',
         type=str,
-        default='dist_data',
+        default=None,
         help='Directory containing histogram files or KDE data from extract_distances.py'
+    )
+    parser.add_argument(
+        '--hist-dir',
+        type=str,
+        default=None,
+        help='Alias for --input-dir (kept for compatibility)'
     )
     parser.add_argument(
         '--output-dir',
@@ -161,6 +167,15 @@ def main():
     )
     
     args = parser.parse_args()
+    
+    # Harmonize input directory argument (support legacy --hist-dir)
+    if args.input_dir and args.hist_dir and args.input_dir != args.hist_dir:
+        print("ERROR: --input-dir and --hist-dir differ. Please provide only one.", flush=True)
+        return 1
+    if not args.input_dir and args.hist_dir:
+        args.input_dir = args.hist_dir
+    if not args.input_dir:
+        args.input_dir = 'dist_data'
     
     # Create output directory
     os.makedirs(args.output_dir, exist_ok=True)

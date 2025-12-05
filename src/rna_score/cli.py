@@ -30,15 +30,29 @@ def main():
     extract_parser.add_argument('--all-models', action='store_true', help='Process all NMR models')
     extract_parser.add_argument('--method', choices=['histogram', 'kde'], default='histogram', help='Extraction method')
 
-    # Train scoring function
+    # Train scoring function (histogram or simple KDE)
     train_parser = subparsers.add_parser('train', help='Train scoring function from distances')
-    train_parser.add_argument('--input-dir', type=str, required=True, help='Directory with histogram files')
+    train_parser.add_argument('--input-dir', type=str, help='Directory with histogram/KDE raw files')
+    train_parser.add_argument('--hist-dir', type=str, help='Alias for --input-dir (legacy)')
     train_parser.add_argument('--output-dir', type=str, default='training_output')
     train_parser.add_argument('--max-score', type=float, default=10.0)
     train_parser.add_argument('--pseudocount', type=float, default=1e-6)
     train_parser.add_argument('--cutoff', type=float, default=20.0)
     train_parser.add_argument('--bin-width', type=float, default=1.0)
     train_parser.add_argument('--method', choices=['histogram', 'kde'], default='histogram', help='Training method: histogram (default) or kde')
+
+    # Train scoring function via R/Scipy KDE smoother
+    kde_train_parser = subparsers.add_parser('kde-train', help='Train KDE-based scoring tables from raw distances')
+    kde_train_parser.add_argument('--raw-dir', type=str, required=True, help='Directory with *_kde_raw.txt files')
+    kde_train_parser.add_argument('--output-dir', type=str, default='kde_output', help='Directory for KDE freq/score tables')
+    kde_train_parser.add_argument('--max-distance', type=float, default=20.0, help='Upper bound of the grid in Angstrom')
+    kde_train_parser.add_argument('--grid-step', type=float, default=0.1, help='Grid spacing for evaluating density')
+    kde_train_parser.add_argument('--kernel', type=str, default='gaussian', help="R density() kernel")
+    kde_train_parser.add_argument('--bandwidth', type=str, default='SJ-dpi', help='R density() bw method or numeric for SciPy fallback')
+    kde_train_parser.add_argument('--adjust', type=float, default=1.0, help='Bandwidth multiplier (passed to density())')
+    kde_train_parser.add_argument('--cut', type=float, default=3.0, help='Grid extension factor (R density cut)')
+    kde_train_parser.add_argument('--min-density', type=float, default=1e-8, help='Floor to avoid log(0)')
+    kde_train_parser.add_argument('--python-backend', action='store_true', help='Force SciPy backend instead of R/rpy2')
 
     # Score structures
     score_parser = subparsers.add_parser('score', help='Score RNA structures')
@@ -124,12 +138,15 @@ Analyze, train, and score RNA structures with ease.
             if args.cores:
                 cmd.extend(['--cores', str(args.cores)])
             subprocess.run(cmd, check=True)
-            print(f"✓ Distances extracted to {args.out_dir}")
+            print(f"OK Distances extracted to {args.out_dir}")
         
         elif args.command == 'train':
+            input_dir = args.input_dir or args.hist_dir
+            if not input_dir:
+                raise ValueError("Must provide --input-dir (or --hist-dir).")
             cmd = [
                 sys.executable, os.path.join(src_dir, 'train.py'),
-                '--input-dir', args.input_dir,
+                '--input-dir', input_dir,
                 '--output-dir', args.output_dir,
                 '--max-score', str(args.max_score),
                 '--pseudocount', str(args.pseudocount),
@@ -138,7 +155,25 @@ Analyze, train, and score RNA structures with ease.
                 '--method', args.method
             ]
             subprocess.run(cmd, check=True)
-            print(f"✓ Training complete. Output in {args.output_dir}")
+            print(f"OK Training complete. Output in {args.output_dir}")
+
+        elif args.command == 'kde-train':
+            cmd = [
+                sys.executable, os.path.join(src_dir, 'kde_training.py'),
+                '--raw-dir', args.raw_dir,
+                '--output-dir', args.output_dir,
+                '--max-distance', str(args.max_distance),
+                '--grid-step', str(args.grid_step),
+                '--kernel', args.kernel,
+                '--bandwidth', args.bandwidth,
+                '--adjust', str(args.adjust),
+                '--cut', str(args.cut),
+                '--min-density', str(args.min_density),
+            ]
+            if args.python_backend:
+                cmd.append('--python-backend')
+            subprocess.run(cmd, check=True)
+            print(f"OK KDE training complete. Output in {args.output_dir}")
         
         elif args.command == 'score':
             cmd = [
@@ -161,7 +196,7 @@ Analyze, train, and score RNA structures with ease.
             if args.output:
                 cmd.extend(['--output', args.output])
             subprocess.run(cmd, check=True)
-            print(f"✓ Scoring complete")
+            print("OK Scoring complete")
         
         elif args.command == 'plot':
             cmd = [
@@ -172,7 +207,7 @@ Analyze, train, and score RNA structures with ease.
             if args.combined:
                 cmd.append('--combined')
             subprocess.run(cmd, check=True)
-            print(f"✓ Plots generated in {args.output_dir}")
+            print(f"OK Plots generated in {args.output_dir}")
         
         elif args.command == 'access':
             cmd = [
@@ -192,7 +227,7 @@ Analyze, train, and score RNA structures with ease.
                 cmd.append('--list-only')
             
             subprocess.run(cmd, check=True)
-            print(f"✓ Structures downloaded to {args.output}")
+            print(f"OK Structures downloaded to {args.output}")
             
             if args.validate:
                 validate_cmd = [
@@ -200,7 +235,7 @@ Analyze, train, and score RNA structures with ease.
                     '--input-dir', os.path.join(args.output, 'pdb')
                 ]
                 subprocess.run(validate_cmd, check=True)
-                print(f"✓ Validation complete")
+                print("OK Validation complete")
     
     except subprocess.CalledProcessError as e:
         print(f"Error running script: {e}", file=sys.stderr)
@@ -212,4 +247,3 @@ Analyze, train, and score RNA structures with ease.
 
 if __name__ == '__main__':
     main()
-

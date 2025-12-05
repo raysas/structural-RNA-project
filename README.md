@@ -32,7 +32,11 @@ rna-score extract --folder rna_structures/mmcif --format mmcif --out-dir dist_da
 3) **Train scoring tables**
 
 ```bash
-rna-score train --hist-dir dist_data --out-dir training_output
+# Histogram / simple KDE (uses scipy)
+rna-score train --input-dir dist_data --out-dir training_output --method histogram
+
+# Smoothed KDE (uses R density via rpy2 when available, falls back to scipy)
+rna-score kde-train --raw-dir dist_data --output-dir kde_output --max-distance 20 --grid-step 0.1
 ```
 
 4) **Score structures**

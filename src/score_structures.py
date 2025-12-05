@@ -22,8 +22,9 @@ class ScoringTables:
     """Container for trained scoring tables with interpolation."""
     
     def __init__(self, tables_dir):
-        """Load all scoring tables from directory."""
-        self.pairs = ['AA', 'AC', 'AG', 'AU', 'CC', 'CG', 'GG', 'UC', 'UG', 'UU']
+        """Load all scoring tables from directory (supports histogram or KDE tables)."""
+        # Canonical symmetric pairs (sorted)
+        self.pairs = ['AA', 'AC', 'AG', 'AU', 'CC', 'CG', 'CU', 'GG', 'GU', 'UU']
         self.tables = {}
         
         for pair in self.pairs:
@@ -32,12 +33,25 @@ class ScoringTables:
                 continue
             
             data = np.loadtxt(score_file, delimiter=',', skiprows=1)
-            self.tables[pair] = {
-                'distance_min': data[:, 0],
-                'distance_max': data[:, 1],
-                'distance_mid': data[:, 2],
-                'score': data[:, 3]
-            }
+            if data.ndim == 1:
+                data = data.reshape(1, -1)
+            
+            # Histogram-style table: Distance_Min, Distance_Max, Distance_Mid, Score
+            if data.shape[1] >= 4:
+                self.tables[pair] = {
+                    'distance_min': data[:, 0],
+                    'distance_max': data[:, 1],
+                    'distance_mid': data[:, 2],
+                    'score': data[:, 3]
+                }
+            # KDE-style table: Distance, Score
+            elif data.shape[1] == 2:
+                self.tables[pair] = {
+                    'distance_min': data[:, 0],
+                    'distance_max': data[:, 0],
+                    'distance_mid': data[:, 0],
+                    'score': data[:, 1]
+                }
     
     def get_score(self, pair, distance):
         """
@@ -364,7 +378,7 @@ def main():
                 })
             df = pd.DataFrame(summary_data)
             df.to_csv(args.output, index=False)
-            print(f"\n✓ Scored {len(all_results)}/{len(files_to_score)} structures")
+            print(f"\nOK Scored {len(all_results)}/{len(files_to_score)} structures")
             print(f"Summary saved to: {args.output}")
     
     return 0
