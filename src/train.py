@@ -106,7 +106,7 @@ def compute_score(obs_freq, ref_freq, max_score=10.0):
     # safe_ref = np.maximum(ref_freq, 1e-10)
     
     score = -np.log(obs_freq / ref_freq)
-    print("Debug info:")
+    # print("Debug info:")
     # print(obs_freq)
     # print(ref_freq)
     # print(obs_freq / ref_freq)
@@ -115,7 +115,7 @@ def compute_score(obs_freq, ref_freq, max_score=10.0):
     # Cap at maximum score
     score = np.minimum(score, max_score)
     score = np.nan_to_num(score, nan=max_score)
-    print(score)
+    # print(score)
     
     return score
 
@@ -145,7 +145,7 @@ def main():
     parser.add_argument(
         '--pseudocount',
         type=float,
-        default=1e-6,
+        default=0,
         help='Pseudocount for smoothing (default: 1e-6)'
     )
     parser.add_argument(

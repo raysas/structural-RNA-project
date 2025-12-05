@@ -326,9 +326,6 @@ def main():
     parser.add_argument('--save-detailed', action='store_true', help="Export detailed CSV log of interactions. Default: False")
     
     args = parser.parse_args()
-
-    if args.format == 'mmcif':
-        args.atom_mode = ['"C3\'"'] if args.atom_mode == ["C3'"] else args.atom_mode
     
     # Normalize atom mode
     mode_arg = args.atom_mode

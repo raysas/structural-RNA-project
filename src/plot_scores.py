@@ -203,7 +203,7 @@ def run_workflow(args):
     _ensure_dir(args.output_dir)
     _ensure_dir(os.path.join(args.output_dir, "png"))
 
-    pairs = ['AA', 'AC', 'AG', 'AU', 'CC', 'CG', 'GG', 'UC', 'UG', 'UU']
+    pairs = ['AA', 'AC', 'AG', 'AU', 'CC', 'CG', 'GG', 'CU', 'GU', 'UU']
     pairs_data = {}
 
     print(f"Plotting scoring profiles from {args.input_dir} …")
