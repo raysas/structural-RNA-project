@@ -102,13 +102,20 @@ def compute_score(obs_freq, ref_freq, max_score=10.0):
         Score array, capped at max_score
     """
     # Avoid division by zero
-    safe_obs = np.maximum(obs_freq, 1e-10)
-    safe_ref = np.maximum(ref_freq, 1e-10)
+    # safe_obs = np.maximum(obs_freq, 1e-10)
+    # safe_ref = np.maximum(ref_freq, 1e-10)
     
-    score = -np.log(safe_obs / safe_ref)
+    score = -np.log(obs_freq / ref_freq)
+    print("Debug info:")
+    # print(obs_freq)
+    # print(ref_freq)
+    # print(obs_freq / ref_freq)
+    # print(score)
     
     # Cap at maximum score
     score = np.minimum(score, max_score)
+    score = np.nan_to_num(score, nan=max_score)
+    print(score)
     
     return score
 
@@ -120,14 +127,8 @@ def main():
     parser.add_argument(
         '--input-dir',
         type=str,
-        default=None,
+        default='dist_data',
         help='Directory containing histogram files or KDE data from extract_distances.py'
-    )
-    parser.add_argument(
-        '--hist-dir',
-        type=str,
-        default=None,
-        help='Alias for --input-dir (kept for compatibility)'
     )
     parser.add_argument(
         '--output-dir',
@@ -153,6 +154,14 @@ def main():
         default=20.0,
         help='Maximum distance in Angstroms (default: 20.0)'
     )
+    # TODO
+    # parser.add_argument(
+    #     '--min-distance',
+    #     type=float,
+    #     default=2.0,
+    #     help='Minimum distance in Angstroms (default: 2.0)'
+    # )
+    
     parser.add_argument(
         '--bin-width',
         type=float,
@@ -167,15 +176,6 @@ def main():
     )
     
     args = parser.parse_args()
-    
-    # Harmonize input directory argument (support legacy --hist-dir)
-    if args.input_dir and args.hist_dir and args.input_dir != args.hist_dir:
-        print("ERROR: --input-dir and --hist-dir differ. Please provide only one.", flush=True)
-        return 1
-    if not args.input_dir and args.hist_dir:
-        args.input_dir = args.hist_dir
-    if not args.input_dir:
-        args.input_dir = 'dist_data'
     
     # Create output directory
     os.makedirs(args.output_dir, exist_ok=True)
@@ -208,7 +208,12 @@ def main():
         ref_counts = load_histogram(ref_file)
         # Generate distance bin information
         n_bins = len(ref_counts)
-        bin_edges = np.linspace(0, args.cutoff, n_bins + 1)
+        # add warning if distance < 2 Å detected
+        bin_edges = np.linspace(2, args.cutoff, n_bins + 1)
+
+        if np.any(bin_edges < 2):
+            print(f"WARNING: Detected distances < 2 Å in reference histogram. Check input data.")
+
         bin_min = bin_edges[:-1]
         bin_max = bin_edges[1:]
         bin_mid = (bin_min + bin_max) / 2

@@ -12,19 +12,19 @@ Usage:
 import argparse
 import os
 import numpy as np
-from utils.structure_io import FastParser
+from utils.structure_io import FastParser, OnlineFetcher
 from scipy.spatial import cKDTree
 from collections import defaultdict
 import pandas as pd
+import tempfile
 
 
 class ScoringTables:
     """Container for trained scoring tables with interpolation."""
     
     def __init__(self, tables_dir):
-        """Load all scoring tables from directory (supports histogram or KDE tables)."""
-        # Canonical symmetric pairs (sorted)
-        self.pairs = ['AA', 'AC', 'AG', 'AU', 'CC', 'CG', 'CU', 'GG', 'GU', 'UU']
+        """Load all scoring tables from directory."""
+        self.pairs = ['AA', 'AC', 'AG', 'AU', 'CC', 'CG', 'GG', 'UC', 'UG', 'UU']
         self.tables = {}
         
         for pair in self.pairs:
@@ -33,25 +33,12 @@ class ScoringTables:
                 continue
             
             data = np.loadtxt(score_file, delimiter=',', skiprows=1)
-            if data.ndim == 1:
-                data = data.reshape(1, -1)
-            
-            # Histogram-style table: Distance_Min, Distance_Max, Distance_Mid, Score
-            if data.shape[1] >= 4:
-                self.tables[pair] = {
-                    'distance_min': data[:, 0],
-                    'distance_max': data[:, 1],
-                    'distance_mid': data[:, 2],
-                    'score': data[:, 3]
-                }
-            # KDE-style table: Distance, Score
-            elif data.shape[1] == 2:
-                self.tables[pair] = {
-                    'distance_min': data[:, 0],
-                    'distance_max': data[:, 0],
-                    'distance_mid': data[:, 0],
-                    'score': data[:, 1]
-                }
+            self.tables[pair] = {
+                'distance_min': data[:, 0],
+                'distance_max': data[:, 1],
+                'distance_mid': data[:, 2],
+                'score': data[:, 3]
+            }
     
     def get_score(self, pair, distance):
         """
@@ -73,7 +60,13 @@ class ScoringTables:
         
         # Linear interpolation
         score = np.interp(distance, distances, scores, left=scores[0], right=scores[-1])
+        # TODO add spline interpolation option
+        # from scipy.interpolate import UnivariateSpline
+        # spline = UnivariateSpline(distances, scores, s=0)
+        # score = spline(distance)
+        
         return float(score)
+    
     
     def canonical_pair_key(self, res1, res2):
         """Convert residue pair to canonical key (alphabetically sorted)."""
@@ -199,14 +192,14 @@ def compute_structure_score(data, scoring_tables, cutoff=20.0, seq_sep=4):
     }
 
 
-def score_single_structure(filepath, scoring_tables, file_format, cutoff, seq_sep):
+def score_single_structure(filepath, scoring_tables, file_format, cutoff, seq_sep, display_name=None):
     """Score a single structure and return results."""
     data = parse_structure(filepath, file_format)
     if data is None:
         return None
     
     result = compute_structure_score(data, scoring_tables, cutoff, seq_sep)
-    result['filename'] = os.path.basename(filepath)
+    result['filename'] = display_name or os.path.basename(filepath)
     return result
 
 
@@ -229,7 +222,7 @@ def main():
     group.add_argument(
         '--list',
         type=str,
-        help='Text file with list of PDB/mmCIF file paths to score'
+        help='Text file with PDB IDs or file paths. Format: <PDB_ID> [CHAIN_ID1 CHAIN_ID2 ...] or /path/to/file.pdb. Example: 1EHZ A or /path/to/structure.pdb'
     )
     
     parser.add_argument(
@@ -300,9 +293,43 @@ def main():
     elif args.list:
         with open(args.list, 'r') as f:
             for line in f:
-                filepath = line.strip()
-                if filepath and os.path.exists(filepath):
-                    files_to_score.append(filepath)
+                line = line.strip()
+                if not line:
+                    continue
+                
+                # Check if it's a file path (starts with / or ./ or contains extension)
+                if line.startswith('/') or line.startswith('./') or line.startswith('..\\') or '.' in os.path.basename(line):
+                    # It's a file path
+                    if os.path.exists(line):
+                        files_to_score.append(line)
+                else:
+                    # Treat as PDB ID with optional chain IDs
+                    parts = line.split()
+                    pdb_id = parts[0]
+                    chains = parts[1:] if len(parts) > 1 else None
+                    
+                    try:
+                        # Fetch PDB file from online database
+                        content = OnlineFetcher.get_content(pdb_id, file_format=args.format)
+                        if content:
+                            # Create temporary file with fetched content
+                            temp_file = tempfile.NamedTemporaryFile(
+                                mode='w',
+                                suffix=f'.{args.format}',
+                                delete=False
+                            )
+                            temp_file.write('\n'.join(content))
+                            temp_file.close()
+                            
+                            # Store with metadata about PDB ID and chains
+                            files_to_score.append({
+                                'path': temp_file.name,
+                                'pdb_id': pdb_id,
+                                'chains': chains,
+                                'is_temp': True
+                            })
+                    except Exception as e:
+                        print(f"  WARNING: Failed to fetch {pdb_id}: {e}")
         
         if not files_to_score:
             print(f"ERROR: No valid files found in list {args.list}")
@@ -315,14 +342,27 @@ def main():
     
     # Score structures
     all_results = []
+    temp_files = []  # Track temporary files to clean up later
     
-    for idx, filepath in enumerate(files_to_score, 1):
-        print(f"\n[{idx}/{len(files_to_score)}] Scoring: {os.path.basename(filepath)}...")
+    for idx, file_entry in enumerate(files_to_score, 1):
+        # Handle both string paths and dictionary entries (for PDB IDs)
+        if isinstance(file_entry, dict):
+            filepath = file_entry['path']
+            display_name = file_entry.get('pdb_id', os.path.basename(filepath))
+            is_temp = file_entry.get('is_temp', False)
+            if is_temp:
+                temp_files.append(filepath)
+        else:
+            filepath = file_entry
+            display_name = os.path.basename(filepath)
+            is_temp = False
         
-        result = score_single_structure(filepath, scoring_tables, args.format, args.cutoff, args.seq_sep)
+        print(f"\n[{idx}/{len(files_to_score)}] Scoring: {display_name}...")
+        
+        result = score_single_structure(filepath, scoring_tables, args.format, args.cutoff, args.seq_sep, display_name=display_name)
         
         if result is None:
-            print(f"  WARNING: Failed to process {filepath}, skipping...")
+            print(f"  WARNING: Failed to process {display_name}, skipping...")
             continue
         
         all_results.append(result)
@@ -378,8 +418,15 @@ def main():
                 })
             df = pd.DataFrame(summary_data)
             df.to_csv(args.output, index=False)
-            print(f"\nOK Scored {len(all_results)}/{len(files_to_score)} structures")
+            print(f"\n✓ Scored {len(all_results)}/{len(files_to_score)} structures")
             print(f"Summary saved to: {args.output}")
+    
+    # Clean up temporary files
+    for temp_file in temp_files:
+        try:
+            os.remove(temp_file)
+        except Exception:
+            pass
     
     return 0
 
