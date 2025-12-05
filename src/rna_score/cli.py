@@ -18,7 +18,7 @@ def main():
     extract_parser.add_argument('--folder', type=str, help='Directory with PDB/mmCIF files')
     extract_parser.add_argument('--pdb', type=str, help='Single PDB/mmCIF file')
     extract_parser.add_argument('--format', choices=['pdb', 'mmcif'], default='pdb', help='Structure format')
-    extract_parser.add_argument('--atom-mode', nargs='+', default=['"C3\'"'], help='Atom selection mode(s)')
+    extract_parser.add_argument('--atom-mode', nargs='+', default=["C3'"], help='Atom selection mode(s)')
     extract_parser.add_argument('--chains', nargs='+', help='Specific chains to process')
     extract_parser.add_argument('--dist-mode', choices=['intra', 'inter'], default='intra')
     extract_parser.add_argument('--cutoff', type=float, default=20.0)
@@ -28,15 +28,17 @@ def main():
     extract_parser.add_argument('--out-dir', type=str, default='dist_data')
     extract_parser.add_argument('--save-detailed', action='store_true', help='Export detailed CSV log')
     extract_parser.add_argument('--all-models', action='store_true', help='Process all NMR models')
+    extract_parser.add_argument('--method', choices=['histogram', 'kde'], default='histogram', help='Extraction method')
 
     # Train scoring function
     train_parser = subparsers.add_parser('train', help='Train scoring function from distances')
-    train_parser.add_argument('--hist-dir', type=str, required=True, help='Directory with histogram files')
-    train_parser.add_argument('--out-dir', type=str, default='training_output')
+    train_parser.add_argument('--input-dir', type=str, required=True, help='Directory with histogram files')
+    train_parser.add_argument('--output-dir', type=str, default='training_output')
     train_parser.add_argument('--max-score', type=float, default=10.0)
     train_parser.add_argument('--pseudocount', type=float, default=1e-6)
     train_parser.add_argument('--cutoff', type=float, default=20.0)
     train_parser.add_argument('--bin-width', type=float, default=1.0)
+    train_parser.add_argument('--method', choices=['histogram', 'kde'], default='histogram', help='Training method: histogram (default) or kde')
 
     # Score structures
     score_parser = subparsers.add_parser('score', help='Score RNA structures')
@@ -102,7 +104,7 @@ Analyze, train, and score RNA structures with ease.
                 '--cutoff', str(args.cutoff),
                 '--seq-sep', str(args.seq_sep),
                 '--bin-width', str(args.bin_width),
-                '--method', 'histogram',
+                '--method', args.method,
                 '--out-dir', args.out_dir
             ]
             if args.list:
@@ -127,15 +129,16 @@ Analyze, train, and score RNA structures with ease.
         elif args.command == 'train':
             cmd = [
                 sys.executable, os.path.join(src_dir, 'train.py'),
-                '--input-dir', args.hist_dir,
-                '--output-dir', args.out_dir,
+                '--input-dir', args.input_dir,
+                '--output-dir', args.output_dir,
                 '--max-score', str(args.max_score),
                 '--pseudocount', str(args.pseudocount),
                 '--cutoff', str(args.cutoff),
-                '--bin-width', str(args.bin_width)
+                '--bin-width', str(args.bin_width),
+                '--method', args.method
             ]
             subprocess.run(cmd, check=True)
-            print(f"✓ Training complete. Output in {args.out_dir}")
+            print(f"✓ Training complete. Output in {args.output_dir}")
         
         elif args.command == 'score':
             cmd = [

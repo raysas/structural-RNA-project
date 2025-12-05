@@ -316,7 +316,7 @@ def main():
     parser.add_argument('--format', choices=['pdb', 'mmcif'], default='pdb', help="Input file format. Default: pdb")
     parser.add_argument('--all-models', action='store_true', help="Process all NMR models. Default: False")
     parser.add_argument('--cores', type=int, default=None, help="Number of CPU cores to use. Default: all available cores")
-    parser.add_argument('--atom-mode', nargs='+', default=['"C3\'"'], help="Atom selection mode (e.g., C3', centroid, all, or list). Default: C3'")
+    parser.add_argument('--atom-mode', nargs='+', default=["C3'"], help="Atom selection mode (e.g., C3', centroid, all, or list). Default: C3'")
     parser.add_argument('--dist-mode', choices=['intra', 'inter'], default='intra', help="Interaction mode. Default: intra")
     parser.add_argument('--cutoff', type=float, default=20.0, help="Maximum distance (Å) to consider an interaction. Default: 20.0")
     parser.add_argument('--seq-sep', type=int, default=4, help="Minimum sequence separation for intra-chain interactions. Default: 4")
@@ -327,6 +327,9 @@ def main():
     
     args = parser.parse_args()
 
+    if args.format == 'mmcif':
+        args.atom_mode = ['"C3\'"'] if args.atom_mode == ["C3'"] else args.atom_mode
+    
     # Normalize atom mode
     mode_arg = args.atom_mode
     if len(mode_arg) == 1:

@@ -4,7 +4,7 @@ Goal: Creation of an objective function for the RNA folding problem
 
 This project develops a scoring function to evaluate predicted RNA tertiary structures based on interatomic distance distributions. Supervised by Professor Guillaume Postic.
 
-Team: Rayane Adams, Joelle Assas, Yazid Hoblos, Denys Buryi, Raul Duran De Alba
+Team: Rayane Adams, Joelle Assy, Yazid Hoblos, Denys Buryi, Raul Duran De Alba
 
 ## Quick CLI Workflow (`rna-score`)
 
