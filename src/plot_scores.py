@@ -6,6 +6,7 @@ Visualizes pseudo-energy scores as a function of distance for each base pair.
 
 Usage:
   python plot_scores.py --input-dir training_output --output-dir plots
+    python plot_scores.py --input-dir training_output --output-dir plots --combined --plotly
 """
 
 import argparse
@@ -23,7 +24,7 @@ from matplotlib.colors import Normalize
 
 
 def load_score_table(filepath):
-    """Load a score table CSV file."""
+    """Load a score table CSV file"""
     if not os.path.exists(filepath):
         return None
     
@@ -107,70 +108,53 @@ def plot_single_profile_plotly(pair, score_data, output_path):
     return fig
 
 
+
 def plot_combined_profiles(pairs_data, output_path):
-    fig = go.Figure()
-    pair_names = list(pairs_data.keys())
+    '''Put each pair in its own axis within a grid'''
+    sns.set_theme(style="whitegrid")
     
-    # Add traces for all pairs but make them invisible initially
-    for pair in pair_names:
-        score_data = pairs_data[pair]
+    n_pairs = len(pairs_data)
+    n_cols = 5  # Adjust columns as desired
+    n_rows =2
+    
+    fig, axes = plt.subplots(n_rows, n_cols, figsize=(6*n_cols, 4*n_rows), squeeze=False)
+    
+    # Flatten axes array for easy indexing
+    axes_flat = axes.flatten()
+    
+    for i, (pair, score_data) in enumerate(pairs_data.items()):
+        ax = axes_flat[i]
         x = score_data['distance']
         y = score_data['score']
-        y_norm = (y - np.min(y)) / (np.max(y) - np.min(y))
-        segment_colors = sample_colorscale('Plasma', y_norm)
         
-        for i in range(len(x) - 1):
-            fig.add_trace(
-                go.Scatter(
-                    x=x[i:i+2],
-                    y=y[i:i+2],
-                    mode='lines+markers',
-                    line=dict(color=segment_colors[i], width=3),
-                    marker=dict(color=segment_colors[i], size=6),
-                    name=pair,
-                    visible=False,
-                    hoverinfo='x+y+name'
-                )
-            )
+        cmap = plt.get_cmap('plasma')
+        norm = Normalize(vmin=np.min(y), vmax=np.max(y))
+        
+        points = np.array([x, y]).T.reshape(-1, 1, 2)
+        segments = np.concatenate([points[:-1], points[1:]], axis=1)
+        segment_values = (y[:-1] + y[1:]) / 2
+        
+        lc = LineCollection(segments, cmap=cmap, norm=norm, linewidth=2)
+        lc.set_array(segment_values)
+        
+        ax.add_collection(lc)
+        ax.scatter(x, y, c=y, cmap=cmap, norm=norm, s=20, zorder=3)
+        
+        ax.set_xlim(0, np.max(x))
+        ax.set_ylim(np.min(y)-0.5, np.max(y)+0.5)
+        ax.set_xlabel('Distance (Å)', fontsize=10)
+        ax.set_ylabel('Pseudo-energy Score', fontsize=10)
+        ax.set_title(f'Pair: {pair}', fontsize=12, fontweight='bold')
+        ax.axhline(0, linestyle='--', color='gray', alpha=0.5, linewidth=1)
+        ax.grid(alpha=0.3)
     
-    # Make the first pair visible by default
-    num_segments = [len(pairs_data[p]) - 1 for p in pair_names]
-    start = 0
-    for count in num_segments:
-        for i in range(start, start + count):
-            fig.data[i].visible = True
-        break  # only the first pair
-        start += count
+    # Hide unused axes if number of pairs < n_rows * n_cols
+    for j in range(i+1, n_rows * n_cols):
+        axes_flat[j].axis('off')
     
-    # Create buttons for each pair
-    buttons = []
-    start_idx = 0
-    for idx, pair in enumerate(pair_names):
-        visible = [False] * len(fig.data)
-        count = num_segments[idx]
-        for i in range(start_idx, start_idx + count):
-            visible[i] = True
-        start_idx += count
-        buttons.append(
-            dict(
-                label=pair,
-                method='update',
-                args=[{'visible': visible},
-                      {'title': f'Scoring Profile: {pair}'}]
-            )
-        )
-    
-    fig.update_layout(
-        updatemenus=[dict(active=0, buttons=buttons, x=1.05, y=0.8)],
-        xaxis_title='Distance (Å)',
-        yaxis_title='Pseudo-energy Score',
-        template='plotly_white',
-        hovermode='closest',
-        showlegend=False
-    )
-    
-    fig.write_html(output_path)
-    return fig
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=150, bbox_inches='tight')
+    plt.close()
 
 
 def plot_combined_profiles_plotly(pairs_data, output_path):
@@ -185,38 +169,64 @@ def plot_combined_profiles_plotly(pairs_data, output_path):
         fig (go.Figure): Plotly figure object.
     """
     fig = go.Figure()
+    trace_indices = {}
     
-    for pair, score_data in pairs_data.items():
+    # Add traces for each pair
+    for pair_idx, (pair, score_data) in enumerate(pairs_data.items()):
         x = score_data['distance']
         y = score_data['score']
         y_norm = (y - np.min(y)) / (np.max(y) - np.min(y))
         segment_colors = sample_colorscale('Plasma', y_norm)
         
+        trace_indices[pair] = []
+
+        is_first_pair = (pair_idx == 0)
         for i in range(len(x) - 1):
-            fig.add_trace(
-                go.Scatter(
-                    x=x[i:i+2],
-                    y=y[i:i+2],
-                    mode='lines+markers',
-                    line=dict(color=segment_colors[i], width=3),
-                    marker=dict(color=segment_colors[i], size=6),
-                    name=pair if i == 0 else None,  # show legend only once per pair
-                    hoverinfo='x+y+name'
-                )
+            trace = go.Scatter(
+                x=x[i:i+2],
+                y=y[i:i+2],
+                mode='lines+markers',
+                line=dict(color=segment_colors[i], width=3),
+                marker=dict(color=segment_colors[i], size=6),
+                name=pair if i == 0 else None,  
+                hoverinfo='x+y+name',
+                visible=is_first_pair
             )
-    
+            fig.add_trace(trace)
+            trace_indices[pair].append(len(fig.data)-1)
+
+    buttons = []
+    first_pair = list(trace_indices.keys())[0]
+    for pair, indices in trace_indices.items():
+        visibility = [False] * len(fig.data)
+        for idx in indices:
+            visibility[idx] = True
+        buttons.append(dict(
+            label=pair,
+            method='update',
+            args=[{'visible': visibility},
+                  {'title': f'Scoring Profile: {pair}'}]
+        ))
+
+    buttons.append(dict(
+        label='All',
+        method='update',
+        args=[{'visible': [True]*len(fig.data)},
+              {'title': 'Combined Scoring Profiles'}]
+    ))
+
     fig.update_layout(
-        title='Combined Scoring Profiles',
+        title=f'Scoring Profile: {first_pair}',
         xaxis_title='Distance (Å)',
         yaxis_title='Pseudo-energy Score',
         template='plotly_white',
         hovermode='closest',
-        legend_title='Pairs'
+        updatemenus=[dict(active=0, buttons=buttons, x=1.1, y=0.9)],
+        showlegend=False
     )
-    
+
     fig.write_html(output_path)
     return fig
-
 
 
 
