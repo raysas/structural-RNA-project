@@ -5,7 +5,7 @@
 This project develops a scoring function to evaluate predicted RNA tertiary structures based on interatomic distance distributions.
 
 **Supervised by:** Professor Guillaume Postic  
-**Team:** Rayane Adams, Joelle Assy, Yazid Hoblos, Denys Buryi, Raul Duran De Alba
+**Team:** Joelle Assy, Yazid Hoblos, Denys Buryi, Raul Duran De Alba, Rayane Aam
 
 ---
 
