@@ -8,3 +8,5 @@ pdb/
 mmcif/
 validated/
 *egg-info*
+training_output/
+test/
