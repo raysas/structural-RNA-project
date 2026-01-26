@@ -1,0 +1,1199 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>rna_score.lib &#8212; rna_score 0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=379304cd" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/rna_score/lib';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-light.png" class="logo__image only-light" alt="rna_score 0.1.0 documentation - Home"/>
+    <img src="../../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="rna_score 0.1.0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../background/index.html">
+    Background
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../library.html">
+    Library API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../cli.html">
+    CLI Usage
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../webtool.html">
+    Web Tool
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../background/index.html">
+    Background
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../library.html">
+    Library API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../cli.html">
+    CLI Usage
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../webtool.html">
+    Web Tool
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">rna_score.lib</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for rna_score.lib</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">glob</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">access_rna_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">RNAStructureDownloader</span>
+
+
+<div class="viewcode-block" id="download_rna_structures">
+<a class="viewcode-back" href="../../library.html#rna_score.lib.download_rna_structures">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">download_rna_structures</span><span class="p">(</span>
+    <span class="n">output_dir</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;rna_structures&quot;</span><span class="p">,</span>
+    <span class="n">max_structures</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">download_all</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">rna_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">formats</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;pdb&quot;</span><span class="p">,</span> <span class="s2">&quot;cif&quot;</span><span class="p">],</span>
+    <span class="n">workers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="n">show_info</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">list_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Path</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Download RNA structures from the RCSB PDB database.</span>
+
+<span class="sd">    This function is a programmatic wrapper around the RNA structure</span>
+<span class="sd">    downloader pipeline, equivalent to the CLI command `rna-score access`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    output_dir : str or Path, default &quot;rna_structures&quot;</span>
+<span class="sd">        Directory where structures and metadata will be saved.</span>
+<span class="sd">    max_structures : int, default 10</span>
+<span class="sd">        Maximum number of structures to retrieve.</span>
+<span class="sd">        Ignored if `download_all=True`.</span>
+<span class="sd">    download_all : bool, default False</span>
+<span class="sd">        If True, download all available RNA structures.</span>
+<span class="sd">    rna_only : bool, default False</span>
+<span class="sd">        If True, restrict results to RNA-only structures</span>
+<span class="sd">        (no protein or DNA).</span>
+<span class="sd">    formats : list of {&quot;pdb&quot;, &quot;cif&quot;}, default [&quot;pdb&quot;, &quot;cif&quot;]</span>
+<span class="sd">        File formats to download.</span>
+<span class="sd">    workers : int, default 5</span>
+<span class="sd">        Number of parallel download workers.</span>
+<span class="sd">    show_info : bool, default False</span>
+<span class="sd">        If True, fetch and return metadata for a subset of structures</span>
+<span class="sd">        before downloading.</span>
+<span class="sd">    list_only : bool, default False</span>
+<span class="sd">        If True, only retrieve and save PDB IDs without downloading files.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Dictionary with the following keys:</span>
+
+<span class="sd">        - ``pdb_ids`` : list of str  </span>
+<span class="sd">          Retrieved PDB identifiers.</span>
+<span class="sd">        - ``output_dir`` : Path  </span>
+<span class="sd">          Base output directory.</span>
+<span class="sd">        - ``pdb_dir`` : Path  </span>
+<span class="sd">          Directory containing downloaded PDB files.</span>
+<span class="sd">        - ``mmcif_dir`` : Path  </span>
+<span class="sd">          Directory containing downloaded mmCIF files.</span>
+<span class="sd">        - ``info`` : list of dict or None  </span>
+<span class="sd">          Structure metadata if `show_info=True`.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This function mirrors the CLI behavior exactly but is suitable</span>
+<span class="sd">    for notebooks, pipelines, and Python APIs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span>
+
+    <span class="n">downloader</span> <span class="o">=</span> <span class="n">RNAStructureDownloader</span><span class="p">(</span>
+        <span class="n">output_dir</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">output_dir</span><span class="p">),</span>
+        <span class="n">max_workers</span><span class="o">=</span><span class="n">workers</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">max_results</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">download_all</span> <span class="k">else</span> <span class="n">max_structures</span>
+
+    <span class="c1"># --- Search phase ---</span>
+    <span class="k">if</span> <span class="n">rna_only</span><span class="p">:</span>
+        <span class="n">pdb_ids</span> <span class="o">=</span> <span class="n">downloader</span><span class="o">.</span><span class="n">get_rna_only_structures</span><span class="p">(</span><span class="n">max_results</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">pdb_ids</span> <span class="o">=</span> <span class="n">downloader</span><span class="o">.</span><span class="n">search_rna_structures</span><span class="p">(</span><span class="n">max_results</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">pdb_ids</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;No RNA structures found.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Save ID list</span>
+    <span class="n">output_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;pdb_ids.txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pdb_ids</span><span class="p">))</span>
+
+    <span class="n">info</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">show_info</span><span class="p">:</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="n">downloader</span><span class="o">.</span><span class="n">get_structure_info</span><span class="p">(</span><span class="n">pdb_ids</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">list_only</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;pdb_ids&quot;</span><span class="p">:</span> <span class="n">pdb_ids</span><span class="p">,</span>
+            <span class="s2">&quot;output_dir&quot;</span><span class="p">:</span> <span class="n">output_dir</span><span class="p">,</span>
+            <span class="s2">&quot;pdb_dir&quot;</span><span class="p">:</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;pdb&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;mmcif_dir&quot;</span><span class="p">:</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;mmcif&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;info&quot;</span><span class="p">:</span> <span class="n">info</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="c1"># --- Download phase ---</span>
+    <span class="n">downloader</span><span class="o">.</span><span class="n">download_batch</span><span class="p">(</span><span class="n">pdb_ids</span><span class="p">,</span> <span class="n">formats</span><span class="o">=</span><span class="n">formats</span><span class="p">)</span>
+
+    <span class="p">(</span><span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;downloaded_ids.txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pdb_ids</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;pdb_ids&quot;</span><span class="p">:</span> <span class="n">pdb_ids</span><span class="p">,</span>
+        <span class="s2">&quot;output_dir&quot;</span><span class="p">:</span> <span class="n">output_dir</span><span class="p">,</span>
+        <span class="s2">&quot;pdb_dir&quot;</span><span class="p">:</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;pdb&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;mmcif_dir&quot;</span><span class="p">:</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;mmcif&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;info&quot;</span><span class="p">:</span> <span class="n">info</span><span class="p">,</span>
+    <span class="p">}</span></div>
+
+
+
+
+<div class="viewcode-block" id="RNAScorer">
+<a class="viewcode-back" href="../../library.html#rna_score.lib.RNAScorer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RNAScorer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Orchestrates RNA distance extraction, scoring, KDE training,</span>
+<span class="sd">    and full workflow execution, with memoization of both paths and data tables.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    base_dir : str</span>
+<span class="sd">        Base directory containing the `src/` folder with scripts.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="RNAScorer.__init__">
+<a class="viewcode-back" href="../../library.html#rna_score.lib.RNAScorer.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">base_dir</span><span class="p">)</span>
+        
+        <span class="c1"># Try to find scripts directory - check both development and installed locations</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_dir</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scripts_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_dir</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="c1"># When installed, scripts are siblings to rna_score package</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scripts_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scripts_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_dir</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span>
+
+        <span class="c1"># Paths</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distances_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">training_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kde_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scoring_tables_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scores_file</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Loaded tables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">histograms</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scoring_tables</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kde_tables</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scores</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+    <span class="c1"># ----------------------------</span>
+    <span class="c1"># Distance extraction</span>
+    <span class="c1"># ----------------------------</span>
+<div class="viewcode-block" id="RNAScorer.extract_distances">
+<a class="viewcode-back" href="../../library.html#rna_score.lib.RNAScorer.extract_distances">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extract_distances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Extract interatomic distances from RNA structures.</span>
+
+<span class="sd">        Computes pairwise atom-atom or residue-residue distances from PDB/mmCIF files</span>
+<span class="sd">        and exports binned histograms or raw distances for KDE training. Equivalent to</span>
+<span class="sd">        the CLI command `rna-score extract`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pdb : str, optional</span>
+<span class="sd">            Path to a single PDB/mmCIF file to process.</span>
+<span class="sd">        pdb_list : str, optional</span>
+<span class="sd">            Path to a text file containing PDB IDs and optional chain IDs.</span>
+<span class="sd">            Format: `&lt;PDB_ID&gt; [CHAIN_ID1 CHAIN_ID2 ...]`</span>
+<span class="sd">            Example lines: `1EHZ A`, `1Y26 B C`, `2OEU`</span>
+<span class="sd">        folder : str, optional</span>
+<span class="sd">            Directory containing multiple PDB/mmCIF files to process.</span>
+<span class="sd">        fmt : str, default=&quot;pdb&quot;</span>
+<span class="sd">            Structure format. Options: &quot;pdb&quot; or &quot;mmcif&quot;. Auto-detected for local files.</span>
+<span class="sd">        atom_mode : list of str, default=[&quot;C3&#39;&quot;]</span>
+<span class="sd">            Atom selection mode(s). Options:</span>
+<span class="sd">            - &quot;C3&#39;&quot; (default): C3&#39; atoms only</span>
+<span class="sd">            - &quot;centroid&quot;: geometric center of each residue</span>
+<span class="sd">            - &quot;all&quot;: all atoms</span>
+<span class="sd">            - Multiple atom names: e.g., [&quot;P&quot;, &quot;C4&quot;]</span>
+<span class="sd">        chains : list of str, optional</span>
+<span class="sd">            Specific chain IDs to process. If not provided, all chains are used.</span>
+<span class="sd">        dist_mode : str, default=&quot;intra&quot;</span>
+<span class="sd">            Distance calculation mode:</span>
+<span class="sd">            - &quot;intra&quot;: within a single chain (default)</span>
+<span class="sd">            - &quot;inter&quot;: between distinct chains</span>
+<span class="sd">        cutoff : float, default=20.0</span>
+<span class="sd">            Maximum atom-atom distance (Å) counted as a contact.</span>
+<span class="sd">        seq_sep : int, default=4</span>
+<span class="sd">            Minimum sequence separation for intra-chain contacts (residues).</span>
+<span class="sd">            Ignored in &quot;inter&quot; mode. Distances considered from residue i to i+seq_sep.</span>
+<span class="sd">        bin_width : float, default=1.0</span>
+<span class="sd">            Bin width (Å) for histogram discretization (histogram method only).</span>
+<span class="sd">        cores : int, optional</span>
+<span class="sd">            Number of CPU cores to use for parallel processing. Default: all available.</span>
+<span class="sd">        out_dir : str or Path, default=&quot;dist_data&quot;</span>
+<span class="sd">            Output directory where results will be written.</span>
+<span class="sd">        save_detailed : bool, default=False</span>
+<span class="sd">            If True, saves a detailed CSV log with full information for every measured</span>
+<span class="sd">            distance including PDB ID, model, chain IDs, residue IDs, atom names,</span>
+<span class="sd">            B-factors, altlocs, distance, and pair type.</span>
+<span class="sd">        all_models : bool, default=False</span>
+<span class="sd">            If True, processes all models in NMR structures. Default: first model only.</span>
+<span class="sd">        method : str, default=&quot;histogram&quot;</span>
+<span class="sd">            Extraction method:</span>
+<span class="sd">            - &quot;histogram&quot;: binned counts for direct scoring</span>
+<span class="sd">            - &quot;kde&quot;: raw distances for kernel density estimation</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Path</span>
+<span class="sd">            Path to the output directory containing extracted distance distributions.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If none of `pdb`, `pdb_list`, or `folder` is provided.</span>
+<span class="sd">        FileNotFoundError</span>
+<span class="sd">            If the extract_distances.py script is not found.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        Extract distances from a single PDB file:</span>
+<span class="sd">        </span>
+<span class="sd">        &gt;&gt;&gt; scorer = RNAScorer()</span>
+<span class="sd">        &gt;&gt;&gt; scorer.extract_distances(pdb=&quot;structure.pdb&quot;, out_dir=&quot;distances&quot;)</span>
+<span class="sd">        </span>
+<span class="sd">        Extract from a list of PDB IDs with specific chains:</span>
+<span class="sd">        </span>
+<span class="sd">        &gt;&gt;&gt; scorer.extract_distances(</span>
+<span class="sd">        ...     pdb_list=&quot;structures.txt&quot;,</span>
+<span class="sd">        ...     chains=[&quot;A&quot;, &quot;B&quot;],</span>
+<span class="sd">        ...     dist_mode=&quot;inter&quot;,</span>
+<span class="sd">        ...     save_detailed=True</span>
+<span class="sd">        ... )</span>
+<span class="sd">        </span>
+<span class="sd">        Extract using multiple atom types for KDE training:</span>
+<span class="sd">        </span>
+<span class="sd">        &gt;&gt;&gt; scorer.extract_distances(</span>
+<span class="sd">        ...     folder=&quot;rna_structures/mmcif&quot;,</span>
+<span class="sd">        ...     fmt=&quot;mmcif&quot;,</span>
+<span class="sd">        ...     atom_mode=[&quot;P&quot;, &quot;C4&quot;],</span>
+<span class="sd">        ...     method=&quot;kde&quot;</span>
+<span class="sd">        ... )</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        - The method caches extracted data in `self.distances_dir` and loads histograms</span>
+<span class="sd">          into `self.histograms` for downstream use.</span>
+<span class="sd">        - For large datasets, use the `cores` parameter to parallelize processing.</span>
+<span class="sd">        - The `save_detailed` option generates very large files for extensive datasets.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out_dir_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;out_dir&quot;</span><span class="p">,</span> <span class="s2">&quot;dist_data&quot;</span><span class="p">))</span>
+        <span class="n">script_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scripts_dir</span> <span class="o">/</span> <span class="s2">&quot;extract_distances.py&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">script_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;extract_distances.py not found at </span><span class="si">{</span><span class="n">script_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">script_path</span><span class="p">)]</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;pdb&quot;</span><span class="p">,</span> <span class="s2">&quot;pdb_list&quot;</span><span class="p">,</span> <span class="s2">&quot;folder&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+                <span class="n">cmd</span> <span class="o">+=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;--</span><span class="si">{</span><span class="n">key</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span>
+                <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must provide one of pdb, pdb_list, or folder&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;chains&quot;</span><span class="p">):</span>
+            <span class="n">cmd</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;--chains&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;chains&quot;</span><span class="p">]</span>
+
+        <span class="n">cmd</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;--format&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fmt&quot;</span><span class="p">,</span> <span class="s2">&quot;pdb&quot;</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;all_models&quot;</span><span class="p">):</span>
+            <span class="n">cmd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;--all-models&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cores&quot;</span><span class="p">):</span>
+            <span class="n">cmd</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;--cores&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cores&quot;</span><span class="p">])]</span>
+        <span class="n">cmd</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;--atom-mode&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;atom_mode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;C3&#39;&quot;</span><span class="p">])</span>
+        <span class="n">cmd</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;--dist-mode&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dist_mode&quot;</span><span class="p">,</span> <span class="s2">&quot;intra&quot;</span><span class="p">)]</span>
+        <span class="n">cmd</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;--cutoff&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cutoff&quot;</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">))]</span>
+        <span class="n">cmd</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;--seq-sep&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;seq_sep&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">))]</span>
+        <span class="n">cmd</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;--bin-width&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bin_width&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))]</span>
+        <span class="n">cmd</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;--method&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;method&quot;</span><span class="p">,</span> <span class="s2">&quot;histogram&quot;</span><span class="p">)]</span>
+        <span class="n">cmd</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;--out-dir&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">out_dir_path</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;save_detailed&quot;</span><span class="p">):</span>
+            <span class="n">cmd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;--save-detailed&quot;</span><span class="p">)</span>
+
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distances_dir</span> <span class="o">=</span> <span class="n">out_dir_path</span>
+
+        <span class="c1"># Load extracted histograms (CSV or *_histogram.txt)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">histograms</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">csv_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">out_dir_path</span> <span class="o">/</span> <span class="s2">&quot;*.csv&quot;</span><span class="p">))</span>
+        <span class="n">txt_hist_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">out_dir_path</span> <span class="o">/</span> <span class="s2">&quot;*_histogram.txt&quot;</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">csv_files</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">histograms</span><span class="p">[</span><span class="n">Path</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">stem</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">txt_hist_files</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">histograms</span><span class="p">[</span><span class="n">Path</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">stem</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+                <span class="n">f</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;count&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">histograms</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;No histogram files found in </span><span class="si">{</span><span class="n">out_dir_path</span><span class="si">}</span><span class="s2"> (*.csv or *_histogram.txt)&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">out_dir_path</span></div>
+
+
+    <span class="c1"># ----------------------------</span>
+    <span class="c1"># Train scoring function</span>
+    <span class="c1"># ----------------------------</span>
+<div class="viewcode-block" id="RNAScorer.train_scoring">
+<a class="viewcode-back" href="../../library.html#rna_score.lib.RNAScorer.train_scoring">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">train_scoring</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Train scoring tables from extracted distance distributions.</span>
+
+<span class="sd">        Converts raw distance histograms or KDE data into scoring tables by computing</span>
+<span class="sd">        statistical potentials or probability densities. These tables are used to score</span>
+<span class="sd">        new RNA structures. Equivalent to the CLI command `rna-score train`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        input_dir : str or Path, optional</span>
+<span class="sd">            Directory containing histogram or KDE distance files (typically output from</span>
+<span class="sd">            `extract_distances`). If not provided, uses `self.distances_dir` from a</span>
+<span class="sd">            previous extraction step.</span>
+<span class="sd">        output_dir : str or Path, default=&quot;training_output&quot;</span>
+<span class="sd">            Output directory where scoring tables and metadata will be written.</span>
+<span class="sd">        max_score : float, default=10.0</span>
+<span class="sd">            Maximum score cap applied to individual distance scores to prevent</span>
+<span class="sd">            extreme outliers from dominating the total score.</span>
+<span class="sd">        pseudocount : float, default=0.0</span>
+<span class="sd">            Pseudocount added to histogram bins to avoid division by zero and</span>
+<span class="sd">            stabilize scoring for rare distance bins. Higher values increase</span>
+<span class="sd">            smoothing but may reduce discrimination.</span>
+<span class="sd">        cutoff : float, default=20.0</span>
+<span class="sd">            Maximum distance (Å) to consider in scoring table generation.</span>
+<span class="sd">            Must match the cutoff used during distance extraction.</span>
+<span class="sd">        bin_width : float, default=1.0</span>
+<span class="sd">            Bin width (Å) for histogram discretization. Must match the bin width</span>
+<span class="sd">            used during distance extraction.</span>
+<span class="sd">        method : str, default=&quot;histogram&quot;</span>
+<span class="sd">            Training method:</span>
+<span class="sd">            - &quot;histogram&quot;: converts binned counts to statistical potentials</span>
+<span class="sd">            - &quot;kde&quot;: trains kernel density estimation models from raw distances</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Path</span>
+<span class="sd">            Path to the output directory containing scoring tables.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If no input directory is provided and distances have not been extracted.</span>
+<span class="sd">        FileNotFoundError</span>
+<span class="sd">            If the train.py script is not found.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        Train scoring tables after extracting distances:</span>
+<span class="sd">        </span>
+<span class="sd">        &gt;&gt;&gt; scorer = RNAScorer()</span>
+<span class="sd">        &gt;&gt;&gt; scorer.extract_distances(folder=&quot;structures/&quot;, out_dir=&quot;distances&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; scorer.train_scoring(output_dir=&quot;scoring_tables&quot;)</span>
+<span class="sd">        </span>
+<span class="sd">        Train with custom parameters and pseudocount for smoothing:</span>
+<span class="sd">        </span>
+<span class="sd">        &gt;&gt;&gt; scorer.train_scoring(</span>
+<span class="sd">        ...     input_dir=&quot;distances&quot;,</span>
+<span class="sd">        ...     output_dir=&quot;training_output&quot;,</span>
+<span class="sd">        ...     max_score=15.0,</span>
+<span class="sd">        ...     pseudocount=1.0,</span>
+<span class="sd">        ...     method=&quot;histogram&quot;</span>
+<span class="sd">        ... )</span>
+<span class="sd">        </span>
+<span class="sd">        Train KDE-based scoring from raw distance data:</span>
+<span class="sd">        </span>
+<span class="sd">        &gt;&gt;&gt; scorer.train_scoring(</span>
+<span class="sd">        ...     input_dir=&quot;kde_distances&quot;,</span>
+<span class="sd">        ...     output_dir=&quot;kde_scoring&quot;,</span>
+<span class="sd">        ...     method=&quot;kde&quot;</span>
+<span class="sd">        ... )</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        - The method caches the output directory in `self.training_dir` and</span>
+<span class="sd">          `self.scoring_tables_dir`, and loads scoring tables into</span>
+<span class="sd">          `self.scoring_tables` for downstream use.</span>
+<span class="sd">        - Scoring tables are saved as CSV files named `score_&lt;PAIR_TYPE&gt;.csv`</span>
+<span class="sd">          (e.g., `score_AA.csv`, `score_CG.csv`).</span>
+<span class="sd">        - A metadata JSON file is also generated containing training parameters.</span>
+<span class="sd">        - Ensure `cutoff` and `bin_width` match those used in distance extraction.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">input_dir</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;input_dir&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">distances_dir</span>
+        <span class="k">if</span> <span class="n">input_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No input_dir provided and distances not extracted yet.&quot;</span><span class="p">)</span>
+
+        <span class="n">output_dir_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;output_dir&quot;</span><span class="p">,</span> <span class="s2">&quot;training_output&quot;</span><span class="p">))</span>
+        <span class="n">script_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scripts_dir</span> <span class="o">/</span> <span class="s2">&quot;train.py&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">script_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;train.py not found at </span><span class="si">{</span><span class="n">script_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">script_path</span><span class="p">),</span>
+            <span class="s2">&quot;--input-dir&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">input_dir</span><span class="p">),</span>
+            <span class="s2">&quot;--output-dir&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">output_dir_path</span><span class="p">),</span>
+            <span class="s2">&quot;--max-score&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;max_score&quot;</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)),</span>
+            <span class="s2">&quot;--pseudocount&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pseudocount&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)),</span>
+            <span class="s2">&quot;--cutoff&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cutoff&quot;</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">)),</span>
+            <span class="s2">&quot;--bin-width&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bin_width&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)),</span>
+            <span class="s2">&quot;--method&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;method&quot;</span><span class="p">,</span> <span class="s2">&quot;histogram&quot;</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">training_dir</span> <span class="o">=</span> <span class="n">output_dir_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scoring_tables_dir</span> <span class="o">=</span> <span class="n">output_dir_path</span>
+
+        <span class="c1"># Load scoring tables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scoring_tables</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">output_dir_path</span> <span class="o">/</span> <span class="s2">&quot;score_*.csv&quot;</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scoring_tables</span><span class="p">[</span><span class="n">Path</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">stem</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output_dir_path</span></div>
+
+
+    <span class="c1"># ----------------------------</span>
+    <span class="c1"># Plot scoring profiles</span>
+    <span class="c1"># ----------------------------</span>
+<div class="viewcode-block" id="RNAScorer.plot_scores">
+<a class="viewcode-back" href="../../library.html#rna_score.lib.RNAScorer.plot_scores">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_scores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate scoring profile plots from trained score tables.</span>
+
+<span class="sd">        Wraps the CLI command ``rna-score plot`` to render individual pair-type</span>
+<span class="sd">        profiles and (optionally) a combined multi-panel plot.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        input_dir : str or Path, optional</span>
+<span class="sd">            Directory containing score tables (e.g., outputs from</span>
+<span class="sd">            :meth:`train_scoring`). If not provided, falls back to</span>
+<span class="sd">            ``self.scoring_tables_dir``.</span>
+<span class="sd">        output_dir : str or Path, default=&quot;plots&quot;</span>
+<span class="sd">            Directory where plot images will be saved (PNG/HTML as produced by</span>
+<span class="sd">            the underlying plotting script).</span>
+<span class="sd">        combined : bool, default=False</span>
+<span class="sd">            If True, also generates a combined plot that includes all pair-type</span>
+<span class="sd">            profiles in one figure.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Path</span>
+<span class="sd">            Path to the directory containing the generated plots.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If no input directory is provided and ``self.scoring_tables_dir`` is</span>
+<span class="sd">            not set.</span>
+<span class="sd">        FileNotFoundError</span>
+<span class="sd">            If the ``plot_scores.py`` script cannot be located.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        Plot profiles after training (default individual plots):</span>
+
+<span class="sd">        &gt;&gt;&gt; scorer = RNAScorer()</span>
+<span class="sd">        &gt;&gt;&gt; scorer.train_scoring(input_dir=&quot;distances&quot;, output_dir=&quot;training_output&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; scorer.plot_scores(output_dir=&quot;plots&quot;)</span>
+
+<span class="sd">        Plot with a combined figure:</span>
+
+<span class="sd">        &gt;&gt;&gt; scorer.plot_scores(</span>
+<span class="sd">        ...     input_dir=&quot;training_output&quot;,</span>
+<span class="sd">        ...     output_dir=&quot;plots&quot;,</span>
+<span class="sd">        ...     combined=True,</span>
+<span class="sd">        ... )</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        - The plotting behavior mirrors the CLI ``rna-score plot`` command.</span>
+<span class="sd">        - Generated files depend on the plotting script (e.g., separate PNGs per</span>
+<span class="sd">          pair type and an optional combined plot).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">input_dir</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;input_dir&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">scoring_tables_dir</span>
+        <span class="k">if</span> <span class="n">input_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No input_dir provided and scoring tables not loaded yet.&quot;</span><span class="p">)</span>
+
+        <span class="n">output_dir_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;output_dir&quot;</span><span class="p">,</span> <span class="s2">&quot;plots&quot;</span><span class="p">))</span>
+        <span class="n">script_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scripts_dir</span> <span class="o">/</span> <span class="s2">&quot;plot_scores.py&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">script_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;plot_scores.py not found at </span><span class="si">{</span><span class="n">script_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">script_path</span><span class="p">),</span>
+            <span class="s2">&quot;--input-dir&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">input_dir</span><span class="p">),</span>
+            <span class="s2">&quot;--output-dir&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">output_dir_path</span><span class="p">),</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;combined&quot;</span><span class="p">):</span>
+            <span class="n">cmd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;--combined&quot;</span><span class="p">)</span>
+
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output_dir_path</span></div>
+
+
+    <span class="c1"># def plot(self, **kwargs) -&gt; None:</span>
+    <span class="c1">#     &#39;&#39;&#39;</span>
+    <span class="c1">#     function that plots on directly without saving to file by using flag &#39;--library True&#39;</span>
+    <span class="c1">#     &#39;&#39;&#39;</span>
+    <span class="c1">#     input_dir = kwargs.get(&quot;input_dir&quot;) or self.scoring_tables_dir</span>
+    <span class="c1">#     if input_dir is None:</span>
+    <span class="c1">#         raise ValueError(&quot;No input_dir provided and scoring tables not loaded yet.&quot;)</span>
+        
+    <span class="c1">#     script_path = self.scripts_dir / &quot;plot_scores.py&quot;</span>
+    <span class="c1">#     if not script_path.exists():</span>
+    <span class="c1">#         raise FileNotFoundError(f&quot;plot_scores.py not found at {script_path}&quot;)</span>
+        
+    <span class="c1">#     cmd = [</span>
+    <span class="c1">#         sys.executable, str(script_path),</span>
+    <span class="c1">#         &quot;--input-dir&quot;, str(input_dir),</span>
+    <span class="c1">#         &#39;--library&#39;, True</span>
+    <span class="c1">#     ]</span>
+    <span class="c1">#     subprocess.run(cmd, check=True)</span>
+
+    <span class="c1"># ----------------------------</span>
+    <span class="c1"># Score RNA structure</span>
+    <span class="c1"># ----------------------------</span>
+<div class="viewcode-block" id="RNAScorer.score_structure">
+<a class="viewcode-back" href="../../library.html#rna_score.lib.RNAScorer.score_structure">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">score_structure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Score RNA structure(s) using trained scoring tables.</span>
+
+<span class="sd">        Evaluates one or more RNA structures by computing a statistical potential</span>
+<span class="sd">        score based on observed interatomic distances and their frequencies in the</span>
+<span class="sd">        training set. Lower (more negative) scores indicate structures more similar</span>
+<span class="sd">        to the training distribution. Equivalent to the CLI command `rna-score score`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pdb_path : str or Path, optional</span>
+<span class="sd">            Path to a single PDB/mmCIF file to score. Mutually exclusive with</span>
+<span class="sd">            `folder` and `list`.</span>
+<span class="sd">        folder : str or Path, optional</span>
+<span class="sd">            Directory containing multiple PDB/mmCIF files to score. Mutually</span>
+<span class="sd">            exclusive with `pdb_path` and `list`.</span>
+<span class="sd">        list : str or Path, optional</span>
+<span class="sd">            Path to a text file containing structure file paths (local files or</span>
+<span class="sd">            PDB IDs) to score, one per line.</span>
+<span class="sd">            Example lines: `/path/to/file1.pdb`, `/path/to/file2.cif`, `1EHZ`</span>
+<span class="sd">        tables_dir : str or Path, optional</span>
+<span class="sd">            Directory containing scoring tables (output from `train_scoring`).</span>
+<span class="sd">            If not provided, uses `self.scoring_tables_dir` from a previous</span>
+<span class="sd">            training step.</span>
+<span class="sd">        file_format : str, default=&quot;pdb&quot;</span>
+<span class="sd">            Input file format. Options: &quot;pdb&quot; or &quot;mmcif&quot;. Auto-detected for</span>
+<span class="sd">            local files.</span>
+<span class="sd">        cutoff : float, default=20.0</span>
+<span class="sd">            Maximum distance (Å) to consider when scoring. Should match the</span>
+<span class="sd">            cutoff used during training.</span>
+<span class="sd">        seq_sep : int, default=4</span>
+<span class="sd">            Minimum sequence separation (residues) for intra-chain contacts.</span>
+<span class="sd">            Should match the seq_sep used during training.</span>
+<span class="sd">        atom_mode : str or list of str, default=&quot;C3&#39;&quot;</span>
+<span class="sd">            Atom selection mode(s) for scoring. Should match the atom_mode</span>
+<span class="sd">            used during distance extraction and training.</span>
+<span class="sd">            Options: &quot;C3&#39;&quot;, &quot;centroid&quot;, &quot;all&quot;, or list of atom names.</span>
+<span class="sd">        detailed : bool, default=False</span>
+<span class="sd">            If True, prints detailed per-interaction scores showing individual</span>
+<span class="sd">            distance contributions to the total score.</span>
+<span class="sd">        output_csv : str or Path, optional</span>
+<span class="sd">            Output CSV file path for saving scores. If provided, scores are</span>
+<span class="sd">            written to this file and loaded into `self.scores`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pd.DataFrame or None</span>
+<span class="sd">            DataFrame containing scores for each structure if `output_csv` is</span>
+<span class="sd">            specified, otherwise None. Columns typically include structure ID,</span>
+<span class="sd">            total score, and optionally per-pair-type scores.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If no scoring tables are provided and model has not been trained,</span>
+<span class="sd">            or if no structure input (`pdb_path`, `folder`, or `list`) is provided.</span>
+<span class="sd">        FileNotFoundError</span>
+<span class="sd">            If the score_structure.py script is not found.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        Score a single structure after training:</span>
+<span class="sd">        </span>
+<span class="sd">        &gt;&gt;&gt; scorer = RNAScorer()</span>
+<span class="sd">        &gt;&gt;&gt; scorer.train_scoring(input_dir=&quot;distances&quot;, output_dir=&quot;tables&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; scorer.score_structure(pdb_path=&quot;test_structure.pdb&quot;, output_csv=&quot;scores.csv&quot;)</span>
+<span class="sd">        </span>
+<span class="sd">        Score multiple structures from a folder:</span>
+<span class="sd">        </span>
+<span class="sd">        &gt;&gt;&gt; scorer.score_structure(</span>
+<span class="sd">        ...     folder=&quot;structures_to_score/&quot;,</span>
+<span class="sd">        ...     tables_dir=&quot;training_output&quot;,</span>
+<span class="sd">        ...     file_format=&quot;mmcif&quot;,</span>
+<span class="sd">        ...     output_csv=&quot;batch_scores.csv&quot;</span>
+<span class="sd">        ... )</span>
+<span class="sd">        </span>
+<span class="sd">        Score with detailed output showing individual contributions:</span>
+<span class="sd">        </span>
+<span class="sd">        &gt;&gt;&gt; scorer.score_structure(</span>
+<span class="sd">        ...     pdb_path=&quot;structure.pdb&quot;,</span>
+<span class="sd">        ...     detailed=True,</span>
+<span class="sd">        ...     output_csv=&quot;detailed_scores.csv&quot;</span>
+<span class="sd">        ... )</span>
+<span class="sd">        </span>
+<span class="sd">        Score structures from a list file:</span>
+<span class="sd">        </span>
+<span class="sd">        &gt;&gt;&gt; scorer.score_structure(</span>
+<span class="sd">        ...     list=&quot;structures_to_score.txt&quot;,</span>
+<span class="sd">        ...     tables_dir=&quot;scoring_tables&quot;,</span>
+<span class="sd">        ...     output_csv=&quot;list_scores.csv&quot;</span>
+<span class="sd">        ... )</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        - The method caches the output file path in `self.scores_file` and loads</span>
+<span class="sd">          scores into `self.scores` for downstream analysis.</span>
+<span class="sd">        - Ensure scoring parameters (`cutoff`, `seq_sep`, `atom_mode`) match</span>
+<span class="sd">          those used during distance extraction and training for consistency.</span>
+<span class="sd">        - The `detailed` flag is useful for debugging but produces verbose output</span>
+<span class="sd">          for structures with many contacts.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tables_dir</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tables_dir&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">scoring_tables_dir</span>
+        <span class="k">if</span> <span class="n">tables_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No scoring tables provided and model not trained yet.&quot;</span><span class="p">)</span>
+
+        <span class="n">pdb_path</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pdb_path&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pdb_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;pdb_path is required for scoring.&quot;</span><span class="p">)</span>
+
+        <span class="n">output_csv</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;output_csv&quot;</span><span class="p">)</span>
+        <span class="n">script_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scripts_dir</span> <span class="o">/</span> <span class="s2">&quot;score_structure.py&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">script_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;score_structure.py not found at </span><span class="si">{</span><span class="n">script_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">script_path</span><span class="p">),</span>
+            <span class="s2">&quot;--pdb&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">pdb_path</span><span class="p">),</span>
+            <span class="s2">&quot;--tables&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">tables_dir</span><span class="p">),</span>
+            <span class="s2">&quot;--format&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;file_format&quot;</span><span class="p">,</span> <span class="s2">&quot;pdb&quot;</span><span class="p">),</span>
+            <span class="s2">&quot;--cutoff&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cutoff&quot;</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">)),</span>
+            <span class="s2">&quot;--seq-sep&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;seq_sep&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">)),</span>
+        <span class="p">]</span>
+
+        <span class="n">atom_mode</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;atom_mode&quot;</span><span class="p">,</span> <span class="s2">&quot;C3&#39;&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">atom_mode</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">cmd</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;--atom-mode&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">atom_mode</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cmd</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;--atom-mode&quot;</span><span class="p">,</span> <span class="n">atom_mode</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;detailed&quot;</span><span class="p">):</span>
+            <span class="n">cmd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;--detailed&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">output_csv</span><span class="p">:</span>
+            <span class="n">cmd</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;--output&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">output_csv</span><span class="p">)]</span>
+
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">output_csv</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scores_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_csv</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scores</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">output_csv</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scores</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+    <span class="c1"># ----------------------------</span>
+    <span class="c1"># Full workflow</span>
+    <span class="c1"># ----------------------------</span>
+<div class="viewcode-block" id="RNAScorer.run_workflow">
+<a class="viewcode-back" href="../../library.html#rna_score.lib.RNAScorer.run_workflow">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_workflow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run the full workflow: extract =&gt; train =&gt; score</span>
+<span class="sd">        Memoizes both paths and loaded tables.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        **kwargs : dict</span>
+<span class="sd">            Keyword arguments passed to `extract_distances`, `train_scoring`,</span>
+<span class="sd">            and `score_structure` methods.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">            The method runs the full workflow and saves scores to a CSV file</span>
+<span class="sd">            specified in `score_structure` parameters</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">extracted_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extract_distances</span><span class="p">(</span>
+            <span class="n">pdb_list</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;train_list&quot;</span><span class="p">),</span>
+            <span class="n">folder</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;train_folder&quot;</span><span class="p">),</span>
+            <span class="n">chains</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;chains&quot;</span><span class="p">),</span>
+            <span class="n">atom_mode</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;atom_mode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;C3&#39;&quot;</span><span class="p">]),</span>
+            <span class="n">dist_mode</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dist_mode&quot;</span><span class="p">,</span> <span class="s2">&quot;intra&quot;</span><span class="p">),</span>
+            <span class="n">cutoff</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cutoff&quot;</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
+            <span class="n">seq_sep</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;seq_sep&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+            <span class="n">bin_width</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bin_width&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+            <span class="n">method</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;method&quot;</span><span class="p">,</span> <span class="s2">&quot;histogram&quot;</span><span class="p">),</span>
+            <span class="n">cores</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cores&quot;</span><span class="p">),</span>
+            <span class="n">out_dir</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;output_dir&quot;</span><span class="p">,</span> <span class="s2">&quot;workflow_output&quot;</span><span class="p">),</span> <span class="s2">&quot;extracted&quot;</span><span class="p">),</span>
+            <span class="n">save_detailed</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;save_detailed&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+            <span class="n">fmt</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fmt&quot;</span><span class="p">,</span> <span class="s2">&quot;pdb&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">training_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_scoring</span><span class="p">(</span>
+            <span class="n">input_dir</span><span class="o">=</span><span class="n">extracted_dir</span><span class="p">,</span>
+            <span class="n">output_dir</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;output_dir&quot;</span><span class="p">,</span> <span class="s2">&quot;workflow_output&quot;</span><span class="p">),</span> <span class="s2">&quot;training_output&quot;</span><span class="p">),</span>
+            <span class="n">max_score</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;max_score&quot;</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">),</span>
+            <span class="n">pseudocount</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pseudocount&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+            <span class="n">cutoff</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cutoff&quot;</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
+            <span class="n">bin_width</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bin_width&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+            <span class="n">method</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;method&quot;</span><span class="p">,</span> <span class="s2">&quot;histogram&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">score_structure</span><span class="p">(</span>
+            <span class="n">pdb_path</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;score_list&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;score_folder&quot;</span><span class="p">),</span>
+            <span class="n">tables_dir</span><span class="o">=</span><span class="n">training_dir</span><span class="p">,</span>
+            <span class="n">cutoff</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cutoff&quot;</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">),</span>
+            <span class="n">seq_sep</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;seq_sep&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+            <span class="n">atom_mode</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;atom_mode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;C3&#39;&quot;</span><span class="p">]),</span>
+            <span class="n">output_csv</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;output_dir&quot;</span><span class="p">,</span> <span class="s2">&quot;workflow_output&quot;</span><span class="p">),</span> <span class="s2">&quot;scores.csv&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Workflow complete. Scores saved in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">scores_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RNAScorer.__call__">
+<a class="viewcode-back" href="../../library.html#rna_score.lib.RNAScorer.__call__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Callable shortcut to score a given structure ONLY IF already trained</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        **kwargs : dict</span>
+<span class="sd">            Keyword arguments passed to `score_structure`.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pd.DataFrame or None</span>
+<span class="sd">            DataFrame containing scores for each structure if `output_csv` is</span>
+<span class="sd">            specified, otherwise None</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">score_structure</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+</div>
+
+
+<span class="c1"># -- in plot scores script:</span>
+<span class="c1"># def run_lib(args):</span>
+<span class="c1">#     &#39;&#39;&#39;library usage, it performs only combined plotly plot and returns the figure object&#39;&#39;&#39;</span>
+<span class="c1">#     pairs = [&#39;AA&#39;, &#39;AC&#39;, &#39;AG&#39;, &#39;AU&#39;, &#39;CC&#39;, &#39;CG&#39;, &#39;GG&#39;, &#39;CU&#39;, &#39;GU&#39;, &#39;UU&#39;]</span>
+<span class="c1">#     pairs_data = {}</span>
+
+<span class="c1">#     for pair in pairs:</span>
+<span class="c1">#         path = os.path.join(args.input_dir, f&quot;score_{pair}.csv&quot;)</span>
+<span class="c1">#         data = load_score_table(path)</span>
+
+<span class="c1">#         if data is None:</span>
+<span class="c1">#             continue</span>
+
+<span class="c1">#         pairs_data[pair] = data</span>
+
+<span class="c1">#     if args.plotly:</span>
+
+<span class="c1">#         return plot_combined_profiles_plotly(pairs_data, None, show=args.show)</span>
+<span class="c1">#     return plot_combined_profiles(pairs_data, None, show=args.show)</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Yazid Hoblos, Joelle Assy, Denys Buryi, Raul Duran De Alba, Rayane Adam.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

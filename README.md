@@ -3,7 +3,7 @@
 ![Status](https://img.shields.io/badge/status-passing-brightgreen?style=flat&logo=github&logoColor=white)
 [![Read the Docs](https://img.shields.io/readthedocs/structural-rna-project?style=flat&logo=readthedocs&logoColor=white)](https://structural-rna-project.readthedocs.io)
 ![GitHub issues](https://img.shields.io/github/issues/raysas/structural-RNA-project)
-![License](https://img.shields.io/github/license/raysas/structural-RNA-project)
+![License](https://img.shields.io/badge/license-MIT-blue?style=flat)
 ![Last commit](https://img.shields.io/github/last-commit/raysas/structural-RNA-project)
 ![GitHub stars](https://img.shields.io/github/stars/raysas/structural-RNA-project)
 ![GitHub forks](https://img.shields.io/github/forks/raysas/structural-RNA-project)
