@@ -1,11 +1,19 @@
 # rna-score: RNA Scoring Library
 
+![Status](https://img.shields.io/badge/status-passing-brightgreen?style=flat&logo=github&logoColor=white)
+[![Read the Docs](https://img.shields.io/readthedocs/structural-rna-project?style=flat&logo=readthedocs&logoColor=white)](https://structural-rna-project.readthedocs.io)
+![GitHub issues](https://img.shields.io/github/issues/raysas/structural-RNA-project)
+![License](https://img.shields.io/github/license/raysas/structural-RNA-project)
+![Last commit](https://img.shields.io/github/last-commit/raysas/structural-RNA-project)
+![GitHub stars](https://img.shields.io/github/stars/raysas/structural-RNA-project)
+![GitHub forks](https://img.shields.io/github/forks/raysas/structural-RNA-project)
+
 **Goal:** Creation of an objective function for the RNA folding problem
 
 This project develops a scoring function to evaluate predicted RNA tertiary structures based on interatomic distance distributions.
 
 **Supervised by:** Professor Guillaume Postic  
-**Team:** Joelle Assy, Yazid Hoblos, Denys Buryi, Raul Duran De Alba, Rayane Aam
+**Team:** Joelle Assy, Yazid Hoblos, Denys Buryi, Raul Duran De Alba, Rayane Adam
 
 ---
 
