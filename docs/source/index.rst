@@ -21,8 +21,7 @@ Supervised by Professor Guillaume Postic.
 
    .. code-block:: bash
 
-      pip install -r requirements.txt
-      pip install -e .
+      pip install git+https://github.com/raysas/structural-RNA-project.git
 
 .. dropdown:: Example CLI workflow
    :icon: terminal
