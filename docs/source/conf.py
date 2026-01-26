@@ -24,6 +24,7 @@ extensions = [
     'sphinx.ext.autodoc',          # generate docs from docstrings
     'sphinx.ext.viewcode',         # adds links to source code
     'sphinx.ext.napoleon',         # support Google/NumPy style docstrings
+    'sphinx.ext.mathjax',          # render LaTeX math
     'sphinx_autodoc_typehints',    # show type hints nicely
     'myst_parser',                 # enable markdown
     'nbsphinx',                    # enable notebooks
@@ -45,7 +46,8 @@ html_theme_options = {
     },
     "navigation_depth": 3,
     "show_prev_next": True,
-    "use_edit_page_button": True,  # keep button
+    "use_edit_page_button": False,
+    "secondary_sidebar_items": {"*": ["page-toc"]},
 }
 
 html_context = {
@@ -65,4 +67,5 @@ html_css_files = ["custom.css"]
 myst_enable_extensions = [
     "colon_fence",       # supports ::: blocks
     "deflist",           # definition lists
+    "dollarmath",        # enable $...$ and $$...$$ math
 ]

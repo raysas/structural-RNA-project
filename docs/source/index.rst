@@ -41,12 +41,13 @@ Supervised by Professor Guillaume Postic.
    :margin: 2 0 2 0
 
    .. grid-item-card:: Background
-      :link: background
+      :link: background/index
       :link-type: doc
       :shadow: sm
       :class-card: sd-border-1 sd-rounded-2
 
       Learn the scoring rationale, datasets, and assumptions.
+
 
    .. grid-item-card:: Library API
       :link: library
@@ -76,7 +77,7 @@ Supervised by Professor Guillaume Postic.
    :maxdepth: 2
    :hidden:
 
-   background
+   background/index
    library
    cli
    webtool

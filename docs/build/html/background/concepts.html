@@ -2,13 +2,13 @@
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="./" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Background &#8212; rna_score 0.1.0 documentation</title>
+    <title>RNA folding as an optimization problem &#8212; rna_score 0.1.0 documentation</title>
   
   
   
@@ -27,29 +27,32 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=4165597f" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=379304cd" />
   
   <!-- So that users can add custom icons -->
-  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=01f34227"></script>
-    <script src="_static/doctools.js?v=fd6eb6e6"></script>
-    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
-    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'background';</script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Library API" href="library.html" />
-    <link rel="prev" title="rna-score CLI Documentation" href="index.html" />
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'background/concepts';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Training: from RNA structures to scoring tables" href="training.html" />
+    <link rel="prev" title="Background" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -71,7 +74,7 @@
   <dialog id="pst-search-dialog">
     
 <form class="bd-search d-flex align-items-center"
-      action="search.html"
+      action="../search.html"
       method="get">
   <i class="fa-solid fa-magnifying-glass"></i>
   <input type="search"
@@ -107,7 +110,7 @@
     
   
 
-<a class="navbar-brand logo" href="index.html">
+<a class="navbar-brand logo" href="../index.html">
   
   
   
@@ -118,8 +121,8 @@
       
     
     
-    <img src="_static/logo-light.png" class="logo__image only-light" alt="rna_score 0.1.0 documentation - Home"/>
-    <img src="_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="rna_score 0.1.0 documentation - Home"/>
+    <img src="../_static/logo-light.png" class="logo__image only-light" alt="rna_score 0.1.0 documentation - Home"/>
+    <img src="../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="rna_score 0.1.0 documentation - Home"/>
   
   
 </a></div>
@@ -135,28 +138,28 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item current active">
-  <a class="nav-link nav-internal" href="#">
+  <a class="nav-link nav-internal" href="index.html">
     Background
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="library.html">
+  <a class="nav-link nav-internal" href="../library.html">
     Library API
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="cli.html">
+  <a class="nav-link nav-internal" href="../cli.html">
     CLI Usage
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="webtool.html">
+  <a class="nav-link nav-internal" href="../webtool.html">
     Web Tool
   </a>
 </li>
@@ -204,10 +207,6 @@
   
 
   
-    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
-      <span class="fa-solid fa-outdent"></span>
-    </button>
-  
 </div>
 
     </header>
@@ -235,28 +234,28 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item current active">
-  <a class="nav-link nav-internal" href="#">
+  <a class="nav-link nav-internal" href="index.html">
     Background
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="library.html">
+  <a class="nav-link nav-internal" href="../library.html">
     Library API
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="cli.html">
+  <a class="nav-link nav-internal" href="../cli.html">
     CLI Usage
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="webtool.html">
+  <a class="nav-link nav-internal" href="../webtool.html">
     Web Tool
   </a>
 </li>
@@ -288,7 +287,13 @@
 <nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
-  <div class="bd-toc-item navbar-nav"></div>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">RNA folding as an optimization problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="training.html">Training: from RNA structures to scoring tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scoring.html">Scoring: estimating the energy of a candidate structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outputs.html">Outputs and how they are used</a></li>
+</ul>
+</div>
 </nav></div>
     </div>
   
@@ -323,11 +328,14 @@
   <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
-      <a href="index.html" class="nav-link" aria-label="Home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Background</span></li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Background</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">RNA folding as an optimization problem</span></li>
   </ul>
 </nav>
 </div>
@@ -344,9 +352,17 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="background">
-<h1>Background<a class="headerlink" href="#background" title="Link to this heading">#</a></h1>
-<p>Context on the RNA folding problem, scoring rationale, and dataset sources. Flesh this out with citations and methodology details.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="rna-folding-as-an-optimization-problem">
+<h1>RNA folding as an optimization problem<a class="headerlink" href="#rna-folding-as-an-optimization-problem" title="Link to this heading">#</a></h1>
+<p>For a given RNA chain (a sequence of ribonucleotides), the RNA folding problem consists of finding the native 3D conformation among an astronomically large number of possible structures. In thermodynamic terms, the native fold is typically modeled as the conformation with the lowest Gibbs free energy.</p>
+<p>Because computing an exact physical free energy for an arbitrary RNA conformation is difficult, practical methods often rely on an objective function that approximates (or correlates with) the Gibbs free energy. In this project, the objective function is a knowledge-based statistical potential learned from experimentally solved RNA structures.</p>
+<p>If a geometric pattern appears frequently in experimentally determined RNA structures, it is assumed to be energetically favorable. Conversely, rare patterns are treated as less favorable. Patterns are modeled through interatomic distances between nucleotides (here: using only the C3′ atom by default, or a configurable alternative).</p>
+<p>For each nucleotide-type pair <span class="math notranslate nohighlight">\( (i, j) \in \{A, U, C, G\}^2 \)</span>, we estimate:</p>
+<ul class="simple">
+<li><p>an observed distance distribution <span class="math notranslate nohighlight">\( f^{\mathrm{OBS}}_{i,j}(r) \)</span> from real structures,</p></li>
+<li><p>a reference distribution <span class="math notranslate nohighlight">\( f^{\mathrm{REF}}_{X,X}(r) \)</span> (where residue identity is ignored).</p></li>
+</ul>
+<p>A pseudo-energy is then derived from the log-ratio of these distributions, so that distances enriched in real data obtain lower scores.</p>
 </section>
 
 
@@ -365,15 +381,15 @@
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">rna-score CLI Documentation</p>
+        <p class="prev-next-title">Background</p>
       </div>
     </a>
     <a class="right-next"
-       href="library.html"
+       href="training.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Library API</p>
+        <p class="prev-next-title">Training: from RNA structures to scoring tables</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -383,37 +399,6 @@
             </div>
             
             
-              
-                <dialog id="pst-secondary-sidebar-modal"></dialog>
-                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-
-  <div class="sidebar-secondary-item">
-
-  
-  <div class="tocsection editthispage">
-    <a href="https://github.com/raysas/structural-RNA-project/edit/main/docs/source/background.md">
-      <i class="fa-solid fa-pencil"></i>
-      
-      
-        
-          Edit on GitHub
-        
-      
-    </a>
-  </div>
-</div>
-
-  <div class="sidebar-secondary-item">
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/background.md.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div></div>
-
-</div></div>
               
             
           </div>
@@ -426,8 +411,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
