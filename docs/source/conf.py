@@ -34,6 +34,9 @@ extensions = [
 templates_path = ['_templates']
 exclude_patterns = ['_build', '**.ipynb_checkpoints']
 
+# Master document
+master_doc = 'index'
+
 # -- Options for HTML output -------------------------------------------------
 html_theme = "pydata_sphinx_theme"
 
