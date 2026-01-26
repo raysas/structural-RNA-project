@@ -1,0 +1,23 @@
+/* Enlarge navbar logo image while keeping aspect ratio and add breathing room */
+
+.navbar-brand {
+  display: flex !important;
+  align-items: center !important;
+  padding: 16px 24px 16px 20px !important;
+}
+
+.navbar-brand img {
+  height: 112px !important;
+  width: auto !important;
+  max-height: none !important;
+  margin-right: 16px !important;
+  display: block !important;
+}
+
+/* Let the header grow to fit the larger logo */
+.bd-header, .bd-header .navbar {
+  min-height: 140px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  align-items: center;
+}

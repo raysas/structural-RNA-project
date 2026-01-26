@@ -27,6 +27,7 @@ extensions = [
     'sphinx_autodoc_typehints',    # show type hints nicely
     'myst_parser',                 # enable markdown
     'nbsphinx',                    # enable notebooks
+    'sphinx_design',               # cards, buttons, dropdowns
 ]
 
 templates_path = ['_templates']
@@ -40,6 +41,7 @@ html_theme_options = {
     "logo": {
         "image_light": "logo-light.png",
         "image_dark": "logo-dark.png",
+        "text_logo_height": "72px",  # larger brand text for fallback
     },
     "navigation_depth": 3,
     "show_prev_next": True,
@@ -56,6 +58,7 @@ html_context = {
 
 
 html_static_path = ['_static']  # keep this for CSS or images
+html_css_files = ["custom.css"]
 
 # -- MyST settings (Markdown) -----------------------------------------------
 

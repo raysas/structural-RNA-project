@@ -31,6 +31,8 @@
 <link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=4165597f" />
   
   <!-- So that users can add custom icons -->
   <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -41,11 +43,12 @@
     <script src="_static/documentation_options.js?v=01f34227"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Running Commands with rna-score" href="running_commands.html" />
+    <link rel="next" title="Background" href="background.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -131,36 +134,29 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="running_commands.html">
-    Running Commands with rna-score
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="reference.html">
-    Running Commands with rna-score
+  <a class="nav-link nav-internal" href="background.html">
+    Background
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="library.html">
-    <no title>
+    Library API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="cli.html">
-    <no title>
+    CLI Usage
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="webtool.html">
-    <no title>
+    Web Tool
   </a>
 </li>
 
@@ -240,36 +236,29 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="running_commands.html">
-    Running Commands with rna-score
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="reference.html">
-    Running Commands with rna-score
+  <a class="nav-link nav-internal" href="background.html">
+    Background
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="library.html">
-    <no title>
+    Library API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="cli.html">
-    <no title>
+    CLI Usage
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="webtool.html">
-    <no title>
+    Web Tool
   </a>
 </li>
 
@@ -330,33 +319,67 @@ based on interatomic distance distributions.</p>
 <p><strong>Goal:</strong> Creation of an objective function for the RNA folding problem.
 Supervised by Professor Guillaume Postic.</p>
 <p><strong>Team:</strong> Joelle Assy, Yazid Hoblos, Denys Buryi, Raul Duran De Alba, Rayane Adam</p>
-<p><strong>Try it online:</strong> <a class="reference external" href="https://rna-score.onrender.com/">https://rna-score.onrender.com/</a></p>
+<p><span class="sd-d-grid"><a class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-primary reference external" href="https://rna-score.onrender.com/"><span>Try it online</span></a></span></p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header sd-bg-primary sd-bg-text-primary">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-download" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.75 14A1.75 1.75 0 0 1 1 12.25v-2.5a.75.75 0 0 1 1.5 0v2.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25v-2.5a.75.75 0 0 1 1.5 0v2.5A1.75 1.75 0 0 1 13.25 14Z"></path><path d="M7.25 7.689V2a.75.75 0 0 1 1.5 0v5.689l1.97-1.969a.749.749 0 1 1 1.06 1.06l-3.25 3.25a.749.749 0 0 1-1.06 0L4.22 6.78a.749.749 0 1 1 1.06-1.06l1.97 1.969Z"></path></svg></span><span class="sd-summary-text">Quick install</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+</pre></div>
+</div>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header sd-bg-secondary sd-bg-text-secondary">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-terminal" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 2.75C0 1.784.784 1 1.75 1h12.5c.966 0 1.75.784 1.75 1.75v10.5A1.75 1.75 0 0 1 14.25 15H1.75A1.75 1.75 0 0 1 0 13.25Zm1.75-.25a.25.25 0 0 0-.25.25v10.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25V2.75a.25.25 0 0 0-.25-.25ZM7.25 8a.749.749 0 0 1-.22.53l-2.25 2.25a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L5.44 8 3.72 6.28a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l2.25 2.25c.141.14.22.331.22.53Zm1.5 1.5h3a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1 0-1.5Z"></path></svg></span><span class="sd-summary-text">Example CLI workflow</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rna-score<span class="w"> </span>access<span class="w"> </span>-n<span class="w"> </span><span class="m">50</span><span class="w"> </span>--rna-only<span class="w"> </span>-f<span class="w"> </span>cif<span class="w"> </span>-o<span class="w"> </span>data/rna_structures<span class="w"> </span>--workers<span class="w"> </span><span class="m">4</span>
+rna-score<span class="w"> </span>extract<span class="w"> </span>--folder<span class="w"> </span>rna_structures/mmcif<span class="w"> </span>--format<span class="w"> </span>mmcif<span class="w"> </span>--out-dir<span class="w"> </span>dist_data
+rna-score<span class="w"> </span>train<span class="w"> </span>--input-dir<span class="w"> </span>dist_data<span class="w"> </span>--output-dir<span class="w"> </span>training_output<span class="w"> </span>--method<span class="w"> </span>histogram
+rna-score<span class="w"> </span>score<span class="w"> </span>--folder<span class="w"> </span>rna_structures/mmcif<span class="w"> </span>--tables<span class="w"> </span>training_output<span class="w"> </span>--format<span class="w"> </span>mmcif<span class="w"> </span>--output<span class="w"> </span>scores.csv
+rna-score<span class="w"> </span>plot<span class="w"> </span>--input-dir<span class="w"> </span>training_output<span class="w"> </span>--output-dir<span class="w"> </span>plots<span class="w"> </span>--combined
+</pre></div>
+</div>
+</div>
+</details><div class="sd-container-fluid sd-sphinx-override sd-mt-2 sd-mb-0 sd-ml-2 sd-mr-0 docutils">
+<div class="sd-row sd-row-cols-1 sd-row-cols-xs-1 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-2 sd-g-xs-2 sd-g-sm-2 sd-g-md-2 sd-g-lg-2 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover sd-border-1 sd-rounded-2 docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Background</div>
+<p class="sd-card-text">Learn the scoring rationale, datasets, and assumptions.</p>
+</div>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="background.html"><span class="doc">Background</span></a></div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover sd-border-1 sd-rounded-2 docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Library API</div>
+<p class="sd-card-text">Explore Python entry points and helper utilities.</p>
+</div>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="library.html"><span class="doc">Library API</span></a></div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover sd-border-1 sd-rounded-2 docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+CLI Usage</div>
+<p class="sd-card-text">Run the pipeline end-to-end from the command line.</p>
+</div>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="cli.html"><span class="doc">CLI Usage</span></a></div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover sd-border-1 sd-rounded-2 docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Webtool</div>
+<p class="sd-card-text">Score structures from the browser without installing anything.</p>
+</div>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="webtool.html"><span class="doc">Web Tool</span></a></div>
+</div>
+</div>
+</div>
 <div class="toctree-wrapper compound">
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="running_commands.html">Running Commands with rna-score</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="running_commands.html#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="running_commands.html#download-rna-structures">1. Download RNA Structures</a></li>
-<li class="toctree-l2"><a class="reference internal" href="running_commands.html#extract-interatomic-distances">2. Extract Interatomic Distances</a></li>
-<li class="toctree-l2"><a class="reference internal" href="running_commands.html#train-scoring-tables">3. Train Scoring Tables</a></li>
-<li class="toctree-l2"><a class="reference internal" href="running_commands.html#score-structures">4. Score Structures</a></li>
-<li class="toctree-l2"><a class="reference internal" href="running_commands.html#plot-results">5. Plot Results</a></li>
-<li class="toctree-l2"><a class="reference internal" href="running_commands.html#full-workflow-all-steps-in-one-command">6. Full Workflow (All Steps in One Command)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="running_commands.html#help-for-each-subcommand">7. Help for Each Subcommand</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="reference.html">Running Commands with rna-score</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="reference.html#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference.html#download-rna-structures">1. Download RNA Structures</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference.html#extract-interatomic-distances">2. Extract Interatomic Distances</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference.html#train-scoring-tables">3. Train Scoring Tables</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference.html#score-structures">4. Score Structures</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference.html#plot-results">5. Plot Results</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference.html#full-workflow-all-steps-in-one-command">6. Full Workflow (All Steps in One Command)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference.html#help-for-each-subcommand">7. Help for Each Subcommand</a></li>
-</ul>
-</li>
-</ul>
 </div>
 </section>
 
@@ -371,11 +394,11 @@ Supervised by Professor Guillaume Postic.</p>
                   
 <div class="prev-next-area">
     <a class="right-next"
-       href="running_commands.html"
+       href="background.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Running Commands with rna-score</p>
+        <p class="prev-next-title">Background</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

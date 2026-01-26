@@ -1,4 +1,4 @@
-# Running Commands with rna-score
+# Command Reference
 
 ## Installation
 
