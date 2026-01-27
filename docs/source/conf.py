@@ -76,6 +76,22 @@ html_context = {
 html_static_path = ['_static']  # keep this for CSS or images
 html_css_files = ["custom.css"]
 
+# -- Autodoc settings -----------------------------------------------
+
+autodoc_default_options = {
+    'members': True,
+    'member-order': 'bysource',
+    'special-members': '__init__',
+    'undoc-members': True,
+    'show-inheritance': True,
+}
+
+# Mock modules that might fail to import on ReadTheDocs
+autodoc_mock_imports = [
+    'biopython',
+    'Bio',
+]
+
 # -- MyST settings (Markdown) -----------------------------------------------
 
 myst_enable_extensions = [
