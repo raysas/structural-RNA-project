@@ -7,12 +7,18 @@
 
 import os
 import sys
+import re
 
 repo_root = os.path.abspath('../..')
 sys.path.insert(0, repo_root)
 sys.path.insert(0, os.path.join(repo_root, 'src'))  # ensure autodoc finds rna_score
 
-from rna_score import __version__
+# Read version directly from __init__.py to avoid circular imports
+init_path = os.path.join(repo_root, 'src', 'rna_score', '__init__.py')
+with open(init_path, 'r') as f:
+    content = f.read()
+    version_match = re.search(r"^__version__\s*=\s*['\"]([^'\"]*)['\"]", content, re.M)
+    __version__ = version_match.group(1) if version_match else "0.1.0"
 
 
 # -- Project information -----------------------------------------------------
