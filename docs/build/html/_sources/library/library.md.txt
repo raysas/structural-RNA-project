@@ -17,8 +17,9 @@ This package has been built as a wrapper around the scripts, thus it is accessib
 ```{eval-rst}
 .. autoclass:: rna_score.lib.RNAScorer
    :members:
+   :member-order: bysource
    :undoc-members:
    :show-inheritance:
-   :special-members: __init__, __call__
+   :special-members: __init__
 ```
 

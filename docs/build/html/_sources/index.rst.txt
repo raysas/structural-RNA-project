@@ -49,7 +49,7 @@ Supervised by Professor Guillaume Postic.
 
 
    .. grid-item-card:: Library API
-      :link: library
+      :link: library/index
       :link-type: doc
       :shadow: sm
       :class-card: sd-border-1 sd-rounded-2

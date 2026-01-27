@@ -422,24 +422,6 @@ and full workflow execution, with memoization of both paths and data tables.</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="rna_score.lib.RNAScorer.__call__">
-<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rna_score/lib.html#RNAScorer.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rna_score.lib.RNAScorer.__call__" title="Link to this definition">#</a></dt>
-<dd><p>Callable shortcut to score a given structure ONLY IF already trained</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>**kwargs</strong> (<em>dict</em>) – Keyword arguments passed to <cite>score_structure</cite>.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>DataFrame containing scores for each structure if <cite>output_csv</cite> is
-specified, otherwise None</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pd.DataFrame or None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="rna_score.lib.RNAScorer.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rna_score/lib.html#RNAScorer.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rna_score.lib.RNAScorer.__init__" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
@@ -531,75 +513,81 @@ into <cite>self.histograms</cite> for downstream use.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="rna_score.lib.RNAScorer.plot_scores">
-<span class="sig-name descname"><span class="pre">plot_scores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rna_score/lib.html#RNAScorer.plot_scores"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rna_score.lib.RNAScorer.plot_scores" title="Link to this definition">#</a></dt>
-<dd><p>Generate an interactive Plotly figure of scoring profiles.</p>
-<p>Creates a combined interactive plot with dropdown buttons to switch between
-different base-pair types (AA, AC, AG, etc.) and view all profiles together.</p>
+<dt class="sig sig-object py" id="rna_score.lib.RNAScorer.train_scoring">
+<span class="sig-name descname"><span class="pre">train_scoring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rna_score/lib.html#RNAScorer.train_scoring"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rna_score.lib.RNAScorer.train_scoring" title="Link to this definition">#</a></dt>
+<dd><p>Train scoring tables from extracted distance distributions.</p>
+<p>Converts raw distance histograms or KDE data into scoring tables by computing
+statistical potentials or probability densities. These tables are used to score
+new RNA structures. Equivalent to the CLI command <cite>rna-score train</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>input_dir</strong> (<em>str</em><em> or </em><em>Path</em><em>, </em><em>optional</em>) – Directory containing score tables (e.g., outputs from
-<a class="reference internal" href="#rna_score.lib.RNAScorer.train_scoring" title="rna_score.lib.RNAScorer.train_scoring"><code class="xref py py-meth docutils literal notranslate"><span class="pre">train_scoring()</span></code></a>). If not provided, falls back to
-<code class="docutils literal notranslate"><span class="pre">self.scoring_tables_dir</span></code>.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_dir</strong> (<em>str</em><em> or </em><em>Path</em><em>, </em><em>optional</em>) – Directory containing histogram or KDE distance files (typically output from
+<cite>extract_distances</cite>). If not provided, uses <cite>self.distances_dir</cite> from a
+previous extraction step.</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em><em> or </em><em>Path</em><em>, </em><em>default=&quot;training_output&quot;</em>) – Output directory where scoring tables and metadata will be written.</p></li>
+<li><p><strong>max_score</strong> (<em>float</em><em>, </em><em>default=10.0</em>) – Maximum score cap applied to individual distance scores to prevent
+extreme outliers from dominating the total score.</p></li>
+<li><p><strong>pseudocount</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Pseudocount added to histogram bins to avoid division by zero and
+stabilize scoring for rare distance bins. Higher values increase
+smoothing but may reduce discrimination.</p></li>
+<li><p><strong>cutoff</strong> (<em>float</em><em>, </em><em>default=20.0</em>) – Maximum distance (Å) to consider in scoring table generation.
+Must match the cutoff used during distance extraction.</p></li>
+<li><p><strong>bin_width</strong> (<em>float</em><em>, </em><em>default=1.0</em>) – Bin width (Å) for histogram discretization. Must match the bin width
+used during distance extraction.</p></li>
+<li><p><strong>method</strong> (<em>str</em><em>, </em><em>default=&quot;histogram&quot;</em>) – Training method:
+- “histogram”: converts binned counts to statistical potentials
+- “kde”: trains kernel density estimation models from raw distances</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Interactive Plotly figure with dropdown menu to select pair types.</p>
+<dd class="field-even"><p>Path to the output directory containing scoring tables.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>plotly.graph_objects.Figure</p>
+<dd class="field-odd"><p>Path</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><strong>ImportError</strong> – If Plotly is not installed.</p></li>
-<li><p><strong>ValueError</strong> – If no input directory is provided and <code class="docutils literal notranslate"><span class="pre">self.scoring_tables_dir</span></code> is not set.</p></li>
-<li><p><strong>FileNotFoundError</strong> – If no score table files are found in the input directory.</p></li>
+<li><p><strong>ValueError</strong> – If no input directory is provided and distances have not been extracted.</p></li>
+<li><p><strong>FileNotFoundError</strong> – If the train.py script is not found.</p></li>
 </ul>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Create and display an interactive plot:</p>
+<p>Train scoring tables after extracting distances:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scorer</span> <span class="o">=</span> <span class="n">RNAScorer</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">scorer</span><span class="o">.</span><span class="n">train_scoring</span><span class="p">(</span><span class="n">input_dir</span><span class="o">=</span><span class="s2">&quot;distances&quot;</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="s2">&quot;training_output&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">scorer</span><span class="o">.</span><span class="n">plot_scores</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scorer</span><span class="o">.</span><span class="n">extract_distances</span><span class="p">(</span><span class="n">folder</span><span class="o">=</span><span class="s2">&quot;structures/&quot;</span><span class="p">,</span> <span class="n">out_dir</span><span class="o">=</span><span class="s2">&quot;distances&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scorer</span><span class="o">.</span><span class="n">train_scoring</span><span class="p">(</span><span class="n">output_dir</span><span class="o">=</span><span class="s2">&quot;scoring_tables&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Save the plot to HTML:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">scorer</span><span class="o">.</span><span class="n">plot_scores</span><span class="p">(</span><span class="n">input_dir</span><span class="o">=</span><span class="s2">&quot;training_output&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span><span class="o">.</span><span class="n">write_html</span><span class="p">(</span><span class="s2">&quot;interactive_plot.html&quot;</span><span class="p">)</span>
+<p>Train with custom parameters and pseudocount for smoothing:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scorer</span><span class="o">.</span><span class="n">train_scoring</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">input_dir</span><span class="o">=</span><span class="s2">&quot;distances&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">output_dir</span><span class="o">=</span><span class="s2">&quot;training_output&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">max_score</span><span class="o">=</span><span class="mf">15.0</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">pseudocount</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">method</span><span class="o">=</span><span class="s2">&quot;histogram&quot;</span>
+<span class="gp">... </span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Use in Jupyter notebook:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">scorer</span><span class="o">.</span><span class="n">plot_scores</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span>  <span class="c1"># displays inline</span>
+<p>Train KDE-based scoring from raw distance data:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scorer</span><span class="o">.</span><span class="n">train_scoring</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">input_dir</span><span class="o">=</span><span class="s2">&quot;kde_distances&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">output_dir</span><span class="o">=</span><span class="s2">&quot;kde_scoring&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">method</span><span class="o">=</span><span class="s2">&quot;kde&quot;</span>
+<span class="gp">... </span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="rubric">Notes</p>
 <ul class="simple">
-<li><p>The figure includes an interactive dropdown menu to switch between pair types.</p></li>
-<li><p>Each profile is color-coded using the Plasma colorscale based on score values.</p></li>
-<li><p>Use the “All” button to view all profiles simultaneously.</p></li>
+<li><p>The method caches the output directory in <cite>self.training_dir</cite> and
+<cite>self.scoring_tables_dir</cite>, and loads scoring tables into
+<cite>self.scoring_tables</cite> for downstream use.</p></li>
+<li><p>Scoring tables are saved as CSV files named <cite>score_&lt;PAIR_TYPE&gt;.csv</cite>
+(e.g., <cite>score_AA.csv</cite>, <cite>score_CG.csv</cite>).</p></li>
+<li><p>A metadata JSON file is also generated containing training parameters.</p></li>
+<li><p>Ensure <cite>cutoff</cite> and <cite>bin_width</cite> match those used in distance extraction.</p></li>
 </ul>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="rna_score.lib.RNAScorer.run_workflow">
-<span class="sig-name descname"><span class="pre">run_workflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rna_score/lib.html#RNAScorer.run_workflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rna_score.lib.RNAScorer.run_workflow" title="Link to this definition">#</a></dt>
-<dd><p>Run the full workflow: extract =&gt; train =&gt; score
-Memoizes both paths and loaded tables.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>**kwargs</strong> (<em>dict</em>) – Keyword arguments passed to <cite>extract_distances</cite>, <cite>train_scoring</cite>,
-and <cite>score_structure</cite> methods.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The method runs the full workflow and saves scores to a CSV file
-specified in <cite>score_structure</cite> parameters</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -654,6 +642,58 @@ profiles in one figure.</p></li>
 <li><p>The plotting behavior mirrors the CLI <code class="docutils literal notranslate"><span class="pre">rna-score</span> <span class="pre">plot</span></code> command.</p></li>
 <li><p>Generated files depend on the plotting script (e.g., separate PNGs per
 pair type and an optional combined plot).</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rna_score.lib.RNAScorer.plot_scores">
+<span class="sig-name descname"><span class="pre">plot_scores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rna_score/lib.html#RNAScorer.plot_scores"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rna_score.lib.RNAScorer.plot_scores" title="Link to this definition">#</a></dt>
+<dd><p>Generate an interactive Plotly figure of scoring profiles.</p>
+<p>Creates a combined interactive plot with dropdown buttons to switch between
+different base-pair types (AA, AC, AG, etc.) and view all profiles together.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>input_dir</strong> (<em>str</em><em> or </em><em>Path</em><em>, </em><em>optional</em>) – Directory containing score tables (e.g., outputs from
+<a class="reference internal" href="#rna_score.lib.RNAScorer.train_scoring" title="rna_score.lib.RNAScorer.train_scoring"><code class="xref py py-meth docutils literal notranslate"><span class="pre">train_scoring()</span></code></a>). If not provided, falls back to
+<code class="docutils literal notranslate"><span class="pre">self.scoring_tables_dir</span></code>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Interactive Plotly figure with dropdown menu to select pair types.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>plotly.graph_objects.Figure</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ImportError</strong> – If Plotly is not installed.</p></li>
+<li><p><strong>ValueError</strong> – If no input directory is provided and <code class="docutils literal notranslate"><span class="pre">self.scoring_tables_dir</span></code> is not set.</p></li>
+<li><p><strong>FileNotFoundError</strong> – If no score table files are found in the input directory.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Create and display an interactive plot:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scorer</span> <span class="o">=</span> <span class="n">RNAScorer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scorer</span><span class="o">.</span><span class="n">train_scoring</span><span class="p">(</span><span class="n">input_dir</span><span class="o">=</span><span class="s2">&quot;distances&quot;</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="s2">&quot;training_output&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">scorer</span><span class="o">.</span><span class="n">plot_scores</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Save the plot to HTML:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">scorer</span><span class="o">.</span><span class="n">plot_scores</span><span class="p">(</span><span class="n">input_dir</span><span class="o">=</span><span class="s2">&quot;training_output&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span><span class="o">.</span><span class="n">write_html</span><span class="p">(</span><span class="s2">&quot;interactive_plot.html&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Use in Jupyter notebook:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">scorer</span><span class="o">.</span><span class="n">plot_scores</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span>  <span class="c1"># displays inline</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>The figure includes an interactive dropdown menu to switch between pair types.</p></li>
+<li><p>Each profile is color-coded using the Plasma colorscale based on score values.</p></li>
+<li><p>Use the “All” button to view all profiles simultaneously.</p></li>
 </ul>
 </dd></dl>
 
@@ -753,81 +793,23 @@ for structures with many contacts.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="rna_score.lib.RNAScorer.train_scoring">
-<span class="sig-name descname"><span class="pre">train_scoring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rna_score/lib.html#RNAScorer.train_scoring"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rna_score.lib.RNAScorer.train_scoring" title="Link to this definition">#</a></dt>
-<dd><p>Train scoring tables from extracted distance distributions.</p>
-<p>Converts raw distance histograms or KDE data into scoring tables by computing
-statistical potentials or probability densities. These tables are used to score
-new RNA structures. Equivalent to the CLI command <cite>rna-score train</cite>.</p>
+<dt class="sig sig-object py" id="rna_score.lib.RNAScorer.run_workflow">
+<span class="sig-name descname"><span class="pre">run_workflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rna_score/lib.html#RNAScorer.run_workflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rna_score.lib.RNAScorer.run_workflow" title="Link to this definition">#</a></dt>
+<dd><p>Run the full workflow: extract =&gt; train =&gt; score
+Memoizes both paths and loaded tables.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>input_dir</strong> (<em>str</em><em> or </em><em>Path</em><em>, </em><em>optional</em>) – Directory containing histogram or KDE distance files (typically output from
-<cite>extract_distances</cite>). If not provided, uses <cite>self.distances_dir</cite> from a
-previous extraction step.</p></li>
-<li><p><strong>output_dir</strong> (<em>str</em><em> or </em><em>Path</em><em>, </em><em>default=&quot;training_output&quot;</em>) – Output directory where scoring tables and metadata will be written.</p></li>
-<li><p><strong>max_score</strong> (<em>float</em><em>, </em><em>default=10.0</em>) – Maximum score cap applied to individual distance scores to prevent
-extreme outliers from dominating the total score.</p></li>
-<li><p><strong>pseudocount</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Pseudocount added to histogram bins to avoid division by zero and
-stabilize scoring for rare distance bins. Higher values increase
-smoothing but may reduce discrimination.</p></li>
-<li><p><strong>cutoff</strong> (<em>float</em><em>, </em><em>default=20.0</em>) – Maximum distance (Å) to consider in scoring table generation.
-Must match the cutoff used during distance extraction.</p></li>
-<li><p><strong>bin_width</strong> (<em>float</em><em>, </em><em>default=1.0</em>) – Bin width (Å) for histogram discretization. Must match the bin width
-used during distance extraction.</p></li>
-<li><p><strong>method</strong> (<em>str</em><em>, </em><em>default=&quot;histogram&quot;</em>) – Training method:
-- “histogram”: converts binned counts to statistical potentials
-- “kde”: trains kernel density estimation models from raw distances</p></li>
-</ul>
+<dd class="field-odd"><p><strong>**kwargs</strong> (<em>dict</em>) – Keyword arguments passed to <cite>extract_distances</cite>, <cite>train_scoring</cite>,
+and <cite>score_structure</cite> methods.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Path to the output directory containing scoring tables.</p>
+<dd class="field-even"><p>The method runs the full workflow and saves scores to a CSV file
+specified in <cite>score_structure</cite> parameters</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Path</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>ValueError</strong> – If no input directory is provided and distances have not been extracted.</p></li>
-<li><p><strong>FileNotFoundError</strong> – If the train.py script is not found.</p></li>
-</ul>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
-<p class="rubric">Examples</p>
-<p>Train scoring tables after extracting distances:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scorer</span> <span class="o">=</span> <span class="n">RNAScorer</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">scorer</span><span class="o">.</span><span class="n">extract_distances</span><span class="p">(</span><span class="n">folder</span><span class="o">=</span><span class="s2">&quot;structures/&quot;</span><span class="p">,</span> <span class="n">out_dir</span><span class="o">=</span><span class="s2">&quot;distances&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">scorer</span><span class="o">.</span><span class="n">train_scoring</span><span class="p">(</span><span class="n">output_dir</span><span class="o">=</span><span class="s2">&quot;scoring_tables&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Train with custom parameters and pseudocount for smoothing:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scorer</span><span class="o">.</span><span class="n">train_scoring</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">input_dir</span><span class="o">=</span><span class="s2">&quot;distances&quot;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">output_dir</span><span class="o">=</span><span class="s2">&quot;training_output&quot;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">max_score</span><span class="o">=</span><span class="mf">15.0</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">pseudocount</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">method</span><span class="o">=</span><span class="s2">&quot;histogram&quot;</span>
-<span class="gp">... </span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Train KDE-based scoring from raw distance data:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scorer</span><span class="o">.</span><span class="n">train_scoring</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">input_dir</span><span class="o">=</span><span class="s2">&quot;kde_distances&quot;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">output_dir</span><span class="o">=</span><span class="s2">&quot;kde_scoring&quot;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">method</span><span class="o">=</span><span class="s2">&quot;kde&quot;</span>
-<span class="gp">... </span><span class="p">)</span>
-</pre></div>
-</div>
-<p class="rubric">Notes</p>
-<ul class="simple">
-<li><p>The method caches the output directory in <cite>self.training_dir</cite> and
-<cite>self.scoring_tables_dir</cite>, and loads scoring tables into
-<cite>self.scoring_tables</cite> for downstream use.</p></li>
-<li><p>Scoring tables are saved as CSV files named <cite>score_&lt;PAIR_TYPE&gt;.csv</cite>
-(e.g., <cite>score_AA.csv</cite>, <cite>score_CG.csv</cite>).</p></li>
-<li><p>A metadata JSON file is also generated containing training parameters.</p></li>
-<li><p>Ensure <cite>cutoff</cite> and <cite>bin_width</cite> match those used in distance extraction.</p></li>
-</ul>
 </dd></dl>
 
 </dd></dl>
@@ -888,14 +870,13 @@ used during distance extraction.</p></li>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rnascorer-class">RNAScorer Class</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rna_score.lib.RNAScorer"><code class="docutils literal notranslate"><span class="pre">RNAScorer</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rna_score.lib.RNAScorer.__call__"><code class="docutils literal notranslate"><span class="pre">RNAScorer.__call__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rna_score.lib.RNAScorer.__init__"><code class="docutils literal notranslate"><span class="pre">RNAScorer.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rna_score.lib.RNAScorer.extract_distances"><code class="docutils literal notranslate"><span class="pre">RNAScorer.extract_distances()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rna_score.lib.RNAScorer.plot_scores"><code class="docutils literal notranslate"><span class="pre">RNAScorer.plot_scores()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rna_score.lib.RNAScorer.run_workflow"><code class="docutils literal notranslate"><span class="pre">RNAScorer.run_workflow()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rna_score.lib.RNAScorer.save_plot_scores"><code class="docutils literal notranslate"><span class="pre">RNAScorer.save_plot_scores()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rna_score.lib.RNAScorer.score_structure"><code class="docutils literal notranslate"><span class="pre">RNAScorer.score_structure()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rna_score.lib.RNAScorer.train_scoring"><code class="docutils literal notranslate"><span class="pre">RNAScorer.train_scoring()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rna_score.lib.RNAScorer.save_plot_scores"><code class="docutils literal notranslate"><span class="pre">RNAScorer.save_plot_scores()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rna_score.lib.RNAScorer.plot_scores"><code class="docutils literal notranslate"><span class="pre">RNAScorer.plot_scores()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rna_score.lib.RNAScorer.score_structure"><code class="docutils literal notranslate"><span class="pre">RNAScorer.score_structure()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rna_score.lib.RNAScorer.run_workflow"><code class="docutils literal notranslate"><span class="pre">RNAScorer.run_workflow()</span></code></a></li>
 </ul>
 </li>
 </ul>
