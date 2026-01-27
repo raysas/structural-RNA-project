@@ -1,0 +1,2057 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>User Guide &#8212; rna_score 0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=379304cd" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'library/user_guide';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Command-Line Interface (CLI)" href="../cli.html" />
+    <link rel="prev" title="rna_score.lib Documentation" href="library.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.png" class="logo__image only-light" alt="rna_score 0.1.0 documentation - Home"/>
+    <img src="../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="rna_score 0.1.0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../background/index.html">
+    Background
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Library API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../cli.html">
+    Command-Line Interface (CLI)
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../webtool/index.html">
+    Web Tool
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../background/index.html">
+    Background
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Library API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../cli.html">
+    Command-Line Interface (CLI)
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../webtool/index.html">
+    Web Tool
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="library.html"><code class="docutils literal notranslate"><span class="pre">rna_score.lib</span></code> Documentation</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">User Guide</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Library API</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">User Guide</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="User-Guide">
+<h1>User Guide<a class="headerlink" href="#User-Guide" title="Link to this heading">#</a></h1>
+<p><em>this is a step by step user guide to the rna_score library</em></p>
+<p><strong>Motivation:</strong> The <code class="docutils literal notranslate"><span class="pre">rna_score</span></code> library is designed to provide a toolkit for RNA strcture prediction, particulalry aiming to create a suitable scoring function for RNA 3D structures. It offers a workflow to “train” a statistical potential based on known RNA structures, and then use this potential to score new RNA structures. The library is built to be modular and extensible, allowing users to customize various components of the scoring process.</p>
+<section id="Installation">
+<h2>Installation<a class="headerlink" href="#Installation" title="Link to this heading">#</a></h2>
+<p>The library can be installed via pip. You can install it directly from the GitHub repository using the following command:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !pip install git+https://github.com/raysas/structural-RNA-project.git</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">rna_score</span>
+<span class="n">rna_score</span><span class="o">.</span><span class="n">__version__</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;0.1.0&#39;
+</pre></div></div>
+</div>
+<p>As the library is under the <code class="docutils literal notranslate"><span class="pre">lib</span></code> submodule, you can import it as follows for efficient access</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">rna_score.lib</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">rna_score_lib</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Downloading-RNA-Structures">
+<h2>Downloading RNA Structures<a class="headerlink" href="#Downloading-RNA-Structures" title="Link to this heading">#</a></h2>
+<p>To start training a scorign function, you first need a dataset of known RNA 3D structures. The library provides utilities to download RNA structures from public databases like the Protein Data Bank (PDB). You can use the <code class="docutils literal notranslate"><span class="pre">download_rna_structures</span></code> function to fetch RNA structures based on specific criteria, and use the <code class="docutils literal notranslate"><span class="pre">help()</span></code> function to get more information about its usage.</p>
+<p>We will start off by installing 1000 RNA structures from the PDB database.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rna_score_lib</span><span class="o">.</span><span class="n">download_rna_structures</span><span class="p">(</span><span class="n">max_structures</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Searching for RNA structures in PDB...
+Found 1000 RNA structures
+
+Downloading 1000 structures in [&#39;pdb&#39;, &#39;cif&#39;] format(s)...
+Output directory: rna_structures
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Downloading:  61%|██████    | 1212/2000 [04:58&lt;03:07,  4.21it/s, Success=1210, Failed=1]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Download failed for 1vvj.pdb: HTTP 404 - Not Found
+Debug: Download failed for 1VVJ.pdb. See above for details.
+Download failed for 1vy4.pdb: HTTP 404 - Not Found
+Debug: Download failed for 1VY4.pdb. See above for details.
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Downloading:  61%|██████    | 1213/2000 [04:58&lt;03:29,  3.75it/s, Success=1210, Failed=3]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Download failed for 1vy5.pdb: HTTP 404 - Not Found
+Debug: Download failed for 1VY5.pdb. See above for details.
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Downloading:  61%|██████    | 1214/2000 [04:58&lt;03:50,  3.41it/s, Success=1210, Failed=4]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Download failed for 1vy6.pdb: HTTP 404 - Not Found
+Debug: Download failed for 1VY6.pdb. See above for details.
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Downloading:  61%|██████    | 1215/2000 [04:59&lt;04:27,  2.93it/s, Success=1210, Failed=5]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Download failed for 1vy7.pdb: HTTP 404 - Not Found
+Debug: Download failed for 1VY7.pdb. See above for details.
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Downloading: 100%|██████████| 2000/2000 [08:17&lt;00:00,  4.02it/s, Success=1995, Failed=5]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+==================================================
+Download Summary:
+  Total attempted: 2000
+  Successful: 1995
+  Failed: 5
+
+Failed downloads:
+  - 1VVJ.pdb
+  - 1VY4.pdb
+  - 1VY5.pdb
+  - 1VY6.pdb
+  - 1VY7.pdb
+
+Failed IDs saved to: rna_structures/failed_downloads.txt
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;pdb_ids&#39;: [&#39;124D&#39;,
+  &#39;157D&#39;,
+  &#39;165D&#39;,
+  &#39;176D&#39;,
+  &#39;17RA&#39;,
+  &#39;1A1T&#39;,
+  &#39;1A34&#39;,
+  &#39;1A3M&#39;,
+  &#39;1A4D&#39;,
+  &#39;1A4T&#39;,
+  &#39;1A51&#39;,
+  &#39;1A60&#39;,
+  &#39;1A9L&#39;,
+  &#39;1A9N&#39;,
+  &#39;1AC3&#39;,
+  &#39;1AFX&#39;,
+  &#39;1AJF&#39;,
+  &#39;1AJL&#39;,
+  &#39;1AJT&#39;,
+  &#39;1AJU&#39;,
+  &#39;1AKX&#39;,
+  &#39;1AL5&#39;,
+  &#39;1AM0&#39;,
+  &#39;1ANR&#39;,
+  &#39;1AQ3&#39;,
+  &#39;1AQ4&#39;,
+  &#39;1AQO&#39;,
+  &#39;1ARJ&#39;,
+  &#39;1ASY&#39;,
+  &#39;1ASZ&#39;,
+  &#39;1ATO&#39;,
+  &#39;1ATV&#39;,
+  &#39;1ATW&#39;,
+  &#39;1AUD&#39;,
+  &#39;1AV6&#39;,
+  &#39;1B23&#39;,
+  &#39;1B2M&#39;,
+  &#39;1B36&#39;,
+  &#39;1B7F&#39;,
+  &#39;1BAU&#39;,
+  &#39;1BGZ&#39;,
+  &#39;1BIV&#39;,
+  &#39;1BJ2&#39;,
+  &#39;1BMV&#39;,
+  &#39;1BN0&#39;,
+  &#39;1BR3&#39;,
+  &#39;1BVJ&#39;,
+  &#39;1BYJ&#39;,
+  &#39;1BYX&#39;,
+  &#39;1BZ2&#39;,
+  &#39;1BZ3&#39;,
+  &#39;1BZT&#39;,
+  &#39;1BZU&#39;,
+  &#39;1C04&#39;,
+  &#39;1C0A&#39;,
+  &#39;1C0O&#39;,
+  &#39;1C2Q&#39;,
+  &#39;1C2W&#39;,
+  &#39;1C2X&#39;,
+  &#39;1C4L&#39;,
+  &#39;1C9S&#39;,
+  &#39;1CGM&#39;,
+  &#39;1CQ5&#39;,
+  &#39;1CQL&#39;,
+  &#39;1CSL&#39;,
+  &#39;1CVJ&#39;,
+  &#39;1CWP&#39;,
+  &#39;1CX5&#39;,
+  &#39;1D0T&#39;,
+  &#39;1D0U&#39;,
+  &#39;1D4R&#39;,
+  &#39;1D6K&#39;,
+  &#39;1DDL&#39;,
+  &#39;1DDY&#39;,
+  &#39;1DFU&#39;,
+  &#39;1DI2&#39;,
+  &#39;1DK1&#39;,
+  &#39;1DQF&#39;,
+  &#39;1DQH&#39;,
+  &#39;1DRR&#39;,
+  &#39;1DRZ&#39;,
+  &#39;1DUH&#39;,
+  &#39;1DUL&#39;,
+  &#39;1DUQ&#39;,
+  &#39;1DV4&#39;,
+  &#39;1DZ5&#39;,
+  &#39;1E4P&#39;,
+  &#39;1E7K&#39;,
+  &#39;1E8O&#39;,
+  &#39;1E8S&#39;,
+  &#39;1E95&#39;,
+  &#39;1EBQ&#39;,
+  &#39;1EBR&#39;,
+  &#39;1EBS&#39;,
+  &#39;1EC6&#39;,
+  &#39;1EFO&#39;,
+  &#39;1EFS&#39;,
+  &#39;1EFW&#39;,
+  &#39;1EG0&#39;,
+  &#39;1EGK&#39;,
+  &#39;1EHT&#39;,
+  &#39;1EHZ&#39;,
+  &#39;1EI2&#39;,
+  &#39;1EIY&#39;,
+  &#39;1EJZ&#39;,
+  &#39;1EKA&#39;,
+  &#39;1EKD&#39;,
+  &#39;1EKZ&#39;,
+  &#39;1ELH&#39;,
+  &#39;1EMI&#39;,
+  &#39;1EQQ&#39;,
+  &#39;1ESH&#39;,
+  &#39;1ESY&#39;,
+  &#39;1ET4&#39;,
+  &#39;1ETF&#39;,
+  &#39;1ETG&#39;,
+  &#39;1EUQ&#39;,
+  &#39;1EUY&#39;,
+  &#39;1EVV&#39;,
+  &#39;1EXD&#39;,
+  &#39;1EXY&#39;,
+  &#39;1F1T&#39;,
+  &#39;1F27&#39;,
+  &#39;1F5G&#39;,
+  &#39;1F5H&#39;,
+  &#39;1F5U&#39;,
+  &#39;1F6U&#39;,
+  &#39;1F6X&#39;,
+  &#39;1F6Z&#39;,
+  &#39;1F78&#39;,
+  &#39;1F79&#39;,
+  &#39;1F7F&#39;,
+  &#39;1F7G&#39;,
+  &#39;1F7H&#39;,
+  &#39;1F7I&#39;,
+  &#39;1F7U&#39;,
+  &#39;1F7V&#39;,
+  &#39;1F7Y&#39;,
+  &#39;1F84&#39;,
+  &#39;1F85&#39;,
+  &#39;1F8V&#39;,
+  &#39;1F9L&#39;,
+  &#39;1FCW&#39;,
+  &#39;1FEQ&#39;,
+  &#39;1FEU&#39;,
+  &#39;1FFK&#39;,
+  &#39;1FFY&#39;,
+  &#39;1FFZ&#39;,
+  &#39;1FG0&#39;,
+  &#39;1FHK&#39;,
+  &#39;1FIR&#39;,
+  &#39;1FIX&#39;,
+  &#39;1FJE&#39;,
+  &#39;1FJG&#39;,
+  &#39;1FKA&#39;,
+  &#39;1FL8&#39;,
+  &#39;1FMN&#39;,
+  &#39;1FNX&#39;,
+  &#39;1FOQ&#39;,
+  &#39;1FQZ&#39;,
+  &#39;1FUF&#39;,
+  &#39;1FXL&#39;,
+  &#39;1FYO&#39;,
+  &#39;1FYP&#39;,
+  &#39;1G1X&#39;,
+  &#39;1G2E&#39;,
+  &#39;1G2J&#39;,
+  &#39;1G3A&#39;,
+  &#39;1G4Q&#39;,
+  &#39;1G59&#39;,
+  &#39;1G70&#39;,
+  &#39;1GAX&#39;,
+  &#39;1GID&#39;,
+  &#39;1GRZ&#39;,
+  &#39;1GSG&#39;,
+  &#39;1GTF&#39;,
+  &#39;1GTN&#39;,
+  &#39;1GTR&#39;,
+  &#39;1GTS&#39;,
+  &#39;1GUC&#39;,
+  &#39;1H0Q&#39;,
+  &#39;1H1K&#39;,
+  &#39;1H2C&#39;,
+  &#39;1H2D&#39;,
+  &#39;1H38&#39;,
+  &#39;1H3E&#39;,
+  &#39;1H4Q&#39;,
+  &#39;1H4S&#39;,
+  &#39;1HC8&#39;,
+  &#39;1HG9&#39;,
+  &#39;1HHW&#39;,
+  &#39;1HHX&#39;,
+  &#39;1HJI&#39;,
+  &#39;1HLX&#39;,
+  &#39;1HMH&#39;,
+  &#39;1HNW&#39;,
+  &#39;1HNX&#39;,
+  &#39;1HNZ&#39;,
+  &#39;1HQ1&#39;,
+  &#39;1HR0&#39;,
+  &#39;1HR2&#39;,
+  &#39;1HS1&#39;,
+  &#39;1HS2&#39;,
+  &#39;1HS3&#39;,
+  &#39;1HS4&#39;,
+  &#39;1HS8&#39;,
+  &#39;1HVU&#39;,
+  &#39;1HWQ&#39;,
+  &#39;1HYS&#39;,
+  &#39;1I3X&#39;,
+  &#39;1I3Y&#39;,
+  &#39;1I46&#39;,
+  &#39;1I4B&#39;,
+  &#39;1I4C&#39;,
+  &#39;1I5L&#39;,
+  &#39;1I6H&#39;,
+  &#39;1I6U&#39;,
+  &#39;1I7J&#39;,
+  &#39;1I94&#39;,
+  &#39;1I95&#39;,
+  &#39;1I96&#39;,
+  &#39;1I97&#39;,
+  &#39;1I9F&#39;,
+  &#39;1I9K&#39;,
+  &#39;1I9V&#39;,
+  &#39;1I9X&#39;,
+  &#39;1IBK&#39;,
+  &#39;1IBL&#39;,
+  &#39;1IBM&#39;,
+  &#39;1IDV&#39;,
+  &#39;1IE1&#39;,
+  &#39;1IE2&#39;,
+  &#39;1IK1&#39;,
+  &#39;1IK5&#39;,
+  &#39;1IKD&#39;,
+  &#39;1IL2&#39;,
+  &#39;1IVS&#39;,
+  &#39;1J1U&#39;,
+  &#39;1J2B&#39;,
+  &#39;1J4Y&#39;,
+  &#39;1J5A&#39;,
+  &#39;1J5E&#39;,
+  &#39;1J6S&#39;,
+  &#39;1J7T&#39;,
+  &#39;1J8G&#39;,
+  &#39;1J9H&#39;,
+  &#39;1JB8&#39;,
+  &#39;1JBR&#39;,
+  &#39;1JBS&#39;,
+  &#39;1JBT&#39;,
+  &#39;1JGO&#39;,
+  &#39;1JGP&#39;,
+  &#39;1JGQ&#39;,
+  &#39;1JID&#39;,
+  &#39;1JJ2&#39;,
+  &#39;1JO7&#39;,
+  &#39;1JOX&#39;,
+  &#39;1JP0&#39;,
+  &#39;1JTJ&#39;,
+  &#39;1JTW&#39;,
+  &#39;1JU1&#39;,
+  &#39;1JU7&#39;,
+  &#39;1JUR&#39;,
+  &#39;1JWC&#39;,
+  &#39;1JZC&#39;,
+  &#39;1JZV&#39;,
+  &#39;1JZX&#39;,
+  &#39;1JZY&#39;,
+  &#39;1JZZ&#39;,
+  &#39;1K01&#39;,
+  &#39;1K1G&#39;,
+  &#39;1K2G&#39;,
+  &#39;1K4A&#39;,
+  &#39;1K4B&#39;,
+  &#39;1K5I&#39;,
+  &#39;1K6G&#39;,
+  &#39;1K6H&#39;,
+  &#39;1K73&#39;,
+  &#39;1K8A&#39;,
+  &#39;1K8S&#39;,
+  &#39;1K8W&#39;,
+  &#39;1K9M&#39;,
+  &#39;1K9W&#39;,
+  &#39;1KAJ&#39;,
+  &#39;1KC8&#39;,
+  &#39;1KD1&#39;,
+  &#39;1KD3&#39;,
+  &#39;1KD4&#39;,
+  &#39;1KD5&#39;,
+  &#39;1KFO&#39;,
+  &#39;1KH6&#39;,
+  &#39;1KIS&#39;,
+  &#39;1KKA&#39;,
+  &#39;1KKS&#39;,
+  &#39;1KNZ&#39;,
+  &#39;1KOC&#39;,
+  &#39;1KOD&#39;,
+  &#39;1KOG&#39;,
+  &#39;1KOS&#39;,
+  &#39;1KP7&#39;,
+  &#39;1KPD&#39;,
+  &#39;1KPY&#39;,
+  &#39;1KPZ&#39;,
+  &#39;1KQ2&#39;,
+  &#39;1KQS&#39;,
+  &#39;1KUQ&#39;,
+  &#39;1KXK&#39;,
+  &#39;1L1C&#39;,
+  &#39;1L1W&#39;,
+  &#39;1L2X&#39;,
+  &#39;1L3D&#39;,
+  &#39;1L3Z&#39;,
+  &#39;1L8V&#39;,
+  &#39;1L9A&#39;,
+  &#39;1LAJ&#39;,
+  &#39;1LC4&#39;,
+  &#39;1LC6&#39;,
+  &#39;1LDZ&#39;,
+  &#39;1LMV&#39;,
+  &#39;1LNG&#39;,
+  &#39;1LNT&#39;,
+  &#39;1LPW&#39;,
+  &#39;1LS2&#39;,
+  &#39;1LU3&#39;,
+  &#39;1LUU&#39;,
+  &#39;1LUX&#39;,
+  &#39;1LVJ&#39;,
+  &#39;1M1K&#39;,
+  &#39;1M5K&#39;,
+  &#39;1M5L&#39;,
+  &#39;1M5O&#39;,
+  &#39;1M5P&#39;,
+  &#39;1M5V&#39;,
+  &#39;1M82&#39;,
+  &#39;1M8V&#39;,
+  &#39;1M8W&#39;,
+  &#39;1M8X&#39;,
+  &#39;1M8Y&#39;,
+  &#39;1M90&#39;,
+  &#39;1MDG&#39;,
+  &#39;1ME1&#39;,
+  &#39;1MFJ&#39;,
+  &#39;1MFK&#39;,
+  &#39;1MFQ&#39;,
+  &#39;1MFY&#39;,
+  &#39;1MHK&#39;,
+  &#39;1MIS&#39;,
+  &#39;1MJ1&#39;,
+  &#39;1MJI&#39;,
+  &#39;1ML5&#39;,
+  &#39;1MME&#39;,
+  &#39;1MMS&#39;,
+  &#39;1MNB&#39;,
+  &#39;1MNX&#39;,
+  &#39;1MSW&#39;,
+  &#39;1MSY&#39;,
+  &#39;1MT4&#39;,
+  &#39;1MUV&#39;,
+  &#39;1MV1&#39;,
+  &#39;1MV2&#39;,
+  &#39;1MV6&#39;,
+  &#39;1MVR&#39;,
+  &#39;1MWG&#39;,
+  &#39;1MWL&#39;,
+  &#39;1MY9&#39;,
+  &#39;1MZP&#39;,
+  &#39;1N1H&#39;,
+  &#39;1N32&#39;,
+  &#39;1N33&#39;,
+  &#39;1N34&#39;,
+  &#39;1N35&#39;,
+  &#39;1N36&#39;,
+  &#39;1N38&#39;,
+  &#39;1N53&#39;,
+  &#39;1N66&#39;,
+  &#39;1N77&#39;,
+  &#39;1N78&#39;,
+  &#39;1N8R&#39;,
+  &#39;1N8X&#39;,
+  &#39;1NA2&#39;,
+  &#39;1NAO&#39;,
+  &#39;1NB7&#39;,
+  &#39;1NBK&#39;,
+  &#39;1NBR&#39;,
+  &#39;1NBS&#39;,
+  &#39;1NC0&#39;,
+  &#39;1NEM&#39;,
+  &#39;1NJI&#39;,
+  &#39;1NJM&#39;,
+  &#39;1NJN&#39;,
+  &#39;1NJO&#39;,
+  &#39;1NJP&#39;,
+  &#39;1NKW&#39;,
+  &#39;1NLC&#39;,
+  &#39;1NTA&#39;,
+  &#39;1NTB&#39;,
+  &#39;1NTQ&#39;,
+  &#39;1NTS&#39;,
+  &#39;1NTT&#39;,
+  &#39;1NUJ&#39;,
+  &#39;1NUV&#39;,
+  &#39;1NWX&#39;,
+  &#39;1NWY&#39;,
+  &#39;1NXR&#39;,
+  &#39;1NYB&#39;,
+  &#39;1NYI&#39;,
+  &#39;1NZ1&#39;,
+  &#39;1O0B&#39;,
+  &#39;1O0C&#39;,
+  &#39;1O15&#39;,
+  &#39;1O3Z&#39;,
+  &#39;1O9M&#39;,
+  &#39;1OB2&#39;,
+  &#39;1OB5&#39;,
+  &#39;1OKF&#39;,
+  &#39;1OLN&#39;,
+  &#39;1OND&#39;,
+  &#39;1OO7&#39;,
+  &#39;1OOA&#39;,
+  &#39;1OQ0&#39;,
+  &#39;1OSU&#39;,
+  &#39;1OSW&#39;,
+  &#39;1OW9&#39;,
+  &#39;1P5M&#39;,
+  &#39;1P5N&#39;,
+  &#39;1P5O&#39;,
+  &#39;1P5P&#39;,
+  &#39;1P6V&#39;,
+  &#39;1P79&#39;,
+  &#39;1P9X&#39;,
+  &#39;1PBL&#39;,
+  &#39;1PBM&#39;,
+  &#39;1PBR&#39;,
+  &#39;1PGL&#39;,
+  &#39;1PJG&#39;,
+  &#39;1PJO&#39;,
+  &#39;1PJY&#39;,
+  &#39;1PN7&#39;,
+  &#39;1PN8&#39;,
+  &#39;1PVO&#39;,
+  &#39;1Q29&#39;,
+  &#39;1Q2R&#39;,
+  &#39;1Q2S&#39;,
+  &#39;1Q75&#39;,
+  &#39;1Q7Y&#39;,
+  &#39;1Q81&#39;,
+  &#39;1Q82&#39;,
+  &#39;1Q86&#39;,
+  &#39;1Q8N&#39;,
+  &#39;1Q93&#39;,
+  &#39;1Q96&#39;,
+  &#39;1Q9A&#39;,
+  &#39;1QA6&#39;,
+  &#39;1QBP&#39;,
+  &#39;1QC0&#39;,
+  &#39;1QC8&#39;,
+  &#39;1QCU&#39;,
+  &#39;1QD3&#39;,
+  &#39;1QD7&#39;,
+  &#39;1QES&#39;,
+  &#39;1QET&#39;,
+  &#39;1QF6&#39;,
+  &#39;1QFQ&#39;,
+  &#39;1QLN&#39;,
+  &#39;1QRS&#39;,
+  &#39;1QRT&#39;,
+  &#39;1QRU&#39;,
+  &#39;1QTQ&#39;,
+  &#39;1QU2&#39;,
+  &#39;1QU3&#39;,
+  &#39;1QVF&#39;,
+  &#39;1QVG&#39;,
+  &#39;1QWA&#39;,
+  &#39;1QWB&#39;,
+  &#39;1QZA&#39;,
+  &#39;1QZB&#39;,
+  &#39;1QZC&#39;,
+  &#39;1QZW&#39;,
+  &#39;1R2P&#39;,
+  &#39;1R2W&#39;,
+  &#39;1R2X&#39;,
+  &#39;1R3E&#39;,
+  &#39;1R3O&#39;,
+  &#39;1R3X&#39;,
+  &#39;1R4H&#39;,
+  &#39;1R7W&#39;,
+  &#39;1R7Z&#39;,
+  &#39;1R9F&#39;,
+  &#39;1R9S&#39;,
+  &#39;1R9T&#39;,
+  &#39;1RAU&#39;,
+  &#39;1RAW&#39;,
+  &#39;1RC7&#39;,
+  &#39;1RFR&#39;,
+  &#39;1RGO&#39;,
+  &#39;1RHT&#39;,
+  &#39;1RKJ&#39;,
+  &#39;1RLG&#39;,
+  &#39;1RMN&#39;,
+  &#39;1RMV&#39;,
+  &#39;1RNA&#39;,
+  &#39;1RNG&#39;,
+  &#39;1RNK&#39;,
+  &#39;1ROQ&#39;,
+  &#39;1RPU&#39;,
+  &#39;1RRD&#39;,
+  &#39;1RRR&#39;,
+  &#39;1RXA&#39;,
+  &#39;1RXB&#39;,
+  &#39;1RY1&#39;,
+  &#39;1S03&#39;,
+  &#39;1S0V&#39;,
+  &#39;1S2F&#39;,
+  &#39;1S34&#39;,
+  &#39;1S72&#39;,
+  &#39;1S76&#39;,
+  &#39;1S77&#39;,
+  &#39;1S9L&#39;,
+  &#39;1S9S&#39;,
+  &#39;1SA9&#39;,
+  &#39;1SAQ&#39;,
+  &#39;1SCL&#39;,
+  &#39;1SDR&#39;,
+  &#39;1SDS&#39;,
+  &#39;1SER&#39;,
+  &#39;1SFO&#39;,
+  &#39;1SI3&#39;,
+  &#39;1SJ3&#39;,
+  &#39;1SJ4&#39;,
+  &#39;1SJF&#39;,
+  &#39;1SLO&#39;,
+  &#39;1SLP&#39;,
+  &#39;1SM1&#39;,
+  &#39;1SY4&#39;,
+  &#39;1SYZ&#39;,
+  &#39;1SZ1&#39;,
+  &#39;1SZY&#39;,
+  &#39;1T0D&#39;,
+  &#39;1T0E&#39;,
+  &#39;1T0K&#39;,
+  &#39;1T1M&#39;,
+  &#39;1T1O&#39;,
+  &#39;1T28&#39;,
+  &#39;1T2R&#39;,
+  &#39;1T4L&#39;,
+  &#39;1T4X&#39;,
+  &#39;1TBK&#39;,
+  &#39;1TFN&#39;,
+  &#39;1TFW&#39;,
+  &#39;1TFY&#39;,
+  &#39;1TJZ&#39;,
+  &#39;1TLR&#39;,
+  &#39;1TN1&#39;,
+  &#39;1TN2&#39;,
+  &#39;1TOB&#39;,
+  &#39;1TRA&#39;,
+  &#39;1TRJ&#39;,
+  &#39;1TTT&#39;,
+  &#39;1TUT&#39;,
+  &#39;1TXS&#39;,
+  &#39;1U0B&#39;,
+  &#39;1U1Y&#39;,
+  &#39;1U2A&#39;,
+  &#39;1U3K&#39;,
+  &#39;1U63&#39;,
+  &#39;1U6B&#39;,
+  &#39;1U6P&#39;,
+  &#39;1U9S&#39;,
+  &#39;1ULL&#39;,
+  &#39;1UN6&#39;,
+  &#39;1UON&#39;,
+  &#39;1URN&#39;,
+  &#39;1UTD&#39;,
+  &#39;1UTS&#39;,
+  &#39;1UUD&#39;,
+  &#39;1UUI&#39;,
+  &#39;1UUU&#39;,
+  &#39;1UVI&#39;,
+  &#39;1UVJ&#39;,
+  &#39;1UVK&#39;,
+  &#39;1UVL&#39;,
+  &#39;1UVM&#39;,
+  &#39;1UVN&#39;,
+  &#39;1VBX&#39;,
+  &#39;1VBY&#39;,
+  &#39;1VBZ&#39;,
+  &#39;1VC0&#39;,
+  &#39;1VC5&#39;,
+  &#39;1VC6&#39;,
+  &#39;1VFG&#39;,
+  &#39;1VOP&#39;,
+  &#39;1VQ4&#39;,
+  &#39;1VQ5&#39;,
+  &#39;1VQ6&#39;,
+  &#39;1VQ7&#39;,
+  &#39;1VQ8&#39;,
+  &#39;1VQ9&#39;,
+  &#39;1VQK&#39;,
+  &#39;1VQL&#39;,
+  &#39;1VQM&#39;,
+  &#39;1VQN&#39;,
+  &#39;1VQO&#39;,
+  &#39;1VQP&#39;,
+  &#39;1VTM&#39;,
+  &#39;1VTQ&#39;,
+  &#39;1VVJ&#39;,
+  &#39;1VY4&#39;,
+  &#39;1VY5&#39;,
+  &#39;1VY6&#39;,
+  &#39;1VY7&#39;,
+  &#39;1W2B&#39;,
+  &#39;1WKS&#39;,
+  &#39;1WMQ&#39;,
+  &#39;1WNE&#39;,
+  &#39;1WPU&#39;,
+  &#39;1WRQ&#39;,
+  &#39;1WSU&#39;,
+  &#39;1WTS&#39;,
+  &#39;1WTT&#39;,
+  &#39;1WVD&#39;,
+  &#39;1WWD&#39;,
+  &#39;1WWE&#39;,
+  &#39;1WWF&#39;,
+  &#39;1WWG&#39;,
+  &#39;1WZ2&#39;,
+  &#39;1X18&#39;,
+  &#39;1X1L&#39;,
+  &#39;1X8W&#39;,
+  &#39;1X9C&#39;,
+  &#39;1X9K&#39;,
+  &#39;1XBP&#39;,
+  &#39;1XHP&#39;,
+  &#39;1XJR&#39;,
+  &#39;1XMO&#39;,
+  &#39;1XMQ&#39;,
+  &#39;1XNQ&#39;,
+  &#39;1XNR&#39;,
+  &#39;1XOK&#39;,
+  &#39;1XP7&#39;,
+  &#39;1XPE&#39;,
+  &#39;1XPF&#39;,
+  &#39;1XPO&#39;,
+  &#39;1XPR&#39;,
+  &#39;1XPU&#39;,
+  &#39;1XSG&#39;,
+  &#39;1XSH&#39;,
+  &#39;1XST&#39;,
+  &#39;1XSU&#39;,
+  &#39;1XV0&#39;,
+  &#39;1XV6&#39;,
+  &#39;1XWP&#39;,
+  &#39;1XWU&#39;,
+  &#39;1Y0Q&#39;,
+  &#39;1Y1W&#39;,
+  &#39;1Y1Y&#39;,
+  &#39;1Y26&#39;,
+  &#39;1Y27&#39;,
+  &#39;1Y39&#39;,
+  &#39;1Y3O&#39;,
+  &#39;1Y3S&#39;,
+  &#39;1Y69&#39;,
+  &#39;1Y6S&#39;,
+  &#39;1Y6T&#39;,
+  &#39;1Y73&#39;,
+  &#39;1Y77&#39;,
+  &#39;1Y90&#39;,
+  &#39;1Y95&#39;,
+  &#39;1Y99&#39;,
+  &#39;1YFG&#39;,
+  &#39;1YFV&#39;,
+  &#39;1YG3&#39;,
+  &#39;1YG4&#39;,
+  &#39;1YHQ&#39;,
+  &#39;1YI2&#39;,
+  &#39;1YIJ&#39;,
+  &#39;1YIT&#39;,
+  &#39;1YJ9&#39;,
+  &#39;1YJN&#39;,
+  &#39;1YJW&#39;,
+  &#39;1YKQ&#39;,
+  &#39;1YKV&#39;,
+  &#39;1YLG&#39;,
+  &#39;1YLS&#39;,
+  &#39;1YMO&#39;,
+  &#39;1YN1&#39;,
+  &#39;1YN2&#39;,
+  &#39;1YNC&#39;,
+  &#39;1YNE&#39;,
+  &#39;1YNG&#39;,
+  &#39;1YRJ&#39;,
+  &#39;1YSH&#39;,
+  &#39;1YSV&#39;,
+  &#39;1YTU&#39;,
+  &#39;1YTY&#39;,
+  &#39;1YVP&#39;,
+  &#39;1YXP&#39;,
+  &#39;1YY0&#39;,
+  &#39;1YYK&#39;,
+  &#39;1YYO&#39;,
+  &#39;1YYW&#39;,
+  &#39;1YZ9&#39;,
+  &#39;1YZD&#39;,
+  &#39;1Z2J&#39;,
+  &#39;1Z30&#39;,
+  &#39;1Z31&#39;,
+  &#39;1Z43&#39;,
+  &#39;1Z58&#39;,
+  &#39;1Z79&#39;,
+  &#39;1Z7F&#39;,
+  &#39;1ZBH&#39;,
+  &#39;1ZBI&#39;,
+  &#39;1ZBL&#39;,
+  &#39;1ZBN&#39;,
+  &#39;1ZC5&#39;,
+  &#39;1ZC8&#39;,
+  &#39;1ZCI&#39;,
+  &#39;1ZDH&#39;,
+  &#39;1ZDI&#39;,
+  &#39;1ZDJ&#39;,
+  &#39;1ZDK&#39;,
+  &#39;1ZE2&#39;,
+  &#39;1ZEV&#39;,
+  &#39;1ZFT&#39;,
+  &#39;1ZFV&#39;,
+  &#39;1ZFX&#39;,
+  &#39;1ZH5&#39;,
+  &#39;1ZHO&#39;,
+  &#39;1ZIF&#39;,
+  &#39;1ZIG&#39;,
+  &#39;1ZIH&#39;,
+  &#39;1ZJW&#39;,
+  &#39;1ZL3&#39;,
+  &#39;1ZN0&#39;,
+  &#39;1ZN1&#39;,
+  &#39;1ZO1&#39;,
+  &#39;1ZO3&#39;,
+  &#39;1ZSE&#39;,
+  &#39;1ZX7&#39;,
+  &#39;1ZZ5&#39;,
+  &#39;1ZZN&#39;,
+  &#39;205D&#39;,
+  &#39;219D&#39;,
+  &#39;21CC&#39;,
+  &#39;21WE&#39;,
+  &#39;21WJ&#39;,
+  &#39;255D&#39;,
+  &#39;259D&#39;,
+  &#39;280D&#39;,
+  &#39;283D&#39;,
+  &#39;28SP&#39;,
+  &#39;28SR&#39;,
+  &#39;299D&#39;,
+  &#39;2A04&#39;,
+  &#39;2A0P&#39;,
+  &#39;2A1R&#39;,
+  &#39;2A2E&#39;,
+  &#39;2A43&#39;,
+  &#39;2A64&#39;,
+  &#39;2A8V&#39;,
+  &#39;2A9L&#39;,
+  &#39;2A9X&#39;,
+  &#39;2AAR&#39;,
+  &#39;2AB4&#39;,
+  &#39;2AD9&#39;,
+  &#39;2ADB&#39;,
+  &#39;2ADC&#39;,
+  &#39;2ADT&#39;,
+  &#39;2AGN&#39;,
+  &#39;2AHT&#39;,
+  &#39;2AKE&#39;,
+  &#39;2ANN&#39;,
+  &#39;2ANR&#39;,
+  &#39;2AO5&#39;,
+  &#39;2AP0&#39;,
+  &#39;2AP5&#39;,
+  &#39;2ASB&#39;,
+  &#39;2ATW&#39;,
+  &#39;2AU4&#39;,
+  &#39;2AWE&#39;,
+  &#39;2AWQ&#39;,
+  &#39;2AZ0&#39;,
+  &#39;2AZ2&#39;,
+  &#39;2AZX&#39;,
+  &#39;2B2D&#39;,
+  &#39;2B2E&#39;,
+  &#39;2B2G&#39;,
+  &#39;2B3J&#39;,
+  &#39;2B57&#39;,
+  &#39;2B63&#39;,
+  &#39;2B6G&#39;,
+  &#39;2B7G&#39;,
+  &#39;2B8R&#39;,
+  &#39;2B8S&#39;,
+  &#39;2BBV&#39;,
+  &#39;2BCY&#39;,
+  &#39;2BCZ&#39;,
+  &#39;2BE0&#39;,
+  &#39;2BEE&#39;,
+  &#39;2BGG&#39;,
+  &#39;2BH2&#39;,
+  &#39;2BJ2&#39;,
+  &#39;2BJ6&#39;,
+  &#39;2BNY&#39;,
+  &#39;2BQ5&#39;,
+  &#39;2BS0&#39;,
+  &#39;2BS1&#39;,
+  &#39;2BTE&#39;,
+  &#39;2BU1&#39;,
+  &#39;2BX2&#39;,
+  &#39;2BYT&#39;,
+  &#39;2C06&#39;,
+  &#39;2C0B&#39;,
+  &#39;2C4Q&#39;,
+  &#39;2C4R&#39;,
+  &#39;2C4Y&#39;,
+  &#39;2C4Z&#39;,
+  &#39;2C50&#39;,
+  &#39;2C51&#39;,
+  &#39;2CD1&#39;,
+  &#39;2CD3&#39;,
+  &#39;2CD5&#39;,
+  &#39;2CD6&#39;,
+  &#39;2CJK&#39;,
+  &#39;2CKY&#39;,
+  &#39;2CSX&#39;,
+  &#39;2CT8&#39;,
+  &#39;2CV0&#39;,
+  &#39;2CV1&#39;,
+  &#39;2CV2&#39;,
+  &#39;2CZJ&#39;,
+  &#39;2D17&#39;,
+  &#39;2D18&#39;,
+  &#39;2D19&#39;,
+  &#39;2D1A&#39;,
+  &#39;2D1B&#39;,
+  &#39;2D2K&#39;,
+  &#39;2D2L&#39;,
+  &#39;2D3O&#39;,
+  &#39;2D6F&#39;,
+  &#39;2DB3&#39;,
+  &#39;2DD1&#39;,
+  &#39;2DD2&#39;,
+  &#39;2DD3&#39;,
+  &#39;2DER&#39;,
+  &#39;2DET&#39;,
+  &#39;2DEU&#39;,
+  &#39;2DLC&#39;,
+  &#39;2DQO&#39;,
+  &#39;2DQP&#39;,
+  &#39;2DQQ&#39;,
+  &#39;2DR2&#39;,
+  &#39;2DR5&#39;,
+  &#39;2DR7&#39;,
+  &#39;2DR8&#39;,
+  &#39;2DR9&#39;,
+  &#39;2DRA&#39;,
+  &#39;2DRB&#39;,
+  &#39;2DU3&#39;,
+  &#39;2DU4&#39;,
+  &#39;2DU5&#39;,
+  &#39;2DU6&#39;,
+  &#39;2DVI&#39;,
+  &#39;2DXI&#39;,
+  &#39;2E2H&#39;,
+  &#39;2E2I&#39;,
+  &#39;2E2J&#39;,
+  &#39;2E5L&#39;,
+  &#39;2E9R&#39;,
+  &#39;2E9T&#39;,
+  &#39;2E9Z&#39;,
+  &#39;2EC0&#39;,
+  &#39;2EES&#39;,
+  &#39;2EET&#39;,
+  &#39;2EEU&#39;,
+  &#39;2EEV&#39;,
+  &#39;2EEW&#39;,
+  &#39;2ERR&#39;,
+  &#39;2ES5&#39;,
+  &#39;2ESE&#39;,
+  &#39;2ESI&#39;,
+  &#39;2ESJ&#39;,
+  &#39;2ET3&#39;,
+  &#39;2ET4&#39;,
+  &#39;2ET5&#39;,
+  &#39;2ET8&#39;,
+  &#39;2EUY&#39;,
+  &#39;2EVY&#39;,
+  &#39;2EZ6&#39;,
+  &#39;2F4S&#39;,
+  &#39;2F4T&#39;,
+  &#39;2F4U&#39;,
+  &#39;2F4V&#39;,
+  &#39;2F4X&#39;,
+  &#39;2F87&#39;,
+  &#39;2F88&#39;,
+  &#39;2F8K&#39;,
+  &#39;2F8S&#39;,
+  &#39;2F8T&#39;,
+  &#39;2FCX&#39;,
+  &#39;2FCY&#39;,
+  &#39;2FCZ&#39;,
+  &#39;2FD0&#39;,
+  &#39;2FDT&#39;,
+  &#39;2FEY&#39;,
+  &#39;2FGP&#39;,
+  &#39;2FK6&#39;,
+  &#39;2FMT&#39;,
+  &#39;2FQN&#39;,
+  &#39;2FTC&#39;,
+  &#39;2FY1&#39;,
+  &#39;2FZ2&#39;,
+  &#39;2G1G&#39;,
+  &#39;2G1W&#39;,
+  &#39;2G32&#39;,
+  &#39;2G3S&#39;,
+  &#39;2G4B&#39;,
+  &#39;2G5K&#39;,
+  &#39;2G8F&#39;,
+  &#39;2G8H&#39;,
+  &#39;2G8I&#39;,
+  &#39;2G8K&#39;,
+  &#39;2G8U&#39;,
+  &#39;2G8V&#39;,
+  &#39;2G8W&#39;,
+  &#39;2G91&#39;,
+  &#39;2G92&#39;,
+  &#39;2G9C&#39;,
+  &#39;2GBH&#39;,
+  &#39;2GCS&#39;,
+  &#39;2GCV&#39;,
+  &#39;2GDI&#39;,
+  &#39;2GIC&#39;,
+  &#39;2GIO&#39;,
+  &#39;2GIP&#39;,
+  &#39;2GIS&#39;,
+  &#39;2GJE&#39;,
+  &#39;2GJW&#39;,
+  &#39;2GM0&#39;,
+  &#39;2GO5&#39;,
+  &#39;2GPM&#39;,
+  &#39;2GQ4&#39;,
+  &#39;2GQ5&#39;,
+  &#39;2GQ6&#39;,
+  &#39;2GQ7&#39;,
+  &#39;2GRB&#39;,
+  &#39;2GRW&#39;,
+  &#39;2GTT&#39;,
+  &#39;2GUN&#39;,
+  &#39;2GV3&#39;,
+  &#39;2GV4&#39;,
+  &#39;2GVO&#39;,
+  &#39;2GXB&#39;,
+  &#39;2H0S&#39;,
+  &#39;2H0W&#39;,
+  &#39;2H0X&#39;,
+  &#39;2H0Z&#39;,
+  &#39;2H1M&#39;,
+  &#39;2H49&#39;,
+  &#39;2HEM&#39;,
+  &#39;2HGH&#39;,
+  &#39;2HHH&#39;,
+  &#39;2HNS&#39;,
+  &#39;2HO6&#39;,
+  &#39;2HO7&#39;,
+  &#39;2HOJ&#39;,
+  &#39;2HOK&#39;,
+  &#39;2HOL&#39;,
+  &#39;2HOM&#39;,
+  &#39;2HOO&#39;,
+  &#39;2HOP&#39;,
+  &#39;2HT1&#39;,
+  &#39;2HUA&#39;,
+  &#39;2HVY&#39;,
+  &#39;2HW8&#39;,
+  &#39;2HYI&#39;,
+  &#39;2I2Y&#39;,
+  &#39;2I7E&#39;,
+  &#39;2I7Z&#39;,
+  &#39;2I82&#39;,
+  &#39;2I91&#39;,
+  &#39;2IHX&#39;,
+  &#39;2IL9&#39;,
+  &#39;2IRN&#39;,
+  &#39;2IRO&#39;,
+  &#39;2IX1&#39;,
+  &#39;2IXY&#39;,
+  &#39;2IXZ&#39;,
+  &#39;2IY3&#39;,
+  &#39;2IY5&#39;,
+  &#39;2IZ8&#39;,
+  &#39;2IZ9&#39;,
+  &#39;2IZM&#39;,
+  &#39;2IZN&#39;,
+  &#39;2J0Q&#39;,
+  &#39;2J0S&#39;,
+  &#39;2J28&#39;,
+  &#39;2J37&#39;,
+  &#39;2JA5&#39;,
+  &#39;2JA6&#39;,
+  &#39;2JA7&#39;],
+ &#39;output_dir&#39;: PosixPath(&#39;rna_structures&#39;),
+ &#39;pdb_dir&#39;: PosixPath(&#39;rna_structures/pdb&#39;),
+ &#39;mmcif_dir&#39;: PosixPath(&#39;rna_structures/mmcif&#39;),
+ &#39;info&#39;: None}
+</pre></div></div>
+</div>
+</section>
+<section id="Example-1:-Default-Scoring-Function">
+<h2>Example 1: Default Scoring Function<a class="headerlink" href="#Example-1:-Default-Scoring-Function" title="Link to this heading">#</a></h2>
+<section id="Creating-a-Scorer-object">
+<h3>Creating a Scorer object<a class="headerlink" href="#Creating-a-Scorer-object" title="Link to this heading">#</a></h3>
+<p>The score function is encapsulated in a <code class="docutils literal notranslate"><span class="pre">RNAScorer</span></code> class, which manages the entire scoring process. You can create an instance of the <code class="docutils literal notranslate"><span class="pre">RNAScorer</span></code> class which will have the training performed on</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vanilla_scorer</span> <span class="o">=</span> <span class="n">rna_score_lib</span><span class="o">.</span><span class="n">RNAScorer</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Extraction-of-distances">
+<h3>Extraction of distances<a class="headerlink" href="#Extraction-of-distances" title="Link to this heading">#</a></h3>
+<div class="line-block">
+<div class="line">First starting by the extracting distances from structures in either <code class="docutils literal notranslate"><span class="pre">structures/pdb</span></code> or <code class="docutils literal notranslate"><span class="pre">structures/cif</span></code>, as it can read both formats.</div>
+<div class="line">The default parameters for bins, atom_mode and ethod (histogram) are used when no parameters are provided, others can be specified as needed (see examples below).</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vanilla_scorer</span><span class="o">.</span><span class="n">extract_distances</span><span class="p">(</span><span class="n">folder</span><span class="o">=</span><span class="s1">&#39;rna_structures/pdb&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Searching for files in: rna_structures/pdb
+Found 995 files to process. Starting batch processing...
+Starting Parallel Processing (Atom Mode: C3&#39;)...
+  ...processed 10/995 structures
+  ...processed 20/995 structures
+  ...processed 30/995 structures
+  ...processed 40/995 structures
+  ...processed 50/995 structures
+  ...processed 60/995 structures
+  ...processed 70/995 structures
+  ...processed 80/995 structures
+  ...processed 100/995 structures
+  ...processed 120/995 structures
+  ...processed 130/995 structures
+  ...processed 140/995 structures
+  ...processed 150/995 structures
+  ...processed 160/995 structures
+  ...processed 170/995 structures
+  ...processed 180/995 structures
+  ...processed 190/995 structures
+  ...processed 200/995 structures
+  ...processed 210/995 structures
+  ...processed 220/995 structures
+  ...processed 230/995 structures
+  ...processed 240/995 structures
+  ...processed 250/995 structures
+  ...processed 260/995 structures
+  ...processed 270/995 structures
+  ...processed 280/995 structures
+  ...processed 290/995 structures
+  ...processed 300/995 structures
+  ...processed 310/995 structures
+  ...processed 320/995 structures
+  ...processed 330/995 structures
+  ...processed 340/995 structures
+  ...processed 350/995 structures
+  ...processed 360/995 structures
+  ...processed 370/995 structures
+  ...processed 380/995 structures
+  ...processed 390/995 structures
+  ...processed 400/995 structures
+  ...processed 410/995 structures
+  ...processed 420/995 structures
+  ...processed 430/995 structures
+  ...processed 440/995 structures
+  ...processed 450/995 structures
+  ...processed 460/995 structures
+  ...processed 470/995 structures
+  ...processed 490/995 structures
+  ...processed 500/995 structures
+  ...processed 510/995 structures
+  ...processed 520/995 structures
+  ...processed 530/995 structures
+  ...processed 540/995 structures
+  ...processed 550/995 structures
+  ...processed 560/995 structures
+  ...processed 570/995 structures
+  ...processed 580/995 structures
+  ...processed 590/995 structures
+  ...processed 600/995 structures
+  ...processed 610/995 structures
+  ...processed 620/995 structures
+  ...processed 630/995 structures
+  ...processed 640/995 structures
+  ...processed 660/995 structures
+  ...processed 670/995 structures
+  ...processed 680/995 structures
+  ...processed 690/995 structures
+  ...processed 700/995 structures
+  ...processed 720/995 structures
+  ...processed 730/995 structures
+  ...processed 740/995 structures
+  ...processed 750/995 structures
+  ...processed 760/995 structures
+  ...processed 770/995 structures
+  ...processed 780/995 structures
+  ...processed 790/995 structures
+  ...processed 800/995 structures
+  ...processed 810/995 structures
+  ...processed 820/995 structures
+  ...processed 830/995 structures
+  ...processed 840/995 structures
+  ...processed 850/995 structures
+  ...processed 860/995 structures
+  ...processed 870/995 structures
+  ...processed 880/995 structures
+  ...processed 890/995 structures
+  ...processed 900/995 structures
+  ...processed 910/995 structures
+  ...processed 920/995 structures
+  ...processed 930/995 structures
+  ...processed 940/995 structures
+  ...processed 950/995 structures
+  ...processed 960/995 structures
+  ...processed 970/995 structures
+  ...processed 980/995 structures
+  ...processed 990/995 structures
+Batch processing complete in 9.23 seconds.
+
+Writing results to &#39;dist_data/&#39; (Method: HISTOGRAM)...
+Pipeline completed successfully.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+PosixPath(&#39;dist_data&#39;)
+</pre></div></div>
+</div>
+</section>
+<section id="Training-the-Scoring-Function">
+<h3>Training the Scoring Function<a class="headerlink" href="#Training-the-Scoring-Function" title="Link to this heading">#</a></h3>
+<p>Here the training following the formula described in the documentation is performed, using the extracted distances to compute the statistical potential (v0.1.0).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vanilla_scorer</span><span class="o">.</span><span class="n">train_scoring</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+PosixPath(&#39;training_output&#39;)
+</pre></div></div>
+</div>
+<p>We can check the computation’s output already performed are stored in the <code class="docutils literal notranslate"><span class="pre">RNAScorer</span></code> object for further use, like the histograms of each atom pair</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vanilla_scorer</span><span class="o">.</span><span class="n">histograms</span><span class="p">[</span><span class="s1">&#39;AA_histogram&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>51</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>469</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2014</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2524</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>3526</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>5021</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>7095</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>13628</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>13941</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>15734</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>20356</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>24836</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>26466</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>28893</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>32480</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>36622</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Plotting-the-Scoring-Function">
+<h3>Plotting the Scoring Function<a class="headerlink" href="#Plotting-the-Scoring-Function" title="Link to this heading">#</a></h3>
+<p>An interactive view of the scorings accross teh different pairs can be visualized via the <code class="docutils literal notranslate"><span class="pre">plot_scores()</span></code> method of the <code class="docutils literal notranslate"><span class="pre">RNAScorer</span></code> class. If you’re looking to save the plots, you can use <code class="docutils literal notranslate"><span class="pre">save_plot_scores()</span></code> method, specifying the desired output directory if needed (or will use default folder), as it will generate both png and html for each atom pair.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vanilla_scorer</span><span class="o">.</span><span class="n">plot_scores</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="admonition warning">
+<p>Data type cannot be displayed: application/vnd.plotly.v1+json</p>
+</div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vanilla_scorer</span><span class="o">.</span><span class="n">save_plot_scores</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Plotting scoring profiles from training_output …
+  ✓ AA
+  ✓ AC
+  ✓ AG
+  ✓ AU
+  ✓ CC
+  ✓ CG
+  ✓ GG
+  ✓ CU
+  ✓ GU
+  ✓ UU
+
+✓ Complete, plots saved in: plots
+        plotly interactive plots in &#34;plots/html&#34;
+        static png plots in &#34;plots/png&#34;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+PosixPath(&#39;plots&#39;)
+</pre></div></div>
+</div>
+</section>
+<section id="Score-a-new-RNA-structure">
+<h3>Score a new RNA structure<a class="headerlink" href="#Score-a-new-RNA-structure" title="Link to this heading">#</a></h3>
+<p>At the end, this function has been trained to score a new RNA structure with the <code class="docutils literal notranslate"><span class="pre">score_structure()</span></code> method of the <code class="docutils literal notranslate"><span class="pre">RNAScorer</span></code> class. You can provide a path to a new RNA structure file (in PDB or CIF format), and the method will compute the score based on the trained statistical potential.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vanilla_scorer</span><span class="o">.</span><span class="n">score_structure</span><span class="p">(</span><span class="n">pdb_path</span><span class="o">=</span><span class="s1">&#39;rna_structures/pdb/299d.pdb&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Loading scoring tables from training_output...
+  Loaded 8 base pair tables
+
+[1/1] Scoring: 299d.pdb...
+
+============================================================
+SCORING RESULTS
+============================================================
+Structure: 299d.pdb
+Number of interactions: 173
+Total Gibbs free energy estimate: 1.929
+============================================================
+
+Detailed scores saved to: score_results.csv
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Example-2">
+<h2>Example 2<a class="headerlink" href="#Example-2" title="Link to this heading">#</a></h2>
+<p>Trying different parameters:</p>
+<ul class="simple">
+<li><p>mmcif format</p></li>
+<li><p>different atom mode</p></li>
+<li><p>different binning strategy</p></li>
+<li><p>different method (KDE)</p></li>
+<li><p>different distance strategy</p></li>
+</ul>
+<p>bold_scorer=RNAScorer()</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="library.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><code class="docutils literal notranslate"><span class="pre">rna_score.lib</span></code> Documentation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../cli.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Command-Line Interface (CLI)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Downloading-RNA-Structures">Downloading RNA Structures</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-1:-Default-Scoring-Function">Example 1: Default Scoring Function</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Creating-a-Scorer-object">Creating a Scorer object</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Extraction-of-distances">Extraction of distances</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Training-the-Scoring-Function">Training the Scoring Function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Plotting-the-Scoring-Function">Plotting the Scoring Function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Score-a-new-RNA-structure">Score a new RNA structure</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-2">Example 2</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Yazid Hoblos, Joelle Assy, Denys Buryi, Raul Duran De Alba, Rayane Adam.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

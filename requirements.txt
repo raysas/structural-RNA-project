@@ -4,6 +4,7 @@ biopython>=1.81biopython
 numpy
 pandas
 matplotlib
+plotly
 requests
 scipy
 rpy2>=3.5

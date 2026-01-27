@@ -77,6 +77,6 @@ Supervised by Professor Guillaume Postic.
    :hidden:
 
    background/index
-   library
+   library/index
    cli
    webtool/index

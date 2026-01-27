@@ -12,6 +12,8 @@ repo_root = os.path.abspath('../..')
 sys.path.insert(0, repo_root)
 sys.path.insert(0, os.path.join(repo_root, 'src'))  # ensure autodoc finds rna_score
 
+from rna_score import __version__
+
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
@@ -19,7 +21,7 @@ sys.path.insert(0, os.path.join(repo_root, 'src'))  # ensure autodoc finds rna_s
 project = 'rna_score'
 copyright = '2026, Yazid Hoblos, Joelle Assy, Denys Buryi, Raul Duran De Alba, Rayane Adam'
 author = 'Yazid Hoblos, Joelle Assy, Denys Buryi, Raul Duran De Alba, Rayane Adam'
-release = '0.1.0'
+release = __version__
 
 # -- General configuration ---------------------------------------------------
 

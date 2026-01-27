@@ -139,7 +139,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../library.html">
+  <a class="nav-link nav-internal" href="../../library/index.html">
     Library API
   </a>
 </li>
@@ -147,7 +147,7 @@
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../cli.html">
-    CLI Usage
+    Command-Line Interface (CLI)
   </a>
 </li>
 
@@ -237,7 +237,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../library.html">
+  <a class="nav-link nav-internal" href="../../library/index.html">
     Library API
   </a>
 </li>
@@ -245,7 +245,7 @@
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../cli.html">
-    CLI Usage
+    Command-Line Interface (CLI)
   </a>
 </li>
 
@@ -341,15 +341,23 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">glob</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">access_rna_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">RNAStructureDownloader</span>
 
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">plotly.graph_objects</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">go</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">plotly.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">sample_colorscale</span>
+    <span class="n">PLOTLY_AVAILABLE</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">PLOTLY_AVAILABLE</span> <span class="o">=</span> <span class="kc">False</span>
+
 
 <div class="viewcode-block" id="download_rna_structures">
-<a class="viewcode-back" href="../../library.html#rna_score.lib.download_rna_structures">[docs]</a>
+<a class="viewcode-back" href="../../library/library.html#rna_score.lib.download_rna_structures">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">download_rna_structures</span><span class="p">(</span>
     <span class="n">output_dir</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;rna_structures&quot;</span><span class="p">,</span>
     <span class="n">max_structures</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
@@ -461,7 +469,7 @@
 
 
 <div class="viewcode-block" id="RNAScorer">
-<a class="viewcode-back" href="../../library.html#rna_score.lib.RNAScorer">[docs]</a>
+<a class="viewcode-back" href="../../library/library.html#rna_score.lib.RNAScorer">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">RNAScorer</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Orchestrates RNA distance extraction, scoring, KDE training,</span>
@@ -474,7 +482,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="RNAScorer.__init__">
-<a class="viewcode-back" href="../../library.html#rna_score.lib.RNAScorer.__init__">[docs]</a>
+<a class="viewcode-back" href="../../library/library.html#rna_score.lib.RNAScorer.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">base_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">base_dir</span><span class="p">)</span>
         
@@ -494,6 +502,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">scoring_tables_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scores_file</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
+        <span class="c1"># Config tracking</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extraction_method</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Track extraction method</span>
+
         <span class="c1"># Loaded tables</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">histograms</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scoring_tables</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
@@ -501,11 +512,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">scores</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
-    <span class="c1"># ----------------------------</span>
-    <span class="c1"># Distance extraction</span>
-    <span class="c1"># ----------------------------</span>
+
 <div class="viewcode-block" id="RNAScorer.extract_distances">
-<a class="viewcode-back" href="../../library.html#rna_score.lib.RNAScorer.extract_distances">[docs]</a>
+<a class="viewcode-back" href="../../library/library.html#rna_score.lib.RNAScorer.extract_distances">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">extract_distances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Extract interatomic distances from RNA structures.</span>
@@ -638,32 +647,40 @@
         <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">distances_dir</span> <span class="o">=</span> <span class="n">out_dir_path</span>
 
-        <span class="c1"># Load extracted histograms (CSV or *_histogram.txt)</span>
+        <span class="c1"># -- load extracted histograms based on method</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">histograms</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">csv_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">out_dir_path</span> <span class="o">/</span> <span class="s2">&quot;*.csv&quot;</span><span class="p">))</span>
-        <span class="n">txt_hist_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">out_dir_path</span> <span class="o">/</span> <span class="s2">&quot;*_histogram.txt&quot;</span><span class="p">))</span>
-
-        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">csv_files</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">histograms</span><span class="p">[</span><span class="n">Path</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">stem</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">txt_hist_files</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">histograms</span><span class="p">[</span><span class="n">Path</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">stem</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
-                <span class="n">f</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;count&quot;</span><span class="p">]</span>
-            <span class="p">)</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;method&quot;</span><span class="p">,</span> <span class="s2">&quot;histogram&quot;</span><span class="p">)</span>        
+        <span class="bp">self</span><span class="o">.</span><span class="n">extraction_method</span> <span class="o">=</span> <span class="n">method</span>  <span class="c1"># remember the method used        </span>
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;kde&quot;</span><span class="p">:</span>
+            <span class="c1"># -- load KDE raw distance files</span>
+            <span class="n">kde_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">out_dir_path</span> <span class="o">/</span> <span class="s2">&quot;*_kde_raw.txt&quot;</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">kde_files</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">])</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">histograms</span><span class="p">[</span><span class="n">Path</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">stem</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: Could not load KDE file </span><span class="si">{</span><span class="n">Path</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># -- load histogram files</span>
+            <span class="n">hist_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">out_dir_path</span> <span class="o">/</span> <span class="s2">&quot;*_histogram.txt&quot;</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">hist_files</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;count&quot;</span><span class="p">])</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">histograms</span><span class="p">[</span><span class="n">Path</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">stem</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: Could not load histogram </span><span class="si">{</span><span class="n">Path</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">histograms</span><span class="p">:</span>
+            <span class="n">expected_pattern</span> <span class="o">=</span> <span class="s2">&quot;*_kde_raw.txt&quot;</span> <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;kde&quot;</span> <span class="k">else</span> <span class="s2">&quot;*_histogram.txt&quot;</span>
             <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;No histogram files found in </span><span class="si">{</span><span class="n">out_dir_path</span><span class="si">}</span><span class="s2"> (*.csv or *_histogram.txt)&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;No histogram files found in </span><span class="si">{</span><span class="n">out_dir_path</span><span class="si">}</span><span class="s2">. Expected pattern: </span><span class="si">{</span><span class="n">expected_pattern</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">out_dir_path</span></div>
 
 
-    <span class="c1"># ----------------------------</span>
-    <span class="c1"># Train scoring function</span>
-    <span class="c1"># ----------------------------</span>
 <div class="viewcode-block" id="RNAScorer.train_scoring">
-<a class="viewcode-back" href="../../library.html#rna_score.lib.RNAScorer.train_scoring">[docs]</a>
+<a class="viewcode-back" href="../../library/library.html#rna_score.lib.RNAScorer.train_scoring">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">train_scoring</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Train scoring tables from extracted distance distributions.</span>
@@ -749,12 +766,31 @@
         <span class="n">input_dir</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;input_dir&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">distances_dir</span>
         <span class="k">if</span> <span class="n">input_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No input_dir provided and distances not extracted yet.&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Resolve input_dir to absolute path</span>
+        <span class="n">input_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">input_dir</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">input_dir</span><span class="o">.</span><span class="n">is_absolute</span><span class="p">():</span>
+            <span class="c1"># Try relative to base_dir first</span>
+            <span class="n">candidate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_dir</span> <span class="o">/</span> <span class="n">input_dir</span>
+            <span class="k">if</span> <span class="n">candidate</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="n">input_dir</span> <span class="o">=</span> <span class="n">candidate</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
+            <span class="c1"># Try relative to package root</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="n">input_dir</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="n">pkg_root</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">candidate</span> <span class="o">=</span> <span class="n">pkg_root</span> <span class="o">/</span> <span class="n">input_dir</span>
+                <span class="k">if</span> <span class="n">candidate</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">input_dir</span> <span class="o">=</span> <span class="n">candidate</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">input_dir</span> <span class="o">=</span> <span class="n">input_dir</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
 
         <span class="n">output_dir_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;output_dir&quot;</span><span class="p">,</span> <span class="s2">&quot;training_output&quot;</span><span class="p">))</span>
         <span class="n">script_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scripts_dir</span> <span class="o">/</span> <span class="s2">&quot;train.py&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">script_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;train.py not found at </span><span class="si">{</span><span class="n">script_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
+        <span class="c1"># Use extraction method if available and not overridden</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;method&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">extraction_method</span> <span class="ow">or</span> <span class="s2">&quot;histogram&quot;</span>
+        
         <span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">script_path</span><span class="p">),</span>
             <span class="s2">&quot;--input-dir&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">input_dir</span><span class="p">),</span>
@@ -763,9 +799,15 @@
             <span class="s2">&quot;--pseudocount&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pseudocount&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)),</span>
             <span class="s2">&quot;--cutoff&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cutoff&quot;</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">)),</span>
             <span class="s2">&quot;--bin-width&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bin_width&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)),</span>
-            <span class="s2">&quot;--method&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;method&quot;</span><span class="p">,</span> <span class="s2">&quot;histogram&quot;</span><span class="p">)</span>
+            <span class="s2">&quot;--method&quot;</span><span class="p">,</span> <span class="n">method</span>
         <span class="p">]</span>
-        <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        
+        <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;STDOUT:&quot;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;STDERR:&quot;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">returncode</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+            
         <span class="bp">self</span><span class="o">.</span><span class="n">training_dir</span> <span class="o">=</span> <span class="n">output_dir_path</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scoring_tables_dir</span> <span class="o">=</span> <span class="n">output_dir_path</span>
 
@@ -776,12 +818,10 @@
         <span class="k">return</span> <span class="n">output_dir_path</span></div>
 
 
-    <span class="c1"># ----------------------------</span>
-    <span class="c1"># Plot scoring profiles</span>
-    <span class="c1"># ----------------------------</span>
-<div class="viewcode-block" id="RNAScorer.plot_scores">
-<a class="viewcode-back" href="../../library.html#rna_score.lib.RNAScorer.plot_scores">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">plot_scores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+
+<div class="viewcode-block" id="RNAScorer.save_plot_scores">
+<a class="viewcode-back" href="../../library/library.html#rna_score.lib.RNAScorer.save_plot_scores">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_plot_scores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate scoring profile plots from trained score tables.</span>
 
@@ -856,31 +896,217 @@
         <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">output_dir_path</span></div>
 
+    
+<div class="viewcode-block" id="RNAScorer.plot_scores">
+<a class="viewcode-back" href="../../library/library.html#rna_score.lib.RNAScorer.plot_scores">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_scores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate an interactive Plotly figure of scoring profiles.</span>
 
-    <span class="c1"># def plot(self, **kwargs) -&gt; None:</span>
-    <span class="c1">#     &#39;&#39;&#39;</span>
-    <span class="c1">#     function that plots on directly without saving to file by using flag &#39;--library True&#39;</span>
-    <span class="c1">#     &#39;&#39;&#39;</span>
-    <span class="c1">#     input_dir = kwargs.get(&quot;input_dir&quot;) or self.scoring_tables_dir</span>
-    <span class="c1">#     if input_dir is None:</span>
-    <span class="c1">#         raise ValueError(&quot;No input_dir provided and scoring tables not loaded yet.&quot;)</span>
-        
-    <span class="c1">#     script_path = self.scripts_dir / &quot;plot_scores.py&quot;</span>
-    <span class="c1">#     if not script_path.exists():</span>
-    <span class="c1">#         raise FileNotFoundError(f&quot;plot_scores.py not found at {script_path}&quot;)</span>
-        
-    <span class="c1">#     cmd = [</span>
-    <span class="c1">#         sys.executable, str(script_path),</span>
-    <span class="c1">#         &quot;--input-dir&quot;, str(input_dir),</span>
-    <span class="c1">#         &#39;--library&#39;, True</span>
-    <span class="c1">#     ]</span>
-    <span class="c1">#     subprocess.run(cmd, check=True)</span>
+<span class="sd">        Creates a combined interactive plot with dropdown buttons to switch between</span>
+<span class="sd">        different base-pair types (AA, AC, AG, etc.) and view all profiles together.</span>
 
-    <span class="c1"># ----------------------------</span>
-    <span class="c1"># Score RNA structure</span>
-    <span class="c1"># ----------------------------</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        input_dir : str or Path, optional</span>
+<span class="sd">            Directory containing score tables (e.g., outputs from</span>
+<span class="sd">            :meth:`train_scoring`). If not provided, falls back to</span>
+<span class="sd">            ``self.scoring_tables_dir``.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        plotly.graph_objects.Figure</span>
+<span class="sd">            Interactive Plotly figure with dropdown menu to select pair types.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ImportError</span>
+<span class="sd">            If Plotly is not installed.</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If no input directory is provided and ``self.scoring_tables_dir`` is not set.</span>
+<span class="sd">        FileNotFoundError</span>
+<span class="sd">            If no score table files are found in the input directory.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        Create and display an interactive plot:</span>
+
+<span class="sd">        &gt;&gt;&gt; scorer = RNAScorer()</span>
+<span class="sd">        &gt;&gt;&gt; scorer.train_scoring(input_dir=&quot;distances&quot;, output_dir=&quot;training_output&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; fig = scorer.plot_scores()</span>
+<span class="sd">        &gt;&gt;&gt; fig.show()</span>
+
+<span class="sd">        Save the plot to HTML:</span>
+
+<span class="sd">        &gt;&gt;&gt; fig = scorer.plot_scores(input_dir=&quot;training_output&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; fig.write_html(&quot;interactive_plot.html&quot;)</span>
+
+<span class="sd">        Use in Jupyter notebook:</span>
+
+<span class="sd">        &gt;&gt;&gt; fig = scorer.plot_scores()</span>
+<span class="sd">        &gt;&gt;&gt; fig  # displays inline</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        - The figure includes an interactive dropdown menu to switch between pair types.</span>
+<span class="sd">        - Each profile is color-coded using the Plasma colorscale based on score values.</span>
+<span class="sd">        - Use the &quot;All&quot; button to view all profiles simultaneously.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">PLOTLY_AVAILABLE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">&quot;Plotly is required for interactive plotting. &quot;</span>
+                <span class="s2">&quot;Install it with: pip install plotly&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># -- resolve input directory robustly (handles notebook cwd vs project root)</span>
+        <span class="n">input_dir</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;input_dir&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">scoring_tables_dir</span>
+        <span class="k">if</span> <span class="n">input_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No input_dir provided and scoring tables not loaded yet.&quot;</span><span class="p">)</span>
+
+        <span class="n">input_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">input_dir</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">input_dir</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="c1"># Try resolving relative to provided base_dir</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;base_dir&quot;</span><span class="p">):</span>
+                <span class="n">candidate</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_dir</span><span class="p">)</span> <span class="o">/</span> <span class="n">input_dir</span>
+                <span class="k">if</span> <span class="n">candidate</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">input_dir</span> <span class="o">=</span> <span class="n">candidate</span>
+            <span class="c1"># Try resolving relative to package root (src/..)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">input_dir</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="n">pkg_root</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">candidate</span> <span class="o">=</span> <span class="n">pkg_root</span> <span class="o">/</span> <span class="n">input_dir</span>
+                <span class="k">if</span> <span class="n">candidate</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">input_dir</span> <span class="o">=</span> <span class="n">candidate</span>
+
+        <span class="n">pairs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;AA&#39;</span><span class="p">,</span> <span class="s1">&#39;AC&#39;</span><span class="p">,</span> <span class="s1">&#39;AG&#39;</span><span class="p">,</span> <span class="s1">&#39;AU&#39;</span><span class="p">,</span> <span class="s1">&#39;CC&#39;</span><span class="p">,</span> <span class="s1">&#39;CG&#39;</span><span class="p">,</span> <span class="s1">&#39;CU&#39;</span><span class="p">,</span> <span class="s1">&#39;GG&#39;</span><span class="p">,</span> <span class="s1">&#39;GU&#39;</span><span class="p">,</span> <span class="s1">&#39;UU&#39;</span><span class="p">]</span>
+        <span class="n">pairs_data</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Load score tables</span>
+        <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="n">input_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;score_</span><span class="si">{</span><span class="n">pair</span><span class="si">}</span><span class="s2">.csv&quot;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="k">continue</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+                <span class="c1"># Normalize column names for flexible loading</span>
+                <span class="n">colmap</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">}</span>
+
+                <span class="c1"># Identify distance column or derive it</span>
+                <span class="n">distance</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">if</span> <span class="s1">&#39;distance&#39;</span> <span class="ow">in</span> <span class="n">colmap</span><span class="p">:</span>
+                    <span class="n">distance</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">colmap</span><span class="p">[</span><span class="s1">&#39;distance&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+                <span class="k">elif</span> <span class="s1">&#39;distance_mid&#39;</span> <span class="ow">in</span> <span class="n">colmap</span><span class="p">:</span>
+                    <span class="n">distance</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">colmap</span><span class="p">[</span><span class="s1">&#39;distance_mid&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+                <span class="k">elif</span> <span class="s1">&#39;distance_min&#39;</span> <span class="ow">in</span> <span class="n">colmap</span> <span class="ow">and</span> <span class="s1">&#39;distance_max&#39;</span> <span class="ow">in</span> <span class="n">colmap</span><span class="p">:</span>
+                    <span class="n">distance</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">colmap</span><span class="p">[</span><span class="s1">&#39;distance_min&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="n">colmap</span><span class="p">[</span><span class="s1">&#39;distance_max&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+
+                <span class="c1"># Identify score column</span>
+                <span class="n">score_col</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">,</span> <span class="s1">&#39;log_score&#39;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">colmap</span><span class="p">:</span>
+                        <span class="n">score_col</span> <span class="o">=</span> <span class="n">colmap</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                        <span class="k">break</span>
+                <span class="k">if</span> <span class="n">score_col</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s1">&#39;Score&#39;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                    <span class="n">score_col</span> <span class="o">=</span> <span class="s1">&#39;Score&#39;</span>
+
+                <span class="k">if</span> <span class="n">distance</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">score_col</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">pairs_data</span><span class="p">[</span><span class="n">pair</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+                        <span class="s1">&#39;distance&#39;</span><span class="p">:</span> <span class="n">distance</span><span class="p">,</span>
+                        <span class="s1">&#39;score&#39;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="n">score_col</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                    <span class="p">})</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># Skip files that don&#39;t have usable columns</span>
+                    <span class="k">continue</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: Could not load </span><span class="si">{</span><span class="n">pair</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">pairs_data</span><span class="p">:</span>
+            <span class="c1"># Fallback: show what files are present to aid debugging</span>
+            <span class="n">available</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">input_dir</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;score_*.csv&quot;</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;No valid score tables found in </span><span class="si">{</span><span class="n">input_dir</span><span class="si">}</span><span class="s2">. &quot;</span>
+                <span class="s2">&quot;Expected files like score_AA.csv, score_CG.csv, etc. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Found: </span><span class="si">{</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">available</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Create the figure</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
+        <span class="n">trace_map</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Add traces for each pair</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="n">pair</span><span class="p">,</span> <span class="n">score_df</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pairs_data</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">score_df</span><span class="p">[</span><span class="s1">&#39;distance&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">score_df</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+            
+            <span class="c1"># Normalize y values for color mapping</span>
+            <span class="n">y_norm</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+            <span class="n">colors</span> <span class="o">=</span> <span class="n">sample_colorscale</span><span class="p">(</span><span class="s2">&quot;Plasma&quot;</span><span class="p">,</span> <span class="n">y_norm</span><span class="p">)</span>
+
+            <span class="n">trace_map</span><span class="p">[</span><span class="n">pair</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">visible</span> <span class="o">=</span> <span class="p">(</span><span class="n">idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># Only first pair visible initially</span>
+
+            <span class="c1"># Create line segments with individual colors</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
+                    <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">],</span>
+                    <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">],</span>
+                    <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;lines+markers&quot;</span><span class="p">,</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">pair</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">width</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+                    <span class="n">marker</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="mi">6</span><span class="p">),</span>
+                    <span class="n">visible</span><span class="o">=</span><span class="n">visible</span><span class="p">,</span>
+                    <span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span>
+                <span class="p">))</span>
+                <span class="n">trace_map</span><span class="p">[</span><span class="n">pair</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fig</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Create dropdown buttons</span>
+        <span class="n">buttons</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">all_visible</span> <span class="o">=</span> <span class="p">[</span><span class="kc">True</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">fig</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">pair</span><span class="p">,</span> <span class="n">indices</span> <span class="ow">in</span> <span class="n">trace_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">visibility</span> <span class="o">=</span> <span class="p">[</span><span class="kc">False</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">fig</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">:</span>
+                <span class="n">visibility</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="n">buttons</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">pair</span><span class="p">,</span>
+                <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;update&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;args&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;visible&quot;</span><span class="p">:</span> <span class="n">visibility</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Scoring Profile: </span><span class="si">{</span><span class="n">pair</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}]</span>
+            <span class="p">})</span>
+
+        <span class="n">buttons</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="s2">&quot;All&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;update&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;args&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;visible&quot;</span><span class="p">:</span> <span class="n">all_visible</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Combined Scoring Profiles&quot;</span><span class="p">}]</span>
+        <span class="p">})</span>
+
+        <span class="c1"># Update layout</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+            <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Scoring Profile: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">pairs_data</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">xaxis_title</span><span class="o">=</span><span class="s2">&quot;Distance (Å)&quot;</span><span class="p">,</span>
+            <span class="n">yaxis_title</span><span class="o">=</span><span class="s2">&quot;Pseudo-energy Score&quot;</span><span class="p">,</span>
+            <span class="n">template</span><span class="o">=</span><span class="s2">&quot;plotly_white&quot;</span><span class="p">,</span>
+            <span class="n">updatemenus</span><span class="o">=</span><span class="p">[{</span>
+                <span class="s2">&quot;buttons&quot;</span><span class="p">:</span> <span class="n">buttons</span><span class="p">,</span>
+                <span class="s2">&quot;direction&quot;</span><span class="p">:</span> <span class="s2">&quot;down&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;showactive&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="mf">1.15</span><span class="p">,</span>
+                <span class="s2">&quot;xanchor&quot;</span><span class="p">:</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">,</span>
+                <span class="s2">&quot;yanchor&quot;</span><span class="p">:</span> <span class="s2">&quot;top&quot;</span>
+            <span class="p">}],</span>
+            <span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">fig</span></div>
+
+
+
+
 <div class="viewcode-block" id="RNAScorer.score_structure">
-<a class="viewcode-back" href="../../library.html#rna_score.lib.RNAScorer.score_structure">[docs]</a>
+<a class="viewcode-back" href="../../library/library.html#rna_score.lib.RNAScorer.score_structure">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">score_structure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Score RNA structure(s) using trained scoring tables.</span>
@@ -939,7 +1165,7 @@
 <span class="sd">            If no scoring tables are provided and model has not been trained,</span>
 <span class="sd">            or if no structure input (`pdb_path`, `folder`, or `list`) is provided.</span>
 <span class="sd">        FileNotFoundError</span>
-<span class="sd">            If the score_structure.py script is not found.</span>
+<span class="sd">            If the score_structures.py script is not found.</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -992,9 +1218,9 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;pdb_path is required for scoring.&quot;</span><span class="p">)</span>
 
         <span class="n">output_csv</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;output_csv&quot;</span><span class="p">)</span>
-        <span class="n">script_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scripts_dir</span> <span class="o">/</span> <span class="s2">&quot;score_structure.py&quot;</span>
+        <span class="n">script_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scripts_dir</span> <span class="o">/</span> <span class="s2">&quot;score_structures.py&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">script_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;score_structure.py not found at </span><span class="si">{</span><span class="n">script_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;score_structures.py not found at </span><span class="si">{</span><span class="n">script_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">script_path</span><span class="p">),</span>
@@ -1024,11 +1250,8 @@
         <span class="k">return</span> <span class="kc">None</span></div>
 
 
-    <span class="c1"># ----------------------------</span>
-    <span class="c1"># Full workflow</span>
-    <span class="c1"># ----------------------------</span>
 <div class="viewcode-block" id="RNAScorer.run_workflow">
-<a class="viewcode-back" href="../../library.html#rna_score.lib.RNAScorer.run_workflow">[docs]</a>
+<a class="viewcode-back" href="../../library/library.html#rna_score.lib.RNAScorer.run_workflow">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run_workflow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Run the full workflow: extract =&gt; train =&gt; score</span>
@@ -1085,7 +1308,7 @@
 
 
 <div class="viewcode-block" id="RNAScorer.__call__">
-<a class="viewcode-back" href="../../library.html#rna_score.lib.RNAScorer.__call__">[docs]</a>
+<a class="viewcode-back" href="../../library/library.html#rna_score.lib.RNAScorer.__call__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Callable shortcut to score a given structure ONLY IF already trained</span>
 
@@ -1098,31 +1321,13 @@
 <span class="sd">        pd.DataFrame or None</span>
 <span class="sd">            DataFrame containing scores for each structure if `output_csv` is</span>
 <span class="sd">            specified, otherwise None</span>
+
+<span class="sd">        </span>
 <span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">score_structure</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 </div>
 
-
-<span class="c1"># -- in plot scores script:</span>
-<span class="c1"># def run_lib(args):</span>
-<span class="c1">#     &#39;&#39;&#39;library usage, it performs only combined plotly plot and returns the figure object&#39;&#39;&#39;</span>
-<span class="c1">#     pairs = [&#39;AA&#39;, &#39;AC&#39;, &#39;AG&#39;, &#39;AU&#39;, &#39;CC&#39;, &#39;CG&#39;, &#39;GG&#39;, &#39;CU&#39;, &#39;GU&#39;, &#39;UU&#39;]</span>
-<span class="c1">#     pairs_data = {}</span>
-
-<span class="c1">#     for pair in pairs:</span>
-<span class="c1">#         path = os.path.join(args.input_dir, f&quot;score_{pair}.csv&quot;)</span>
-<span class="c1">#         data = load_score_table(path)</span>
-
-<span class="c1">#         if data is None:</span>
-<span class="c1">#             continue</span>
-
-<span class="c1">#         pairs_data[pair] = data</span>
-
-<span class="c1">#     if args.plotly:</span>
-
-<span class="c1">#         return plot_combined_profiles_plotly(pairs_data, None, show=args.show)</span>
-<span class="c1">#     return plot_combined_profiles(pairs_data, None, show=args.show)</span>
 </pre></div>
 
                 </article>

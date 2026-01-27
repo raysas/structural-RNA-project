@@ -1,8 +1,9 @@
 # rna-score: RNA Scoring Library
 
-![Status](https://img.shields.io/badge/status-passing-brightgreen?style=flat&logo=github&logoColor=white)
-[![Read the Docs](https://img.shields.io/readthedocs/structural-rna-project?style=flat&logo=readthedocs&logoColor=white)](https://structural-rna-project.readthedocs.io)
-![GitHub issues](https://img.shields.io/github/issues/raysas/structural-RNA-project)
+![Status](https://img.shields.io/badge/status-passing-2ea44f?style=flat&logo=github&logoColor=white)
+[![Read the Docs](https://img.shields.io/readthedocs/structural-rna-project?style=flat&logo=readthedocs&logoColor=white&color=2ea44f)](https://structural-rna-project.readthedocs.io) 
+![Python](https://img.shields.io/badge/python-3.11%2B-blue?style=flat&logo=python&logoColor=white) ![R](https://img.shields.io/badge/R-KDE-276DC3?style=flat&logo=r&logoColor=white)
+![GitHub issues](https://img.shields.io/github/issues/raysas/structural-RNA-project?color=lightgrey)
 ![License](https://img.shields.io/badge/license-MIT-blue?style=flat)
 ![Last commit](https://img.shields.io/github/last-commit/raysas/structural-RNA-project)
 ![GitHub stars](https://img.shields.io/github/stars/raysas/structural-RNA-project)
@@ -19,9 +20,21 @@ This project develops a scoring function to evaluate predicted RNA tertiary stru
 
 ## Overview
 
-rna-score provides tools to download, process, and score RNA 3D structures using statistical models of interatomic distances. The library is available as a Python CLI tool and is also accessible via a web interface:
+rna-score provides tools to download, process, and score RNA 3D structures using statistical models of interatomic distances. The tool is available as a Python CLI tool AND a library package and is also accessible via a web interface:
 
 🌐 **Try it online:** [https://rna-score.onrender.com/](https://rna-score.onrender.com/)
+
+
+Install via pip:
+```bash
+pip install git+https://github.com/raysas/structural-RNA-project.git
+```
+**Documentation:** [structural-rna-project.readthedocs.io](https://structural-rna-project.readthedocs.io)
+
+> [!TIP] 
+> **Issues & feedback:**  
+> Please report bugs or suggestions via the  
+> [GitHub Issues](https://github.com/raysas/structural-RNA-project/issues) page.
 
 ---
 

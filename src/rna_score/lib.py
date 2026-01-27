@@ -5,11 +5,19 @@ from typing import List, Optional, Union
 import os
 import pandas as pd
 import glob
+import numpy as np
 
 from pathlib import Path
 from typing import List, Dict, Optional, Union
 
 from access_rna_structures import RNAStructureDownloader
+
+try:
+    import plotly.graph_objects as go
+    from plotly.colors import sample_colorscale
+    PLOTLY_AVAILABLE = True
+except ImportError:
+    PLOTLY_AVAILABLE = False
 
 
 def download_rna_structures(
@@ -151,15 +159,16 @@ class RNAScorer:
         self.scoring_tables_dir: Optional[Path] = None
         self.scores_file: Optional[Path] = None
 
+        # Config tracking
+        self.extraction_method: Optional[str] = None  # Track extraction method
+
         # Loaded tables
         self.histograms: dict[str, pd.DataFrame] = {}
         self.scoring_tables: dict[str, pd.DataFrame] = {}
         self.kde_tables: dict[str, pd.DataFrame] = {}
         self.scores: Optional[pd.DataFrame] = None
 
-    # ----------------------------
-    # Distance extraction
-    # ----------------------------
+
     def extract_distances(self, **kwargs) -> Path:
         """
         Extract interatomic distances from RNA structures.
@@ -292,29 +301,37 @@ class RNAScorer:
         subprocess.run(cmd, check=True)
         self.distances_dir = out_dir_path
 
-        # Load extracted histograms (CSV or *_histogram.txt)
+        # -- load extracted histograms based on method
         self.histograms = {}
-        csv_files = glob.glob(str(out_dir_path / "*.csv"))
-        txt_hist_files = glob.glob(str(out_dir_path / "*_histogram.txt"))
-
-        for f in csv_files:
-            self.histograms[Path(f).stem] = pd.read_csv(f)
-
-        for f in txt_hist_files:
-            self.histograms[Path(f).stem] = pd.read_csv(
-                f, header=None, names=["count"]
-            )
+        method = kwargs.get("method", "histogram")        
+        self.extraction_method = method  # remember the method used        
+        if method == "kde":
+            # -- load KDE raw distance files
+            kde_files = glob.glob(str(out_dir_path / "*_kde_raw.txt"))
+            for f in kde_files:
+                try:
+                    df = pd.read_csv(f, header=None, names=["distance"])
+                    self.histograms[Path(f).stem] = df
+                except Exception as e:
+                    print(f"Warning: Could not load KDE file {Path(f).name}: {e}")
+        else:
+            # -- load histogram files
+            hist_files = glob.glob(str(out_dir_path / "*_histogram.txt"))
+            for f in hist_files:
+                try:
+                    df = pd.read_csv(f, header=None, names=["count"])
+                    self.histograms[Path(f).stem] = df
+                except Exception as e:
+                    print(f"Warning: Could not load histogram {Path(f).name}: {e}")
 
         if not self.histograms:
+            expected_pattern = "*_kde_raw.txt" if method == "kde" else "*_histogram.txt"
             raise FileNotFoundError(
-                f"No histogram files found in {out_dir_path} (*.csv or *_histogram.txt)"
+                f"No histogram files found in {out_dir_path}. Expected pattern: {expected_pattern}"
             )
 
         return out_dir_path
 
-    # ----------------------------
-    # Train scoring function
-    # ----------------------------
     def train_scoring(self, **kwargs) -> Path:
         """
         Train scoring tables from extracted distance distributions.
@@ -400,12 +417,31 @@ class RNAScorer:
         input_dir = kwargs.get("input_dir") or self.distances_dir
         if input_dir is None:
             raise ValueError("No input_dir provided and distances not extracted yet.")
+        
+        # Resolve input_dir to absolute path
+        input_dir = Path(input_dir)
+        if not input_dir.is_absolute():
+            # Try relative to base_dir first
+            candidate = self.base_dir / input_dir
+            if candidate.exists():
+                input_dir = candidate.resolve()
+            # Try relative to package root
+            elif not input_dir.exists():
+                pkg_root = Path(__file__).resolve().parents[2]
+                candidate = pkg_root / input_dir
+                if candidate.exists():
+                    input_dir = candidate.resolve()
+            else:
+                input_dir = input_dir.resolve()
 
         output_dir_path = Path(kwargs.get("output_dir", "training_output"))
         script_path = self.scripts_dir / "train.py"
         if not script_path.exists():
             raise FileNotFoundError(f"train.py not found at {script_path}")
 
+        # Use extraction method if available and not overridden
+        method = kwargs.get("method") or self.extraction_method or "histogram"
+        
         cmd = [
             sys.executable, str(script_path),
             "--input-dir", str(input_dir),
@@ -414,9 +450,15 @@ class RNAScorer:
             "--pseudocount", str(kwargs.get("pseudocount", 0.0)),
             "--cutoff", str(kwargs.get("cutoff", 20.0)),
             "--bin-width", str(kwargs.get("bin_width", 1.0)),
-            "--method", kwargs.get("method", "histogram")
+            "--method", method
         ]
-        subprocess.run(cmd, check=True)
+        
+        result = subprocess.run(cmd, check=False, capture_output=True, text=True)
+        if result.returncode != 0:
+            print("STDOUT:", result.stdout)
+            print("STDERR:", result.stderr)
+            raise subprocess.CalledProcessError(result.returncode, cmd, result.stdout, result.stderr)
+            
         self.training_dir = output_dir_path
         self.scoring_tables_dir = output_dir_path
 
@@ -426,10 +468,8 @@ class RNAScorer:
             self.scoring_tables[Path(f).stem] = pd.read_csv(f)
         return output_dir_path
 
-    # ----------------------------
-    # Plot scoring profiles
-    # ----------------------------
-    def plot_scores(self, **kwargs) -> Path:
+
+    def save_plot_scores(self, **kwargs) -> Path:
         """
         Generate scoring profile plots from trained score tables.
 
@@ -503,29 +543,212 @@ class RNAScorer:
 
         subprocess.run(cmd, check=True)
         return output_dir_path
+    
+    def plot_scores(self, **kwargs):
+        """
+        Generate an interactive Plotly figure of scoring profiles.
 
-    # def plot(self, **kwargs) -> None:
-    #     '''
-    #     function that plots on directly without saving to file by using flag '--library True'
-    #     '''
-    #     input_dir = kwargs.get("input_dir") or self.scoring_tables_dir
-    #     if input_dir is None:
-    #         raise ValueError("No input_dir provided and scoring tables not loaded yet.")
-        
-    #     script_path = self.scripts_dir / "plot_scores.py"
-    #     if not script_path.exists():
-    #         raise FileNotFoundError(f"plot_scores.py not found at {script_path}")
-        
-    #     cmd = [
-    #         sys.executable, str(script_path),
-    #         "--input-dir", str(input_dir),
-    #         '--library', True
-    #     ]
-    #     subprocess.run(cmd, check=True)
+        Creates a combined interactive plot with dropdown buttons to switch between
+        different base-pair types (AA, AC, AG, etc.) and view all profiles together.
 
-    # ----------------------------
-    # Score RNA structure
-    # ----------------------------
+        Parameters
+        ----------
+        input_dir : str or Path, optional
+            Directory containing score tables (e.g., outputs from
+            :meth:`train_scoring`). If not provided, falls back to
+            ``self.scoring_tables_dir``.
+
+        Returns
+        -------
+        plotly.graph_objects.Figure
+            Interactive Plotly figure with dropdown menu to select pair types.
+
+        Raises
+        ------
+        ImportError
+            If Plotly is not installed.
+        ValueError
+            If no input directory is provided and ``self.scoring_tables_dir`` is not set.
+        FileNotFoundError
+            If no score table files are found in the input directory.
+
+        Examples
+        --------
+        Create and display an interactive plot:
+
+        >>> scorer = RNAScorer()
+        >>> scorer.train_scoring(input_dir="distances", output_dir="training_output")
+        >>> fig = scorer.plot_scores()
+        >>> fig.show()
+
+        Save the plot to HTML:
+
+        >>> fig = scorer.plot_scores(input_dir="training_output")
+        >>> fig.write_html("interactive_plot.html")
+
+        Use in Jupyter notebook:
+
+        >>> fig = scorer.plot_scores()
+        >>> fig  # displays inline
+
+        Notes
+        -----
+        - The figure includes an interactive dropdown menu to switch between pair types.
+        - Each profile is color-coded using the Plasma colorscale based on score values.
+        - Use the "All" button to view all profiles simultaneously.
+        """
+        if not PLOTLY_AVAILABLE:
+            raise ImportError(
+                "Plotly is required for interactive plotting. "
+                "Install it with: pip install plotly"
+            )
+
+        # -- resolve input directory robustly (handles notebook cwd vs project root)
+        input_dir = kwargs.get("input_dir") or self.scoring_tables_dir
+        if input_dir is None:
+            raise ValueError("No input_dir provided and scoring tables not loaded yet.")
+
+        input_dir = Path(input_dir)
+        if not input_dir.exists():
+            # Try resolving relative to provided base_dir
+            if hasattr(self, "base_dir"):
+                candidate = Path(self.base_dir) / input_dir
+                if candidate.exists():
+                    input_dir = candidate
+            # Try resolving relative to package root (src/..)
+            if not input_dir.exists():
+                pkg_root = Path(__file__).resolve().parents[2]
+                candidate = pkg_root / input_dir
+                if candidate.exists():
+                    input_dir = candidate
+
+        pairs = ['AA', 'AC', 'AG', 'AU', 'CC', 'CG', 'CU', 'GG', 'GU', 'UU']
+        pairs_data = {}
+
+        # Load score tables
+        for pair in pairs:
+            path = input_dir / f"score_{pair}.csv"
+            if not path.exists():
+                continue
+
+            try:
+                df = pd.read_csv(path)
+
+                # Normalize column names for flexible loading
+                colmap = {c.lower(): c for c in df.columns}
+
+                # Identify distance column or derive it
+                distance = None
+                if 'distance' in colmap:
+                    distance = df[colmap['distance']].values
+                elif 'distance_mid' in colmap:
+                    distance = df[colmap['distance_mid']].values
+                elif 'distance_min' in colmap and 'distance_max' in colmap:
+                    distance = (df[colmap['distance_min']].values + df[colmap['distance_max']].values) / 2.0
+
+                # Identify score column
+                score_col = None
+                for key in ['score', 'log_score']:
+                    if key in colmap:
+                        score_col = colmap[key]
+                        break
+                if score_col is None and 'Score' in df.columns:
+                    score_col = 'Score'
+
+                if distance is not None and score_col is not None:
+                    pairs_data[pair] = pd.DataFrame({
+                        'distance': distance,
+                        'score': df[score_col].values,
+                    })
+                else:
+                    # Skip files that don't have usable columns
+                    continue
+            except Exception as e:
+                print(f"Warning: Could not load {pair}: {e}")
+                continue
+
+        if not pairs_data:
+            # Fallback: show what files are present to aid debugging
+            available = list(input_dir.glob("score_*.csv"))
+            raise FileNotFoundError(
+                f"No valid score tables found in {input_dir}. "
+                "Expected files like score_AA.csv, score_CG.csv, etc. "
+                f"Found: {[p.name for p in available]}"
+            )
+
+        # Create the figure
+        fig = go.Figure()
+        trace_map = {}
+
+        # Add traces for each pair
+        for idx, (pair, score_df) in enumerate(pairs_data.items()):
+            x = score_df['distance'].values
+            y = score_df['score'].values
+            
+            # Normalize y values for color mapping
+            y_norm = (y - np.min(y)) / (np.max(y) - np.min(y)) if np.max(y) != np.min(y) else np.zeros_like(y)
+            colors = sample_colorscale("Plasma", y_norm)
+
+            trace_map[pair] = []
+            visible = (idx == 0)  # Only first pair visible initially
+
+            # Create line segments with individual colors
+            for i in range(len(x) - 1):
+                fig.add_trace(go.Scatter(
+                    x=x[i:i+2],
+                    y=y[i:i+2],
+                    mode="lines+markers",
+                    name=pair if i == 0 else None,
+                    line=dict(color=colors[i], width=3),
+                    marker=dict(color=colors[i], size=6),
+                    visible=visible,
+                    showlegend=False
+                ))
+                trace_map[pair].append(len(fig.data) - 1)
+
+        # Create dropdown buttons
+        buttons = []
+        all_visible = [True] * len(fig.data)
+
+        for pair, indices in trace_map.items():
+            visibility = [False] * len(fig.data)
+            for i in indices:
+                visibility[i] = True
+
+            buttons.append({
+                "label": pair,
+                "method": "update",
+                "args": [{"visible": visibility}, {"title": f"Scoring Profile: {pair}"}]
+            })
+
+        buttons.append({
+            "label": "All",
+            "method": "update",
+            "args": [{"visible": all_visible}, {"title": "Combined Scoring Profiles"}]
+        })
+
+        # Update layout
+        fig.update_layout(
+            title=f"Scoring Profile: {list(pairs_data.keys())[0]}",
+            xaxis_title="Distance (Å)",
+            yaxis_title="Pseudo-energy Score",
+            template="plotly_white",
+            updatemenus=[{
+                "buttons": buttons,
+                "direction": "down",
+                "showactive": True,
+                "x": 1.15,
+                "xanchor": "left",
+                "y": 0.95,
+                "yanchor": "top"
+            }],
+            showlegend=False
+        )
+
+        return fig
+
+
+
     def score_structure(self, **kwargs) -> Optional[pd.DataFrame]:
         """
         Score RNA structure(s) using trained scoring tables.
@@ -584,7 +807,7 @@ class RNAScorer:
             If no scoring tables are provided and model has not been trained,
             or if no structure input (`pdb_path`, `folder`, or `list`) is provided.
         FileNotFoundError
-            If the score_structure.py script is not found.
+            If the score_structures.py script is not found.
 
         Examples
         --------
@@ -637,9 +860,9 @@ class RNAScorer:
             raise ValueError("pdb_path is required for scoring.")
 
         output_csv = kwargs.get("output_csv")
-        script_path = self.scripts_dir / "score_structure.py"
+        script_path = self.scripts_dir / "score_structures.py"
         if not script_path.exists():
-            raise FileNotFoundError(f"score_structure.py not found at {script_path}")
+            raise FileNotFoundError(f"score_structures.py not found at {script_path}")
 
         cmd = [
             sys.executable, str(script_path),
@@ -668,9 +891,6 @@ class RNAScorer:
             return self.scores
         return None
 
-    # ----------------------------
-    # Full workflow
-    # ----------------------------
     def run_workflow(self, **kwargs):
         """
         Run the full workflow: extract => train => score
@@ -737,26 +957,8 @@ class RNAScorer:
         pd.DataFrame or None
             DataFrame containing scores for each structure if `output_csv` is
             specified, otherwise None
+
+        
         
         """
         return self.score_structure(**kwargs)
-
-# -- in plot scores script:
-# def run_lib(args):
-#     '''library usage, it performs only combined plotly plot and returns the figure object'''
-#     pairs = ['AA', 'AC', 'AG', 'AU', 'CC', 'CG', 'GG', 'CU', 'GU', 'UU']
-#     pairs_data = {}
-
-#     for pair in pairs:
-#         path = os.path.join(args.input_dir, f"score_{pair}.csv")
-#         data = load_score_table(path)
-
-#         if data is None:
-#             continue
-
-#         pairs_data[pair] = data
-
-#     if args.plotly:
-
-#         return plot_combined_profiles_plotly(pairs_data, None, show=args.show)
-#     return plot_combined_profiles(pairs_data, None, show=args.show)

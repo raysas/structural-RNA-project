@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>CLI Usage &#8212; rna_score 0.1.0 documentation</title>
+    <title>Command-Line Interface (CLI) &#8212; rna_score 0.1.0 documentation</title>
   
   
   
@@ -49,7 +49,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Web Tool" href="webtool/index.html" />
-    <link rel="prev" title="Library API" href="library.html" />
+    <link rel="prev" title="User Guide" href="library/user_guide.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -142,7 +142,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="library.html">
+  <a class="nav-link nav-internal" href="library/index.html">
     Library API
   </a>
 </li>
@@ -150,7 +150,7 @@
 
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="#">
-    CLI Usage
+    Command-Line Interface (CLI)
   </a>
 </li>
 
@@ -204,6 +204,10 @@
   
 
   
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
 </div>
 
     </header>
@@ -238,7 +242,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="library.html">
+  <a class="nav-link nav-internal" href="library/index.html">
     Library API
   </a>
 </li>
@@ -246,7 +250,7 @@
 
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="#">
-    CLI Usage
+    Command-Line Interface (CLI)
   </a>
 </li>
 
@@ -323,7 +327,7 @@
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">CLI Usage</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Command-Line Interface (CLI)</span></li>
   </ul>
 </nav>
 </div>
@@ -340,13 +344,767 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="cli-usage">
-<h1>CLI Usage<a class="headerlink" href="#cli-usage" title="Link to this heading">#</a></h1>
-<p>This page summarizes the command-line interface provided by <code class="docutils literal notranslate"><span class="pre">rna-score</span></code> and how to run the main commands.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="command-line-interface-cli">
+<h1>Command-Line Interface (CLI)<a class="headerlink" href="#command-line-interface-cli" title="Link to this heading">#</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">rna-score</span></code> CLI provides a comprehensive toolkit for downloading, processing, and scoring RNA 3D structures using statistical models of interatomic distances.</p>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
+<p>Install the package using git, as mentioned in <a class="reference internal" href="index.html"><span class="std std-doc">main page’s installation instructions</span></a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/raysas/structural-RNA-project.git
+</pre></div>
+</div>
+<p>or clone it and install:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/raysas/structural-RNA-project.git
+<span class="nb">cd</span><span class="w"> </span>structural-RNA-project
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+</pre></div>
+</div>
+</section>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># -- download RNA structures</span>
+rna-score<span class="w"> </span>access<span class="w"> </span>-n<span class="w"> </span><span class="m">50</span><span class="w"> </span>--rna-only<span class="w"> </span>-o<span class="w"> </span>rna_structures
+
+<span class="c1"># -- extract distances</span>
+rna-score<span class="w"> </span>extract<span class="w"> </span>--folder<span class="w"> </span>rna_structures/pdb<span class="w"> </span>--out-dir<span class="w"> </span>distances
+
+<span class="c1"># -- train scoring tables</span>
+rna-score<span class="w"> </span>train<span class="w"> </span>--input-dir<span class="w"> </span>distances<span class="w"> </span>--output-dir<span class="w"> </span>training_output
+
+<span class="c1"># -- score a structure</span>
+rna-score<span class="w"> </span>score<span class="w"> </span>--pdb<span class="w"> </span>structure.pdb<span class="w"> </span>--tables<span class="w"> </span>training_output<span class="w"> </span>--output<span class="w"> </span>scores.csv
+
+<span class="c1"># -- visualize scoring profiles</span>
+rna-score<span class="w"> </span>plot<span class="w"> </span>--input-dir<span class="w"> </span>training_output<span class="w"> </span>--output-dir<span class="w"> </span>plots<span class="w"> </span>--combined
+</pre></div>
+</div>
+</section>
+<section id="available-commands">
+<h2>Available Commands<a class="headerlink" href="#available-commands" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">rna-score</span></code> CLI includes the following subcommands:</p>
 <ul class="simple">
-<li><p>[x] 1. all atoms</p></li>
-<li><p>[x] 2. …</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">access</span></code> - Download RNA structures from RCSB PDB</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">extract</span></code> - Extract interatomic distances from structures</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">train</span></code> - Train scoring tables from distance distributions</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">score</span></code> - Score RNA structures using trained tables</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plot</span></code> - Visualize scoring profiles</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">workflow</span></code> - Run the complete pipeline (extract → train → score)</p></li>
 </ul>
+<p>Use <code class="docutils literal notranslate"><span class="pre">rna-score</span> <span class="pre">&lt;command&gt;</span> <span class="pre">--help</span></code> to see detailed options for each command.</p>
+</section>
+<hr class="docutils" />
+<section id="rna-score-access">
+<h2><code class="docutils literal notranslate"><span class="pre">rna-score</span> <span class="pre">access</span></code><a class="headerlink" href="#rna-score-access" title="Link to this heading">#</a></h2>
+<p>Download RNA structures from the RCSB PDB database.</p>
+<section id="syntax">
+<h3>Syntax<a class="headerlink" href="#syntax" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rna-score<span class="w"> </span>access<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+<section id="options">
+<h3>Options<a class="headerlink" href="#options" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-n,</span> <span class="pre">--max-structures</span></code></p></td>
+<td><p>int</p></td>
+<td><p>10</p></td>
+<td><p>Maximum number of structures to download</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--download-all</span></code></p></td>
+<td><p>flag</p></td>
+<td><p>-</p></td>
+<td><p>Download all available RNA structures</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--rna-only</span></code></p></td>
+<td><p>flag</p></td>
+<td><p>-</p></td>
+<td><p>Restrict to RNA-only structures (no protein/DNA)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-f,</span> <span class="pre">--formats</span></code></p></td>
+<td><p>list</p></td>
+<td><p>pdb, cif</p></td>
+<td><p>File formats to download (pdb, cif)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-o,</span> <span class="pre">--output-dir</span></code></p></td>
+<td><p>str</p></td>
+<td><p>rna_structures</p></td>
+<td><p>Output directory for structures</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--workers</span></code></p></td>
+<td><p>int</p></td>
+<td><p>5</p></td>
+<td><p>Number of parallel download workers</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--show-info</span></code></p></td>
+<td><p>flag</p></td>
+<td><p>-</p></td>
+<td><p>Display metadata for structures before downloading</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--list-only</span></code></p></td>
+<td><p>flag</p></td>
+<td><p>-</p></td>
+<td><p>Only retrieve PDB IDs without downloading files</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--validate</span></code></p></td>
+<td><p>flag</p></td>
+<td><p>-</p></td>
+<td><p>Validate downloaded files and filter out invalid ones</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h3>
+<p>Download 50 RNA-only structures in mmCIF format:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rna-score<span class="w"> </span>access<span class="w"> </span>-n<span class="w"> </span><span class="m">50</span><span class="w"> </span>--rna-only<span class="w"> </span>-f<span class="w"> </span>cif<span class="w"> </span>-o<span class="w"> </span>data/rna_structures
+</pre></div>
+</div>
+<p>Download all RNA structures with validation:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rna-score<span class="w"> </span>access<span class="w"> </span>--download-all<span class="w"> </span>--rna-only<span class="w"> </span>--validate<span class="w"> </span>-o<span class="w"> </span>rna_structures
+</pre></div>
+</div>
+<p>List available RNA structures without downloading:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rna-score<span class="w"> </span>access<span class="w"> </span>-n<span class="w"> </span><span class="m">100</span><span class="w"> </span>--list-only<span class="w"> </span>--show-info
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="rna-score-extract">
+<h2><code class="docutils literal notranslate"><span class="pre">rna-score</span> <span class="pre">extract</span></code><a class="headerlink" href="#rna-score-extract" title="Link to this heading">#</a></h2>
+<p>Extract interatomic distances from RNA structures and generate distance distributions.</p>
+<section id="id1">
+<h3>Syntax<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rna-score<span class="w"> </span>extract<span class="w"> </span><span class="o">[</span>INPUT<span class="o">]</span><span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+<section id="input-options-choose-one">
+<h3>Input Options (choose one)<a class="headerlink" href="#input-options-choose-one" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--pdb</span> <span class="pre">PDB_ID</span></code></p></td>
+<td><p>Download and process a single PDB ID</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--pdb-list</span> <span class="pre">FILE</span></code></p></td>
+<td><p>Process structures from a list file</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--folder</span> <span class="pre">DIR</span></code></p></td>
+<td><p>Process all structures in a directory</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>List file format</strong> (for <code class="docutils literal notranslate"><span class="pre">--pdb-list</span></code>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">PDB_ID</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">CHAIN_ID1</span> <span class="n">CHAIN_ID2</span> <span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="n">EHZ</span> <span class="n">A</span>
+<span class="mi">1</span><span class="n">Y26</span> <span class="n">B</span> <span class="n">C</span>
+<span class="mi">2</span><span class="n">OEU</span>
+</pre></div>
+</div>
+</section>
+<section id="processing-options">
+<h3>Processing Options<a class="headerlink" href="#processing-options" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--format</span> <span class="pre">{pdb,mmcif}</span></code></p></td>
+<td><p>str</p></td>
+<td><p>pdb</p></td>
+<td><p>Structure file format (auto-detected for local files)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--atom-mode</span></code></p></td>
+<td><p>list</p></td>
+<td><p>C3’</p></td>
+<td><p>Atom selection: <code class="docutils literal notranslate"><span class="pre">C3'</span></code>, <code class="docutils literal notranslate"><span class="pre">centroid</span></code>, <code class="docutils literal notranslate"><span class="pre">all</span></code>, or specific atoms (e.g., <code class="docutils literal notranslate"><span class="pre">P</span> <span class="pre">C4</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--dist-mode</span> <span class="pre">{intra,inter}</span></code></p></td>
+<td><p>str</p></td>
+<td><p>intra</p></td>
+<td><p>Distance mode: <code class="docutils literal notranslate"><span class="pre">intra</span></code> (within chain) or <code class="docutils literal notranslate"><span class="pre">inter</span></code> (between chains)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--cutoff</span></code></p></td>
+<td><p>float</p></td>
+<td><p>20.0</p></td>
+<td><p>Maximum distance (Å) to consider as contact</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--seq-sep</span></code></p></td>
+<td><p>int</p></td>
+<td><p>4</p></td>
+<td><p>Minimum sequence separation for intra-chain contacts (residues)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--bin-width</span></code></p></td>
+<td><p>float</p></td>
+<td><p>1.0</p></td>
+<td><p>Bin width (Å) for histogram discretization</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--method</span> <span class="pre">{histogram,kde}</span></code></p></td>
+<td><p>str</p></td>
+<td><p>histogram</p></td>
+<td><p>Extraction method: binned counts or raw distances for KDE</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--cores</span></code></p></td>
+<td><p>int</p></td>
+<td><p>all</p></td>
+<td><p>Number of CPU cores for parallel processing</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--all-models</span></code></p></td>
+<td><p>flag</p></td>
+<td><p>-</p></td>
+<td><p>Process all NMR models (default: first model only)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--save-detailed</span></code></p></td>
+<td><p>flag</p></td>
+<td><p>-</p></td>
+<td><p>Save detailed CSV with all distance measurements</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--out-dir</span></code></p></td>
+<td><p>str</p></td>
+<td><p>dist_data</p></td>
+<td><p>Output directory for distance distributions</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="features-summary">
+<h3>Features Summary<a class="headerlink" href="#features-summary" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Option</p></th>
+<th class="head"><p>Details</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Input Source</strong></p></td>
+<td><p>Structure selection</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--pdb</span></code>, <code class="docutils literal notranslate"><span class="pre">--pdb-list</span></code>, <code class="docutils literal notranslate"><span class="pre">--folder</span></code></p></td>
+<td><p>Choose one: PDB ID, list file, or directory</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Format</strong></p></td>
+<td><p>File format</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--format</span> <span class="pre">{pdb,mmcif}</span></code></p></td>
+<td><p>Default: pdb (auto-detected for local files)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Atomic Selection</strong></p></td>
+<td><p>Structure representation</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--atom-mode</span></code></p></td>
+<td><p>C3’ (default), centroid, all, or specific atoms</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Interaction Mode</strong></p></td>
+<td><p>Distance measurement</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--dist-mode</span> <span class="pre">{intra,inter}</span></code></p></td>
+<td><p>intra: within chain; inter: between chains</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Sequence Separation</strong></p></td>
+<td><p>Minimum residue offset</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--seq-sep</span></code></p></td>
+<td><p>Default: 4 residues (ignored in inter mode)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Distance Cutoff</strong></p></td>
+<td><p>Maximum contact distance</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--cutoff</span></code></p></td>
+<td><p>Default: 20.0 Å</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Output Type</strong></p></td>
+<td><p>Distribution format</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--method</span> <span class="pre">{histogram,kde}</span></code></p></td>
+<td><p>histogram: binned counts; kde: raw distances</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Parallelization</strong></p></td>
+<td><p>CPU cores</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--cores</span></code></p></td>
+<td><p>Default: all available</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>NMR Models</strong></p></td>
+<td><p>Model processing</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--all-models</span></code></p></td>
+<td><p>Default: first model only</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Detailed Log</strong></p></td>
+<td><p>Full distance info</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--save-detailed</span></code></p></td>
+<td><p>Saves PDB, chains, residues, atoms, distances, etc.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id2">
+<h3>Examples<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<p>Extract distances from a folder of mmCIF files:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rna-score<span class="w"> </span>extract<span class="w"> </span>--folder<span class="w"> </span>rna_structures/mmcif<span class="w"> </span>--format<span class="w"> </span>mmcif<span class="w"> </span>--out-dir<span class="w"> </span>dist_data
+</pre></div>
+</div>
+<p>Extract using multiple atom types:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rna-score<span class="w"> </span>extract<span class="w"> </span>--folder<span class="w"> </span>structures/<span class="w"> </span>--atom-mode<span class="w"> </span>P<span class="w"> </span>C4<span class="w"> </span>--method<span class="w"> </span>kde
+</pre></div>
+</div>
+<p>Extract inter-chain distances with detailed output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rna-score<span class="w"> </span>extract<span class="w"> </span>--pdb-list<span class="w"> </span>structures.txt<span class="w"> </span>--dist-mode<span class="w"> </span>inter<span class="w"> </span>--save-detailed
+</pre></div>
+</div>
+<p>Process a single PDB structure:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rna-score<span class="w"> </span>extract<span class="w"> </span>--pdb<span class="w"> </span>1EHZ<span class="w"> </span>--chains<span class="w"> </span>A<span class="w"> </span>--out-dir<span class="w"> </span>distances
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="rna-score-train">
+<h2><code class="docutils literal notranslate"><span class="pre">rna-score</span> <span class="pre">train</span></code><a class="headerlink" href="#rna-score-train" title="Link to this heading">#</a></h2>
+<p>Train scoring tables from extracted distance distributions using statistical potentials or KDE.</p>
+<section id="id3">
+<h3>Syntax<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rna-score<span class="w"> </span>train<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>Options<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--input-dir</span></code></p></td>
+<td><p>str</p></td>
+<td><p>dist_data</p></td>
+<td><p>Directory with distance distributions</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--output-dir</span></code></p></td>
+<td><p>str</p></td>
+<td><p>training_output</p></td>
+<td><p>Output directory for scoring tables</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--method</span> <span class="pre">{histogram,kde}</span></code></p></td>
+<td><p>str</p></td>
+<td><p>histogram</p></td>
+<td><p>Training method</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--max-score</span></code></p></td>
+<td><p>float</p></td>
+<td><p>10.0</p></td>
+<td><p>Maximum score cap to prevent outliers</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--pseudocount</span></code></p></td>
+<td><p>float</p></td>
+<td><p>0.0</p></td>
+<td><p>Pseudocount for smoothing (prevents division by zero)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--cutoff</span></code></p></td>
+<td><p>float</p></td>
+<td><p>20.0</p></td>
+<td><p>Maximum distance (Å) - must match extraction</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--bin-width</span></code></p></td>
+<td><p>float</p></td>
+<td><p>1.0</p></td>
+<td><p>Bin width (Å) - must match extraction</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id5">
+<h3>Examples<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<p>Train scoring tables using default histogram method:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rna-score<span class="w"> </span>train<span class="w"> </span>--input-dir<span class="w"> </span>dist_data<span class="w"> </span>--output-dir<span class="w"> </span>training_output
+</pre></div>
+</div>
+<p>Train with smoothing using pseudocount:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rna-score<span class="w"> </span>train<span class="w"> </span>--input-dir<span class="w"> </span>dist_data<span class="w"> </span>--output-dir<span class="w"> </span>tables<span class="w"> </span>--pseudocount<span class="w"> </span><span class="m">1</span>.0<span class="w"> </span>--max-score<span class="w"> </span><span class="m">15</span>.0
+</pre></div>
+</div>
+<p>Train using KDE method:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rna-score<span class="w"> </span>train<span class="w"> </span>--input-dir<span class="w"> </span>kde_distances<span class="w"> </span>--output-dir<span class="w"> </span>kde_tables<span class="w"> </span>--method<span class="w"> </span>kde
+</pre></div>
+</div>
+</section>
+<section id="output-files">
+<h3>Output Files<a class="headerlink" href="#output-files" title="Link to this heading">#</a></h3>
+<p>The training process generates:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">score_&lt;PAIR&gt;.csv</span></code> - Scoring tables for each base pair type (AA, AC, AG, AU, CC, CG, CU, GG, GU, UU)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">metadata.json</span></code> - Training parameters and configuration</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="rna-score-score">
+<h2><code class="docutils literal notranslate"><span class="pre">rna-score</span> <span class="pre">score</span></code><a class="headerlink" href="#rna-score-score" title="Link to this heading">#</a></h2>
+<p>Score RNA structures using trained scoring tables.</p>
+<section id="id6">
+<h3>Syntax<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rna-score<span class="w"> </span>score<span class="w"> </span><span class="o">[</span>INPUT<span class="o">]</span><span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h3>Input Options (choose one)<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--pdb</span> <span class="pre">FILE</span></code></p></td>
+<td><p>Score a single PDB/mmCIF file</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--folder</span> <span class="pre">DIR</span></code></p></td>
+<td><p>Score all structures in a directory</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--list</span> <span class="pre">FILE</span></code></p></td>
+<td><p>Score structures from a list file</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id8">
+<h3>Options<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--tables</span></code></p></td>
+<td><p>str</p></td>
+<td><p>training_output</p></td>
+<td><p>Directory containing scoring tables</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--format</span> <span class="pre">{pdb,mmcif}</span></code></p></td>
+<td><p>str</p></td>
+<td><p>pdb</p></td>
+<td><p>Input file format</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--atom-mode</span></code></p></td>
+<td><p>list</p></td>
+<td><p>C3’</p></td>
+<td><p>Atom selection (must match training)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--cutoff</span></code></p></td>
+<td><p>float</p></td>
+<td><p>20.0</p></td>
+<td><p>Distance cutoff (must match training)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--seq-sep</span></code></p></td>
+<td><p>int</p></td>
+<td><p>4</p></td>
+<td><p>Sequence separation (must match training)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--detailed</span></code></p></td>
+<td><p>flag</p></td>
+<td><p>-</p></td>
+<td><p>Print detailed per-interaction scores</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--output</span></code></p></td>
+<td><p>str</p></td>
+<td><p>-</p></td>
+<td><p>Output CSV file for scores</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id9">
+<h3>Examples<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
+<p>Score a single structure:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rna-score<span class="w"> </span>score<span class="w"> </span>--pdb<span class="w"> </span>test_structure.pdb<span class="w"> </span>--tables<span class="w"> </span>training_output<span class="w"> </span>--output<span class="w"> </span>scores.csv
+</pre></div>
+</div>
+<p>Score multiple structures from a folder:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rna-score<span class="w"> </span>score<span class="w"> </span>--folder<span class="w"> </span>structures/<span class="w"> </span>--tables<span class="w"> </span>training_output<span class="w"> </span>--format<span class="w"> </span>mmcif<span class="w"> </span>--output<span class="w"> </span>batch_scores.csv
+</pre></div>
+</div>
+<p>Score with detailed output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rna-score<span class="w"> </span>score<span class="w"> </span>--pdb<span class="w"> </span>structure.pdb<span class="w"> </span>--tables<span class="w"> </span>tables/<span class="w"> </span>--detailed<span class="w"> </span>--output<span class="w"> </span>detailed_scores.csv
+</pre></div>
+</div>
+</section>
+<section id="output-format">
+<h3>Output Format<a class="headerlink" href="#output-format" title="Link to this heading">#</a></h3>
+<p>The output CSV contains:</p>
+<ul class="simple">
+<li><p>Structure ID</p></li>
+<li><p>Total score</p></li>
+<li><p>Per-pair-type scores (optional)</p></li>
+<li><p>Number of contacts (optional)</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="rna-score-plot">
+<h2><code class="docutils literal notranslate"><span class="pre">rna-score</span> <span class="pre">plot</span></code><a class="headerlink" href="#rna-score-plot" title="Link to this heading">#</a></h2>
+<p>Generate visualization plots of scoring profiles.</p>
+<section id="id10">
+<h3>Syntax<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rna-score<span class="w"> </span>plot<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+<section id="id11">
+<h3>Options<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--input-dir</span></code></p></td>
+<td><p>str</p></td>
+<td><p>training_output</p></td>
+<td><p>Directory with scoring tables</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--output-dir</span></code></p></td>
+<td><p>str</p></td>
+<td><p>plots</p></td>
+<td><p>Output directory for plots</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--combined</span></code></p></td>
+<td><p>flag</p></td>
+<td><p>-</p></td>
+<td><p>Generate combined multi-panel plot</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id12">
+<h3>Examples<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
+<p>Plot individual scoring profiles:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rna-score<span class="w"> </span>plot<span class="w"> </span>--input-dir<span class="w"> </span>training_output<span class="w"> </span>--output-dir<span class="w"> </span>plots
+</pre></div>
+</div>
+<p>Generate combined visualization:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rna-score<span class="w"> </span>plot<span class="w"> </span>--input-dir<span class="w"> </span>training_output<span class="w"> </span>--output-dir<span class="w"> </span>plots<span class="w"> </span>--combined
+</pre></div>
+</div>
+</section>
+<section id="id13">
+<h3>Output Files<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
+<p>The plotting generates:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">png/</span></code> - Individual PNG plots for each pair type</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">html/</span></code> - Interactive Plotly HTML plots</p></li>
+<li><p>Combined plots (if <code class="docutils literal notranslate"><span class="pre">--combined</span></code> is used)</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="rna-score-workflow">
+<h2><code class="docutils literal notranslate"><span class="pre">rna-score</span> <span class="pre">workflow</span></code><a class="headerlink" href="#rna-score-workflow" title="Link to this heading">#</a></h2>
+<p>Run the complete pipeline: extract distances → train scoring tables → score structures.</p>
+<section id="id14">
+<h3>Syntax<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rna-score<span class="w"> </span>workflow<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+<section id="id15">
+<h3>Options<a class="headerlink" href="#id15" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--train-folder</span></code></p></td>
+<td><p>str</p></td>
+<td><p>Directory with training structures</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--train-list</span></code></p></td>
+<td><p>str</p></td>
+<td><p>List file with training structures</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--score-folder</span></code></p></td>
+<td><p>str</p></td>
+<td><p>Directory with structures to score</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--score-list</span></code></p></td>
+<td><p>str</p></td>
+<td><p>List file with structures to score</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--output-dir</span></code></p></td>
+<td><p>str</p></td>
+<td><p>Base output directory (default: workflow_output)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--format</span></code></p></td>
+<td><p>str</p></td>
+<td><p>File format (default: pdb)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--method</span></code></p></td>
+<td><p>str</p></td>
+<td><p>Training method (default: histogram)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--atom-mode</span></code></p></td>
+<td><p>list</p></td>
+<td><p>Atom selection (default: C3’)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--cutoff</span></code></p></td>
+<td><p>float</p></td>
+<td><p>Distance cutoff (default: 20.0)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--seq-sep</span></code></p></td>
+<td><p>int</p></td>
+<td><p>Sequence separation (default: 4)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--cores</span></code></p></td>
+<td><p>int</p></td>
+<td><p>CPU cores for parallel processing</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id16">
+<h3>Examples<a class="headerlink" href="#id16" title="Link to this heading">#</a></h3>
+<p>Full workflow with training and scoring:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create scoring list</span>
+cat<span class="w"> </span><span class="s">&lt;&lt;EOF &gt; tests/scoring_list.txt</span>
+<span class="s">1EHZ A</span>
+<span class="s">1Y26 B C</span>
+<span class="s">EOF</span>
+
+rna-score<span class="w"> </span>workflow<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--train-folder<span class="w"> </span>rna_structures/mmcif<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--score-list<span class="w"> </span>tests/scoring_list.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-dir<span class="w"> </span>workflow_output<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--format<span class="w"> </span>mmcif<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--method<span class="w"> </span>histogram
+</pre></div>
+</div>
+<p>Workflow with custom parameters:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rna-score<span class="w"> </span>workflow<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--train-folder<span class="w"> </span>structures/<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--score-list<span class="w"> </span>to_score.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--atom-mode<span class="w"> </span>P<span class="w"> </span>C4<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--cutoff<span class="w"> </span><span class="m">25</span>.0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--cores<span class="w"> </span><span class="m">8</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-dir<span class="w"> </span>results
+</pre></div>
+</div>
+</section>
+<section id="output-structure">
+<h3>Output Structure<a class="headerlink" href="#output-structure" title="Link to this heading">#</a></h3>
+<p>The workflow creates:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>workflow_output/
+├── extracted/          # Distance distributions
+├── training_output/    # Scoring tables
+└── scores.csv         # Final scores
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="getting-help">
+<h2>Getting Help<a class="headerlink" href="#getting-help" title="Link to this heading">#</a></h2>
+<p>For detailed help on any command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rna-score<span class="w"> </span>--help
+rna-score<span class="w"> </span>&lt;command&gt;<span class="w"> </span>--help
+</pre></div>
+</div>
+<p>For version information:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rna-score<span class="w"> </span>--version
+</pre></div>
+</div>
+</section>
+<section id="common-workflows">
+<h2>Common Workflows<a class="headerlink" href="#common-workflows" title="Link to this heading">#</a></h2>
+<section id="basic-workflow">
+<h3>Basic Workflow<a class="headerlink" href="#basic-workflow" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Download structures</span>
+rna-score<span class="w"> </span>access<span class="w"> </span>-n<span class="w"> </span><span class="m">100</span><span class="w"> </span>--rna-only<span class="w"> </span>-o<span class="w"> </span>rna_structures
+
+<span class="c1"># 2. Extract distances</span>
+rna-score<span class="w"> </span>extract<span class="w"> </span>--folder<span class="w"> </span>rna_structures/pdb<span class="w"> </span>--out-dir<span class="w"> </span>distances
+
+<span class="c1"># 3. Train scoring tables</span>
+rna-score<span class="w"> </span>train<span class="w"> </span>--input-dir<span class="w"> </span>distances<span class="w"> </span>--output-dir<span class="w"> </span>tables
+
+<span class="c1"># 4. Score structures</span>
+rna-score<span class="w"> </span>score<span class="w"> </span>--folder<span class="w"> </span>test_structures/<span class="w"> </span>--tables<span class="w"> </span>tables<span class="w"> </span>--output<span class="w"> </span>scores.csv
+
+<span class="c1"># 5. Visualize</span>
+rna-score<span class="w"> </span>plot<span class="w"> </span>--input-dir<span class="w"> </span>tables<span class="w"> </span>--output-dir<span class="w"> </span>plots<span class="w"> </span>--combined
+</pre></div>
+</div>
+</section>
+<section id="kde-based-workflow">
+<h3>KDE-Based Workflow<a class="headerlink" href="#kde-based-workflow" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract raw distances for KDE</span>
+rna-score<span class="w"> </span>extract<span class="w"> </span>--folder<span class="w"> </span>structures/<span class="w"> </span>--method<span class="w"> </span>kde<span class="w"> </span>--out-dir<span class="w"> </span>kde_data
+
+<span class="c1"># Train using KDE</span>
+rna-score<span class="w"> </span>train<span class="w"> </span>--input-dir<span class="w"> </span>kde_data<span class="w"> </span>--method<span class="w"> </span>kde<span class="w"> </span>--output-dir<span class="w"> </span>kde_tables
+
+<span class="c1"># Score with KDE tables</span>
+rna-score<span class="w"> </span>score<span class="w"> </span>--pdb<span class="w"> </span>structure.pdb<span class="w"> </span>--tables<span class="w"> </span>kde_tables<span class="w"> </span>--output<span class="w"> </span>scores.csv
+</pre></div>
+</div>
+</section>
+<section id="inter-chain-analysis">
+<h3>Inter-Chain Analysis<a class="headerlink" href="#inter-chain-analysis" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract inter-chain distances</span>
+rna-score<span class="w"> </span>extract<span class="w"> </span>--folder<span class="w"> </span>structures/<span class="w"> </span>--dist-mode<span class="w"> </span>inter<span class="w"> </span>--out-dir<span class="w"> </span>inter_distances
+
+<span class="c1"># Train and score</span>
+rna-score<span class="w"> </span>train<span class="w"> </span>--input-dir<span class="w"> </span>inter_distances<span class="w"> </span>--output-dir<span class="w"> </span>inter_tables
+rna-score<span class="w"> </span>score<span class="w"> </span>--pdb<span class="w"> </span>complex.pdb<span class="w"> </span>--tables<span class="w"> </span>inter_tables<span class="w"> </span>--output<span class="w"> </span>inter_scores.csv
+</pre></div>
+</div>
+</section>
+</section>
+<section id="tips">
+<h2>Tips<a class="headerlink" href="#tips" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Consistency</strong>: Always use the same <code class="docutils literal notranslate"><span class="pre">--cutoff</span></code>, <code class="docutils literal notranslate"><span class="pre">--seq-sep</span></code>, and <code class="docutils literal notranslate"><span class="pre">--atom-mode</span></code> values across extraction, training, and scoring steps.</p></li>
+<li><p><strong>Parallelization</strong>: Use <code class="docutils literal notranslate"><span class="pre">--cores</span></code> to speed up processing of large datasets.</p></li>
+<li><p><strong>Validation</strong>: Use <code class="docutils literal notranslate"><span class="pre">--validate</span></code> with <code class="docutils literal notranslate"><span class="pre">access</span></code> command to ensure structure quality.</p></li>
+<li><p><strong>Detailed Logs</strong>: Use <code class="docutils literal notranslate"><span class="pre">--save-detailed</span></code> during extraction for debugging or analysis of individual contacts.</p></li>
+<li><p><strong>Format Detection</strong>: For local files, format is auto-detected; specify <code class="docutils literal notranslate"><span class="pre">--format</span></code> explicitly for downloaded PDB IDs.</p></li>
+</ul>
+</section>
 </section>
 
 
@@ -360,12 +1118,12 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="library.html"
+       href="library/user_guide.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Library API</p>
+        <p class="prev-next-title">User Guide</p>
       </div>
     </a>
     <a class="right-next"
@@ -383,6 +1141,77 @@
             </div>
             
             
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-start">Quick Start</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#available-commands">Available Commands</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rna-score-access"><code class="docutils literal notranslate"><span class="pre">rna-score</span> <span class="pre">access</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#syntax">Syntax</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#options">Options</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rna-score-extract"><code class="docutils literal notranslate"><span class="pre">rna-score</span> <span class="pre">extract</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Syntax</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#input-options-choose-one">Input Options (choose one)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#processing-options">Processing Options</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#features-summary">Features Summary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Examples</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rna-score-train"><code class="docutils literal notranslate"><span class="pre">rna-score</span> <span class="pre">train</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Syntax</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Options</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Examples</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#output-files">Output Files</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rna-score-score"><code class="docutils literal notranslate"><span class="pre">rna-score</span> <span class="pre">score</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Syntax</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Input Options (choose one)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Options</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Examples</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#output-format">Output Format</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rna-score-plot"><code class="docutils literal notranslate"><span class="pre">rna-score</span> <span class="pre">plot</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Syntax</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Options</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Examples</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Output Files</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rna-score-workflow"><code class="docutils literal notranslate"><span class="pre">rna-score</span> <span class="pre">workflow</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">Syntax</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">Options</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">Examples</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#output-structure">Output Structure</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-help">Getting Help</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-workflows">Common Workflows</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-workflow">Basic Workflow</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kde-based-workflow">KDE-Based Workflow</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inter-chain-analysis">Inter-Chain Analysis</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tips">Tips</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
