@@ -7,7 +7,10 @@
 
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../..'))  # allows autodoc to find your lib
+
+repo_root = os.path.abspath('../..')
+sys.path.insert(0, repo_root)
+sys.path.insert(0, os.path.join(repo_root, 'src'))  # ensure autodoc finds rna_score
 
 
 # -- Project information -----------------------------------------------------
@@ -50,7 +53,7 @@ html_theme_options = {
     "navigation_depth": 3,
     "show_prev_next": True,
     "use_edit_page_button": False,
-    "secondary_sidebar_items": {"*": ["page-toc"]},
+    "secondary_sidebar_items": ["page-toc"],
 }
 
 html_context = {
@@ -72,3 +75,6 @@ myst_enable_extensions = [
     "deflist",           # definition lists
     "dollarmath",        # enable $...$ and $$...$$ math
 ]
+
+# Enable heading anchors in Markdown so page-level ToC works on MyST pages
+myst_heading_anchors = 3

@@ -65,7 +65,7 @@ Supervised by Professor Guillaume Postic.
       Run the pipeline end-to-end from the command line.
 
    .. grid-item-card:: Webtool
-      :link: webtool
+      :link: webtool/index
       :link-type: doc
       :shadow: sm
       :class-card: sd-border-1 sd-rounded-2
@@ -79,4 +79,4 @@ Supervised by Professor Guillaume Postic.
    background/index
    library
    cli
-   webtool
+   webtool/index

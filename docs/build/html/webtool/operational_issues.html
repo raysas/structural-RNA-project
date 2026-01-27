@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Scoring: estimating the energy of a candidate structure &#8212; rna_score 0.1.0 documentation</title>
+    <title>Common operational issues (and fixes) &#8212; rna_score 0.1.0 documentation</title>
   
   
   
@@ -45,14 +45,10 @@
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'background/scoring';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'webtool/operational_issues';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Outputs and how they are used" href="outputs.html" />
-    <link rel="prev" title="Training: from RNA structures to scoring tables" href="training.html" />
+    <link rel="prev" title="Web Tool (Hosted Interface)" href="webtool.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -137,8 +133,8 @@
 <nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-<li class="nav-item current active">
-  <a class="nav-link nav-internal" href="index.html">
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../background/index.html">
     Background
   </a>
 </li>
@@ -158,8 +154,8 @@
 </li>
 
 
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../webtool/index.html">
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
     Web Tool
   </a>
 </li>
@@ -207,6 +203,10 @@
   
 
   
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
 </div>
 
     </header>
@@ -233,8 +233,8 @@
 <nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-<li class="nav-item current active">
-  <a class="nav-link nav-internal" href="index.html">
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../background/index.html">
     Background
   </a>
 </li>
@@ -254,8 +254,8 @@
 </li>
 
 
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../webtool/index.html">
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
     Web Tool
   </a>
 </li>
@@ -288,10 +288,8 @@
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="concepts.html">RNA folding as an optimization problem</a></li>
-<li class="toctree-l1"><a class="reference internal" href="training.html">Training: from RNA structures to scoring tables</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Scoring: estimating the energy of a candidate structure</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outputs.html">Outputs and how they are used</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webtool.html">Web Tool (Hosted Interface)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Common operational issues (and fixes)</a></li>
 </ul>
 </div>
 </nav></div>
@@ -333,9 +331,9 @@
       </a>
     </li>
     
-    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Background</a></li>
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Web Tool</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Scoring: estimating the energy of a candidate structure</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Common operational issues (and fixes)</span></li>
   </ul>
 </nav>
 </div>
@@ -352,27 +350,37 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="scoring-estimating-the-energy-of-a-candidate-structure">
-<h1>Scoring: estimating the energy of a candidate structure<a class="headerlink" href="#scoring-estimating-the-energy-of-a-candidate-structure" title="Link to this heading">#</a></h1>
-<p>Given a candidate RNA conformation, we:</p>
-<ol class="arabic simple">
-<li><p>Compute all distances under the same constraints used in training (cutoff, intra-chain, minimum sequence separation, atom selection).</p></li>
-<li><p>For each interaction distance <span class="math notranslate nohighlight">\(d\)</span> and corresponding pair type <span class="math notranslate nohighlight">\((i,j)\)</span>, retrieve a score <span class="math notranslate nohighlight">\(\bar{u}_{i,j}(d)\)</span>.</p></li>
-</ol>
-<p>Because <span class="math notranslate nohighlight">\(d\)</span> is continuous and the trained tables are discrete, the course specifies using linear interpolation to obtain a score at the exact distance.</p>
-<p>The total score (energy estimate) for the structure is:</p>
-<div class="math notranslate nohighlight">
-\[
-S(\text{structure}) \,=\, \sum_{(p,q)\in\mathcal{I}} \bar{u}_{t(p),t(q)}\!\left(d(p,q)\right)
-\]</div>
-<p>where:</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="common-operational-issues-and-fixes">
+<h1>Common operational issues (and fixes)<a class="headerlink" href="#common-operational-issues-and-fixes" title="Link to this heading">#</a></h1>
+<section id="my-run-seems-stuck">
+<h2>“My run seems stuck”<a class="headerlink" href="#my-run-seems-stuck" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(\mathcal{I}\)</span> is the set of retained interactions (pairs of residues passing all filters),</p></li>
-<li><p><span class="math notranslate nohighlight">\(t(p)\)</span> is the nucleotide type of residue <span class="math notranslate nohighlight">\(p\)</span>,</p></li>
-<li><p><span class="math notranslate nohighlight">\(d(p,q)\)</span> is the interatomic distance (Å).</p></li>
+<li><p>Check <strong>Status</strong> with the Job ID.</p></li>
+<li><p>Large inputs + large cutoff can make extraction/training slow; try a smaller test first.</p></li>
 </ul>
-<p>Lower scores are interpreted as more favorable conformations.</p>
-<p>This evaluation logic is implemented in <code class="docutils literal notranslate"><span class="pre">score_structures.py</span></code>, which loads the learned <code class="docutils literal notranslate"><span class="pre">score_*.csv</span></code> tables and accumulates per-interaction scores into a total estimate.</p>
+</section>
+<section id="outputs-are-empty-or-extremely-small">
+<h2>“Outputs are empty or extremely small”<a class="headerlink" href="#outputs-are-empty-or-extremely-small" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Verify the structure actually contains RNA residues and the selected atom (e.g., <code class="docutils literal notranslate"><span class="pre">C3'</span></code>).</p></li>
+<li><p>Reduce <strong>sequence separation</strong> (too large can remove many contacts).</p></li>
+<li><p>Ensure chains are valid (in paste mode, wrong chain IDs often yield empty extraction).</p></li>
+</ul>
+</section>
+<section id="scores-look-inconsistent-across-runs">
+<h2>“Scores look inconsistent across runs”<a class="headerlink" href="#scores-look-inconsistent-across-runs" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Ensure you did not change cutoff/bin width/atom mode/separation.</p></li>
+<li><p>Ensure the training set is the same (different training structures = different model).</p></li>
+</ul>
+</section>
+<section id="i-want-to-score-many-test-sets-with-the-same-model">
+<h2>“I want to score many test sets with the same model”<a class="headerlink" href="#i-want-to-score-many-test-sets-with-the-same-model" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Run <strong>Extract + Train</strong> once (or a Pipeline run).</p></li>
+<li><p>Then repeatedly use the <strong>Score</strong> tab with new structures, keeping parameters identical.</p></li>
+</ul>
+</section>
 </section>
 
 
@@ -386,22 +394,13 @@ S(\text{structure}) \,=\, \sum_{(p,q)\in\mathcal{I}} \bar{u}_{t(p),t(q)}\!\left(
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="training.html"
+       href="webtool.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Training: from RNA structures to scoring tables</p>
+        <p class="prev-next-title">Web Tool (Hosted Interface)</p>
       </div>
-    </a>
-    <a class="right-next"
-       href="outputs.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Outputs and how they are used</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -409,6 +408,27 @@ S(\text{structure}) \,=\, \sum_{(p,q)\in\mathcal{I}} \bar{u}_{t(p),t(q)}\!\left(
             </div>
             
             
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#my-run-seems-stuck">“My run seems stuck”</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outputs-are-empty-or-extremely-small">“Outputs are empty or extremely small”</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scores-look-inconsistent-across-runs">“Scores look inconsistent across runs”</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-want-to-score-many-test-sets-with-the-same-model">“I want to score many test sets with the same model”</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
