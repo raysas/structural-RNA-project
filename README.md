@@ -9,6 +9,9 @@
 ![GitHub stars](https://img.shields.io/github/stars/raysas/structural-RNA-project)
 ![GitHub forks](https://img.shields.io/github/forks/raysas/structural-RNA-project)
 
+
+<a href="https://colab.research.google.com/github/raysas/structural-RNA-project/blob/dev/lib/docs/source/library/user_guide.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open Demo in colab"/></a>
+
 **Goal:** Creation of an objective function for the RNA folding problem
 
 This project develops a scoring function to evaluate predicted RNA tertiary structures based on interatomic distance distributions.
