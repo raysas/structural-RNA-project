@@ -5,8 +5,6 @@ myst-parser>=1.0.0
 nbsphinx>=0.9.0
 sphinx-design>=0.5.0
 pydata-sphinx-theme>=0.13.0
-# sphinx-rtd-theme
 pandas
 numpy
 plotly
-sphinx.ext.napoleon
