@@ -7,7 +7,10 @@
 
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../'))  # allows autodoc to find your lib
+
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+sys.path.insert(0, ROOT)
+
 
 
 # -- Project information -----------------------------------------------------

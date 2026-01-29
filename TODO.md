@@ -1,0 +1,2 @@
+- [ ] library plot option with matplotlib (no rendering for plotly on colab) -> z++
+- [ ] non long function -> version increment y++

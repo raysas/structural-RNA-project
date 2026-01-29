@@ -1,9 +1,12 @@
-sphinx>=9.0.0
+# sphinx>=9.0.0
+sphinx>=7.2,<8 # -- debugging lib module deployment
 sphinx_autodoc_typehints>=2.0.0
 myst-parser>=1.0.0
 nbsphinx>=0.9.0
 sphinx-design>=0.5.0
 pydata-sphinx-theme>=0.13.0
+# sphinx-rtd-theme
 pandas
 numpy
 plotly
+sphinx.ext.napoleon

@@ -30,8 +30,17 @@ rna-score provides tools to download, process, and score RNA 3D structures using
 
 Install via pip:
 ```bash
+# -- under development
 pip install git+https://github.com/raysas/structural-RNA-project.git
 ```
+a more stable release will be available soon, better to install in editable mode for now:
+```bash
+git clone https://github.com/raysas/structural-RNA-project.git
+cd structural-RNA-project
+pip install -r requirements.txt
+pip install -e .
+```
+
 **Documentation:** [structural-rna-project.readthedocs.io](https://structural-rna-project.readthedocs.io)
 
 > [!TIP] 
