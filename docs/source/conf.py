@@ -62,6 +62,21 @@ html_theme_options = {
     "show_prev_next": True,
     "use_edit_page_button": False,
     "secondary_sidebar_items": ["page-toc"],
+    "icon_links": [
+        {
+            "name": "GitHub",
+            "url": "https://github.com/raysas/structural-RNA-project",
+            "icon": "fa-brands fa-github",
+        }
+    ],
+    "announcement": """
+        ✨ <strong>v0.2+</strong> now includes 4 new scoring functions: non-log scoring formulae including direct ratio, inverse ratio, and information gain (Postic et al., 2020)
+    """,
+    # "navbar_end": ["navbar-icon-links", "version-switcher"],
+    "switcher": {
+        "json_url": "https://raysas.github.io/structural-RNA-project/_static/switcher.json",
+        "version_match": release,
+    },
 }
 
 html_context = {

@@ -1,2 +1,7 @@
-- [ ] library plot option with matplotlib (no rendering for plotly on colab) -> z++
-- [ ] non long function -> version increment y++
+- [x] non log function + docs (yazid) -> version increment y++
+- [x] add github icon to readthedocs + announcement
+- [x] add version switcher to readthedocs
+- [x] make 2 pages in cli: usage and implementation details
+- [ ] pip install fix (non dev mode failing - module imports issue, might work now? test after commit)
+- [ ] add more tests and examples to `docs/library/user_guide.ipynb`
+- [ ] add a way to download pdb structures from benchmark for competition   

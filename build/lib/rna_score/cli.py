@@ -39,6 +39,7 @@ def main():
     train_parser.add_argument('--cutoff', type=float, default=20.0)
     train_parser.add_argument('--bin-width', type=float, default=1.0)
     train_parser.add_argument('--method', choices=['histogram', 'kde'], default='histogram', help='Training method: histogram (default) or kde')
+    train_parser.add_argument('--scoring-formula', choices=['log', 'inverse', 'info-gain', 'ratio'], default='log', help='Scoring formula: log=-log(obs/ref) [default], inverse=ref/obs, info-gain=-(obs-ref)/ref, ratio=obs/ref')
 
     # Score structures
     score_parser = subparsers.add_parser('score', help='Score RNA structures')
@@ -73,6 +74,7 @@ def main():
     workflow_parser.add_argument('--method', choices=['histogram', 'kde'], default='histogram', help='Extraction/training method')
     workflow_parser.add_argument('--max-score', type=float, default=10.0, help='Maximum score for training')
     workflow_parser.add_argument('--pseudocount', type=float, default=0)
+    workflow_parser.add_argument('--scoring-formula', choices=['log', 'inverse', 'info-gain', 'ratio'], default='log', help='Scoring formula: log=-log(obs/ref) [default], inverse=ref/obs, info-gain=-(obs-ref)/ref, ratio=obs/ref')
     workflow_parser.add_argument('--output-dir', type=str, default='workflow_output', help='Base output directory')
     workflow_parser.add_argument('--no-plot', action='store_true', help='Skip plot generation')
     workflow_parser.add_argument('--cores', type=int, help='Number of cores for extraction')
@@ -176,7 +178,8 @@ Analyze, train, and score RNA structures with ease.
                 '--pseudocount', str(args.pseudocount),
                 '--cutoff', str(args.cutoff),
                 '--bin-width', str(args.bin_width),
-                '--method', args.method
+                '--method', args.method,
+                '--scoring-formula', args.scoring_formula
             ]
             subprocess.run(train_cmd, check=True)
             print(f"✓ Training complete. Output in {training_dir}")
@@ -265,7 +268,8 @@ Analyze, train, and score RNA structures with ease.
                 '--pseudocount', str(args.pseudocount),
                 '--cutoff', str(args.cutoff),
                 '--bin-width', str(args.bin_width),
-                '--method', args.method
+                '--method', args.method,
+                '--scoring-formula', args.scoring_formula
             ]
             subprocess.run(cmd, check=True)
             print(f"✓ Training complete. Output in {args.output_dir}")

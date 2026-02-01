@@ -1,0 +1,883 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>extract_distances &#8212; rna_score 0.2.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=379304cd" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=938c9ccc"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/extract_distances';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raysas.github.io/structural-RNA-project/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.2.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">
+        ✨ <strong>v0.2+</strong> now includes 4 new scoring functions: non-log scoring formulae including direct ratio, inverse ratio, and information gain (Postic et al., 2020)
+    </div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.png" class="logo__image only-light" alt="rna_score 0.2.0 documentation - Home"/>
+    <img src="../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="rna_score 0.2.0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../background/index.html">
+    Background
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../library/index.html">
+    Library API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../cli/index.html">
+    Command-Line Interface (CLI)
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../webtool/index.html">
+    Web Tool
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/raysas/structural-RNA-project" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../background/index.html">
+    Background
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../library/index.html">
+    Library API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../cli/index.html">
+    Command-Line Interface (CLI)
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../webtool/index.html">
+    Web Tool
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/raysas/structural-RNA-project" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">extract_distances</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for extract_distances</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">RNA Distance Extractor Script</span>
+
+<span class="sd">This script processes RNA structures from PDB or mmCIF files (local or remote) to compute</span>
+<span class="sd">distance distributions between selected atoms. It supports both intra-chain and inter-chain</span>
+<span class="sd">interactions, various atomic selection modes, and parallel processing.</span>
+
+<span class="sd">Parameters / Command-line options:</span>
+
+<span class="sd">  -h, --help</span>
+<span class="sd">      Show this help message and exit.</span>
+
+<span class="sd">  --pdb PDB</span>
+<span class="sd">      Single RNA PDB ID (remote) or filename (local). Default: None</span>
+
+<span class="sd">  --list LIST</span>
+<span class="sd">      Text file containing a list of RNA PDB IDs and optional chain IDs to process.</span>
+<span class="sd">      Format: &lt;PDB_ID&gt; [CHAIN_ID1 CHAIN_ID2 ...]</span>
+<span class="sd">      Example:</span>
+<span class="sd">          1EHZ A</span>
+<span class="sd">          1Y26 B C</span>
+<span class="sd">          2OEU</span>
+<span class="sd">      Default: None</span>
+
+<span class="sd">  --folder FOLDER</span>
+<span class="sd">      Directory containing local PDB or mmCIF files to process in batch.</span>
+<span class="sd">      Default: None</span>
+
+<span class="sd">  --chains CHAINS [CHAINS ...]</span>
+<span class="sd">      Specific chains to process for a single PDB or files in a folder. Default: all chains</span>
+
+<span class="sd">  --format {pdb,mmcif}</span>
+<span class="sd">      Input file format. Default: pdb</span>
+
+<span class="sd">  --all-models</span>
+<span class="sd">      Process all NMR models instead of just the first model. Default: False</span>
+
+<span class="sd">  --cores CORES</span>
+<span class="sd">      Number of CPU cores to use for parallel processing. Default: None (uses all available cores)</span>
+
+<span class="sd">  --atom-mode ATOM_MODE [ATOM_MODE ...]</span>
+<span class="sd">      Atom selection mode:</span>
+<span class="sd">        - Single atom name (e.g., &quot;C3&#39;&quot;)</span>
+<span class="sd">        - &quot;centroid&quot; for nucleotide centroid</span>
+<span class="sd">        - &quot;all&quot; for all atoms</span>
+<span class="sd">        - list of atom names (e.g., &quot;C3&#39;&quot; &quot;P&quot; &quot;O&quot;)</span>
+<span class="sd">      Default: [&quot;C3&#39;&quot;]</span>
+
+<span class="sd">  --dist-mode {intra,inter}</span>
+<span class="sd">      Interaction mode:</span>
+<span class="sd">        - &quot;intra&quot; computes distances within the same chain (sequence-separated by --seq-sep)</span>
+<span class="sd">        - &quot;inter&quot; computes distances between different chains</span>
+<span class="sd">      Default: intra</span>
+
+<span class="sd">  --cutoff CUTOFF</span>
+<span class="sd">      Maximum distance (Å) to consider an interaction. Default: 20.0</span>
+
+<span class="sd">  --seq-sep SEQ_SEP</span>
+<span class="sd">      Minimum sequence separation for intra-chain interactions. Ignored for inter-chain. Default: 4</span>
+
+<span class="sd">  --bin-width BIN_WIDTH</span>
+<span class="sd">      Width of histogram bins (applies if --method=histogram). Default: 1.0</span>
+
+<span class="sd">  --method {histogram,kde}</span>
+<span class="sd">      Output type:</span>
+<span class="sd">        - histogram: counts of interactions in bins</span>
+<span class="sd">        - kde: raw distances (can be used for kernel density estimation)</span>
+<span class="sd">      Default: histogram</span>
+
+<span class="sd">  --out-dir OUT_DIR</span>
+<span class="sd">      Directory for output files. Default: dist_data</span>
+
+<span class="sd">  --save-detailed</span>
+<span class="sd">      Export detailed CSV log of interactions including coordinates, atom names, chain IDs, and distances. Default: False</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProcessPoolExecutor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">repeat</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">glob</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial</span><span class="w"> </span><span class="kn">import</span> <span class="n">cKDTree</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils.structure_io</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastParser</span><span class="p">,</span> <span class="n">OnlineFetcher</span>
+
+<span class="c1"># Global configuration removed; config is passed explicitly per worker</span>
+
+<div class="viewcode-block" id="parse_input_file">
+<a class="viewcode-back" href="../cli/implementation.html#extract_distances.parse_input_file">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">parse_input_file</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parse a list of PDB IDs and optional chains from a text file.</span>
+<span class="sd">    Each line: &lt;PDB_ID&gt; [CHAIN_ID1 CHAIN_ID2 ...]</span>
+<span class="sd">    Returns a list of dictionaries: {&#39;id&#39;: str, &#39;chains&#39;: list or None, &#39;is_local&#39;: bool}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">targets</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">parts</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">parts</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">pdb_id</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">chains</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="n">is_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">pdb_id</span><span class="p">)</span>
+            <span class="n">targets</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">pdb_id</span><span class="p">,</span>
+                <span class="s1">&#39;chains&#39;</span><span class="p">:</span> <span class="n">chains</span><span class="p">,</span>
+                <span class="s1">&#39;is_local&#39;</span><span class="p">:</span> <span class="n">is_file</span>
+            <span class="p">})</span>
+    <span class="k">return</span> <span class="n">targets</span></div>
+
+
+<div class="viewcode-block" id="worker_process">
+<a class="viewcode-back" href="../cli/implementation.html#extract_distances.worker_process">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">worker_process</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">cfg</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Worker function to fetch, parse, and compute distances for a single target.</span>
+<span class="sd">    Returns (results_dict, detailed_df) or (None, None) if processing fails.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ident</span> <span class="o">=</span> <span class="n">target</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+        <span class="n">file_id</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">ident</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># Use filename as ID for local files</span>
+
+        <span class="c1"># Fetch file content</span>
+        <span class="k">if</span> <span class="n">target</span><span class="p">[</span><span class="s1">&#39;is_local&#39;</span><span class="p">]:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">ident</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                    <span class="n">content</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+                <span class="c1"># Infer format for local files if not explicitly set</span>
+                <span class="k">if</span> <span class="n">ident</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">((</span><span class="s1">&#39;.cif&#39;</span><span class="p">,</span> <span class="s1">&#39;.mmcif&#39;</span><span class="p">)):</span>
+                    <span class="n">file_format</span> <span class="o">=</span> <span class="s1">&#39;mmcif&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">file_format</span> <span class="o">=</span> <span class="s1">&#39;pdb&#39;</span>
+
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="n">OnlineFetcher</span><span class="o">.</span><span class="n">get_content</span><span class="p">(</span><span class="n">ident</span><span class="p">,</span> <span class="n">file_format</span><span class="o">=</span><span class="n">cfg</span><span class="p">[</span><span class="s1">&#39;fmt&#39;</span><span class="p">])</span>
+            <span class="n">file_format</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s1">&#39;fmt&#39;</span><span class="p">]</span>
+            <span class="n">file_id</span> <span class="o">=</span> <span class="n">ident</span> <span class="c1"># Use PDB ID for remote files</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">content</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
+        <span class="c1"># Parse structure</span>
+        <span class="n">parser</span> <span class="o">=</span> <span class="n">FastParser</span><span class="p">(</span><span class="n">atom_mode</span><span class="o">=</span><span class="n">cfg</span><span class="p">[</span><span class="s1">&#39;atom_mode&#39;</span><span class="p">])</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">file_format</span><span class="o">=</span><span class="n">file_format</span><span class="p">,</span> <span class="n">pdb_name</span><span class="o">=</span><span class="n">file_id</span><span class="p">,</span>
+                            <span class="n">chains_filter</span><span class="o">=</span><span class="n">target</span><span class="p">[</span><span class="s1">&#39;chains&#39;</span><span class="p">],</span> <span class="n">use_all_models</span><span class="o">=</span><span class="n">cfg</span><span class="p">[</span><span class="s1">&#39;all_models&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
+        <span class="c1"># Compute distances</span>
+        <span class="n">dists</span><span class="p">,</span> <span class="n">detailed_df</span> <span class="o">=</span> <span class="n">compute_distances</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">,</span>
+            <span class="n">cutoff</span><span class="o">=</span><span class="n">cfg</span><span class="p">[</span><span class="s1">&#39;cutoff&#39;</span><span class="p">],</span>
+            <span class="n">seq_separation</span><span class="o">=</span><span class="n">cfg</span><span class="p">[</span><span class="s1">&#39;seq_sep&#39;</span><span class="p">],</span>
+            <span class="n">dist_mode</span><span class="o">=</span><span class="n">cfg</span><span class="p">[</span><span class="s1">&#39;dist_mode&#39;</span><span class="p">],</span>
+            <span class="n">detailed_output</span><span class="o">=</span><span class="n">cfg</span><span class="p">[</span><span class="s1">&#39;detailed&#39;</span><span class="p">]</span>
+        <span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">dists</span><span class="p">,</span> <span class="n">detailed_df</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="compute_distances">
+<a class="viewcode-back" href="../cli/implementation.html#extract_distances.compute_distances">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_distances</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span> <span class="n">seq_separation</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">dist_mode</span><span class="o">=</span><span class="s1">&#39;intra&#39;</span><span class="p">,</span> <span class="n">detailed_output</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes pairwise distances between atoms in an RNA structure.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    data : dict</span>
+<span class="sd">        Parsed RNA structure data from FastParser.</span>
+<span class="sd">    cutoff : float</span>
+<span class="sd">        Maximum distance between atoms to be considered a contact (in Ångströms).</span>
+<span class="sd">    seq_separation : int</span>
+<span class="sd">        Minimum sequence separation for intra-chain distance computations.</span>
+<span class="sd">    dist_mode : str</span>
+<span class="sd">        Either &#39;intra&#39; (within the same chain) or &#39;inter&#39; (between different chains).</span>
+<span class="sd">    detailed_output : bool, optional</span>
+<span class="sd">        Whether to return a detailed pandas DataFrame with all distances.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    tuple:</span>
+<span class="sd">        results : dict</span>
+<span class="sd">            Dictionary mapping residue pair types to lists of distances.</span>
+<span class="sd">        detailed_df : pandas.DataFrame or None</span>
+<span class="sd">            DataFrame with detailed distance information if requested.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{},</span> <span class="kc">None</span>
+    
+    <span class="n">coords</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;coords&#39;</span><span class="p">]</span>
+    <span class="n">chains</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chain_ids&#39;</span><span class="p">]</span>
+    <span class="n">res_ids</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;res_ids&#39;</span><span class="p">]</span>
+    <span class="n">res_names</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;res_names&#39;</span><span class="p">]</span>
+    
+    <span class="n">atom_names</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;atom_names&#39;</span><span class="p">]</span>
+    <span class="n">alt_locs</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;alt_locs&#39;</span><span class="p">]</span>
+    <span class="n">b_factors</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;b_factors&#39;</span><span class="p">]</span>
+    <span class="n">model_ids</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;model_ids&#39;</span><span class="p">]</span>
+    <span class="n">pdb_name</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;pdb_name&#39;</span><span class="p">]</span>
+    
+    <span class="c1"># Build a KDTree for fast neighbor search</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">cKDTree</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">compact_nodes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">balanced_tree</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">pairs</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">query_pairs</span><span class="p">(</span><span class="n">cutoff</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">pairs</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{},</span> <span class="kc">None</span>
+    
+    <span class="n">pairs_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">pairs</span><span class="p">))</span>
+    <span class="n">idx_i</span> <span class="o">=</span> <span class="n">pairs_np</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">idx_j</span> <span class="o">=</span> <span class="n">pairs_np</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+    
+    <span class="n">same_model</span> <span class="o">=</span> <span class="p">(</span><span class="n">model_ids</span><span class="p">[</span><span class="n">idx_i</span><span class="p">]</span> <span class="o">==</span> <span class="n">model_ids</span><span class="p">[</span><span class="n">idx_j</span><span class="p">])</span>
+    <span class="n">same_chain</span> <span class="o">=</span> <span class="p">(</span><span class="n">chains</span><span class="p">[</span><span class="n">idx_i</span><span class="p">]</span> <span class="o">==</span> <span class="n">chains</span><span class="p">[</span><span class="n">idx_j</span><span class="p">])</span>
+    
+    <span class="k">if</span> <span class="n">dist_mode</span> <span class="o">==</span> <span class="s1">&#39;intra&#39;</span><span class="p">:</span>
+        <span class="n">seq_diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">res_ids</span><span class="p">[</span><span class="n">idx_i</span><span class="p">]</span> <span class="o">-</span> <span class="n">res_ids</span><span class="p">[</span><span class="n">idx_j</span><span class="p">])</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">same_model</span> <span class="o">&amp;</span> <span class="n">same_chain</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">seq_diff</span> <span class="o">&gt;=</span> <span class="n">seq_separation</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">same_model</span> <span class="o">&amp;</span> <span class="p">(</span><span class="o">~</span><span class="n">same_chain</span><span class="p">)</span>
+
+    <span class="n">final_i</span> <span class="o">=</span> <span class="n">idx_i</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+    <span class="n">final_j</span> <span class="o">=</span> <span class="n">idx_j</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+    
+    <span class="n">diffs</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[</span><span class="n">final_i</span><span class="p">]</span> <span class="o">-</span> <span class="n">coords</span><span class="p">[</span><span class="n">final_j</span><span class="p">]</span>
+    <span class="n">dists</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">diffs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="n">types_i</span> <span class="o">=</span> <span class="n">res_names</span><span class="p">[</span><span class="n">final_i</span><span class="p">]</span>
+    <span class="n">types_j</span> <span class="o">=</span> <span class="n">res_names</span><span class="p">[</span><span class="n">final_j</span><span class="p">]</span>
+    
+    <span class="n">results</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">pair_keys</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># Organize distances by residue type</span>
+    <span class="k">for</span> <span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">types_i</span><span class="p">,</span> <span class="n">types_j</span><span class="p">,</span> <span class="n">dists</span><span class="p">):</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">+</span> <span class="n">t2</span> <span class="k">if</span> <span class="n">t1</span> <span class="o">&lt;</span> <span class="n">t2</span> <span class="k">else</span> <span class="n">t2</span> <span class="o">+</span> <span class="n">t1</span>
+        <span class="n">pair_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">results</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="n">results</span><span class="p">[</span><span class="s1">&#39;XX&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        
+    <span class="n">detailed_df</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">detailed_output</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">dists</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">detailed_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+            <span class="s1">&#39;PDB&#39;</span><span class="p">:</span> <span class="n">pdb_name</span><span class="p">,</span>
+            <span class="s1">&#39;Model&#39;</span><span class="p">:</span> <span class="n">model_ids</span><span class="p">[</span><span class="n">final_i</span><span class="p">],</span>
+            <span class="s1">&#39;Chain1&#39;</span><span class="p">:</span> <span class="n">chains</span><span class="p">[</span><span class="n">final_i</span><span class="p">],</span>
+            <span class="s1">&#39;Res1&#39;</span><span class="p">:</span> <span class="n">types_i</span><span class="p">,</span>
+            <span class="s1">&#39;ResID1&#39;</span><span class="p">:</span> <span class="n">res_ids</span><span class="p">[</span><span class="n">final_i</span><span class="p">],</span>
+            <span class="s1">&#39;Atom1&#39;</span><span class="p">:</span> <span class="n">atom_names</span><span class="p">[</span><span class="n">final_i</span><span class="p">],</span>
+            <span class="s1">&#39;AltLoc1&#39;</span><span class="p">:</span> <span class="n">alt_locs</span><span class="p">[</span><span class="n">final_i</span><span class="p">],</span>
+            <span class="s1">&#39;B_Factor1&#39;</span><span class="p">:</span> <span class="n">b_factors</span><span class="p">[</span><span class="n">final_i</span><span class="p">],</span>
+            <span class="s1">&#39;Chain2&#39;</span><span class="p">:</span> <span class="n">chains</span><span class="p">[</span><span class="n">final_j</span><span class="p">],</span>
+            <span class="s1">&#39;Res2&#39;</span><span class="p">:</span> <span class="n">types_j</span><span class="p">,</span>
+            <span class="s1">&#39;ResID2&#39;</span><span class="p">:</span> <span class="n">res_ids</span><span class="p">[</span><span class="n">final_j</span><span class="p">],</span>
+            <span class="s1">&#39;Atom2&#39;</span><span class="p">:</span> <span class="n">atom_names</span><span class="p">[</span><span class="n">final_j</span><span class="p">],</span>
+            <span class="s1">&#39;AltLoc2&#39;</span><span class="p">:</span> <span class="n">alt_locs</span><span class="p">[</span><span class="n">final_j</span><span class="p">],</span>
+            <span class="s1">&#39;B_Factor2&#39;</span><span class="p">:</span> <span class="n">b_factors</span><span class="p">[</span><span class="n">final_j</span><span class="p">],</span>
+            <span class="s1">&#39;Distance&#39;</span><span class="p">:</span> <span class="n">dists</span><span class="p">,</span>
+            <span class="s1">&#39;Type&#39;</span><span class="p">:</span> <span class="n">pair_keys</span>
+        <span class="p">})</span>
+        
+    <span class="k">return</span> <span class="n">results</span><span class="p">,</span> <span class="n">detailed_df</span></div>
+
+
+
+<div class="viewcode-block" id="process_dataset_parallel">
+<a class="viewcode-back" href="../cli/implementation.html#extract_distances.process_dataset_parallel">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">process_dataset_parallel</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">max_workers</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Process a list of targets in parallel using ProcessPoolExecutor.</span>
+<span class="sd">    Returns final_results (dict of distance lists) and all_detailed_dfs (list of pandas DataFrames)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;AA&#39;</span><span class="p">,</span> <span class="s1">&#39;AC&#39;</span><span class="p">,</span> <span class="s1">&#39;AG&#39;</span><span class="p">,</span> <span class="s1">&#39;AU&#39;</span><span class="p">,</span> <span class="s1">&#39;CC&#39;</span><span class="p">,</span> <span class="s1">&#39;CG&#39;</span><span class="p">,</span> <span class="s1">&#39;CU&#39;</span><span class="p">,</span> <span class="s1">&#39;GG&#39;</span><span class="p">,</span> <span class="s1">&#39;GU&#39;</span><span class="p">,</span> <span class="s1">&#39;UU&#39;</span><span class="p">,</span> <span class="s1">&#39;XX&#39;</span><span class="p">]</span>
+    <span class="n">final_results</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">}</span>
+    <span class="n">all_detailed_dfs</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">atom_mode_print</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;atom_mode&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">atom_mode_print</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">atom_mode_print</span> <span class="o">=</span> <span class="s2">&quot;+&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">atom_mode_print</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Starting Parallel Processing (Atom Mode: </span><span class="si">{</span><span class="n">atom_mode_print</span><span class="si">}</span><span class="s2">)...&quot;</span><span class="p">)</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    
+    <span class="c1"># Determine max_workers safely</span>
+    <span class="k">if</span> <span class="n">max_workers</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">max_workers</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">max_workers</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span> <span class="ow">or</span> <span class="mi">1</span>
+
+    <span class="k">with</span> <span class="n">ProcessPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">max_workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">worker_process</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">repeat</span><span class="p">(</span><span class="n">config</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">dists</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">dists</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dists</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">final_results</span><span class="p">:</span>
+                    <span class="n">final_results</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">all_detailed_dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  ...processed </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span><span class="si">}</span><span class="s2"> structures&quot;</span><span class="p">)</span>
+
+    <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Batch processing complete in </span><span class="si">{</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">final_results</span><span class="p">,</span> <span class="n">all_detailed_dfs</span></div>
+
+
+<div class="viewcode-block" id="main">
+<a class="viewcode-back" href="../cli/implementation.html#extract_distances.main">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;RNA Distance Extractor&quot;</span><span class="p">)</span>
+    
+    <span class="n">group</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_mutually_exclusive_group</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">group</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--pdb&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Single RNA PDB ID or filename.&quot;</span><span class="p">)</span>
+    <span class="n">group</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--list&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Text file containing a list of RNA PDB IDs and optional chain IDs.&quot;</span><span class="p">)</span>
+    <span class="n">group</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--folder&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Directory containing local PDB or mmCIF files to process in batch.&quot;</span><span class="p">)</span>
+    
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--chains&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Specific chains to process. Default: all chains&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--format&#39;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;pdb&#39;</span><span class="p">,</span> <span class="s1">&#39;mmcif&#39;</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;pdb&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Input file format. Default: pdb&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--all-models&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Process all NMR models. Default: False&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--cores&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Number of CPU cores to use. Default: all available cores&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--atom-mode&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;C3&#39;&quot;</span><span class="p">],</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Atom selection mode (e.g., C3&#39;, centroid, all, or list). Default: C3&#39;&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--dist-mode&#39;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;intra&#39;</span><span class="p">,</span> <span class="s1">&#39;inter&#39;</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;intra&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Interaction mode. Default: intra&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--cutoff&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Maximum distance (Å) to consider an interaction. Default: 20.0&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--seq-sep&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Minimum sequence separation for intra-chain interactions. Default: 4&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--bin-width&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Width of histogram bins (applies if method=histogram). Default: 1.0&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--method&#39;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;histogram&#39;</span><span class="p">,</span> <span class="s1">&#39;kde&#39;</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;histogram&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Output type: counts (histogram) or raw distances (kde). Default: histogram&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--out-dir&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;dist_data&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Directory for output files. Default: dist_data&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--save-detailed&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Export detailed CSV log of interactions. Default: False&quot;</span><span class="p">)</span>
+    
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    
+    <span class="c1"># Normalize atom mode</span>
+    <span class="n">mode_arg</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">atom_mode</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mode_arg</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">mode_arg</span> <span class="o">=</span> <span class="n">mode_arg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;atom_mode&#39;</span><span class="p">:</span> <span class="n">mode_arg</span><span class="p">,</span>
+        <span class="s1">&#39;dist_mode&#39;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">dist_mode</span><span class="p">,</span>
+        <span class="s1">&#39;cutoff&#39;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">cutoff</span><span class="p">,</span>
+        <span class="s1">&#39;seq_sep&#39;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">seq_sep</span><span class="p">,</span>
+        <span class="s1">&#39;fmt&#39;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">format</span><span class="p">,</span>
+        <span class="s1">&#39;all_models&#39;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">all_models</span><span class="p">,</span>
+        <span class="s1">&#39;detailed&#39;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">save_detailed</span>
+    <span class="p">}</span>
+
+    <span class="n">targets</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">pdb</span><span class="p">:</span>
+        <span class="n">is_local</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">pdb</span><span class="p">)</span>
+        <span class="n">targets</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">pdb</span><span class="p">,</span> <span class="s1">&#39;chains&#39;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">chains</span><span class="p">,</span> <span class="s1">&#39;is_local&#39;</span><span class="p">:</span> <span class="n">is_local</span><span class="p">})</span>
+        <span class="c1"># Single PDB processing uses one core unless it&#39;s a local file.</span>
+        <span class="n">final_results</span><span class="p">,</span> <span class="n">all_detailed_dfs</span> <span class="o">=</span> <span class="n">process_dataset_parallel</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">max_workers</span><span class="o">=</span><span class="mi">1</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">is_local</span> <span class="k">else</span> <span class="n">args</span><span class="o">.</span><span class="n">cores</span><span class="p">)</span>
+    
+    <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">list</span><span class="p">:</span>
+        <span class="n">targets</span> <span class="o">=</span> <span class="n">parse_input_file</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">list</span><span class="p">)</span>
+        <span class="n">final_results</span><span class="p">,</span> <span class="n">all_detailed_dfs</span> <span class="o">=</span> <span class="n">process_dataset_parallel</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">max_workers</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">cores</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">folder</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Searching for files in: </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">folder</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">targets</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="c1"># Define extensions to search based on format preference</span>
+        <span class="n">exts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># Look for both common PDB and mmCIF extensions regardless of explicit format argument</span>
+        <span class="n">exts</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s1">&#39;pdb&#39;</span><span class="p">,</span> <span class="s1">&#39;ent&#39;</span><span class="p">,</span> <span class="s1">&#39;cif&#39;</span><span class="p">,</span> <span class="s1">&#39;mmcif&#39;</span><span class="p">])</span>
+
+        <span class="c1"># Use glob to find all matching files efficiently</span>
+        <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="n">exts</span><span class="p">:</span>
+            <span class="n">pattern</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">folder</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;*.</span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">filepath</span> <span class="ow">in</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">pattern</span><span class="p">):</span>
+                <span class="n">targets</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                    <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">filepath</span><span class="p">,</span>
+                    <span class="s1">&#39;chains&#39;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">chains</span><span class="p">,</span> <span class="c1"># Apply common chain filter to all files</span>
+                    <span class="s1">&#39;is_local&#39;</span><span class="p">:</span> <span class="kc">True</span>
+                <span class="p">})</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">targets</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No files found in </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">folder</span><span class="si">}</span><span class="s2"> matching </span><span class="si">{</span><span class="n">exts</span><span class="si">}</span><span class="s2"> extensions.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span><span class="si">}</span><span class="s2"> files to process. Starting batch processing...&quot;</span><span class="p">)</span>
+        <span class="n">final_results</span><span class="p">,</span> <span class="n">all_detailed_dfs</span> <span class="o">=</span> <span class="n">process_dataset_parallel</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">max_workers</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">cores</span><span class="p">)</span>
+        
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Should not be reached due to argparse mutual exclusivity, but for safety</span>
+        <span class="k">return</span> 
+
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">out_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Writing results to &#39;</span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">out_dir</span><span class="si">}</span><span class="s2">/&#39; (Method: </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">method</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">)...&quot;</span><span class="p">)</span>
+
+    <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;AA&#39;</span><span class="p">,</span> <span class="s1">&#39;AC&#39;</span><span class="p">,</span> <span class="s1">&#39;AG&#39;</span><span class="p">,</span> <span class="s1">&#39;AU&#39;</span><span class="p">,</span> <span class="s1">&#39;CC&#39;</span><span class="p">,</span> <span class="s1">&#39;CG&#39;</span><span class="p">,</span> <span class="s1">&#39;CU&#39;</span><span class="p">,</span> <span class="s1">&#39;GG&#39;</span><span class="p">,</span> <span class="s1">&#39;GU&#39;</span><span class="p">,</span> <span class="s1">&#39;UU&#39;</span><span class="p">,</span> <span class="s1">&#39;XX&#39;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;histogram&#39;</span><span class="p">:</span>
+        <span class="n">bin_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">cutoff</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">bin_width</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">bin_width</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+            <span class="n">vals</span> <span class="o">=</span> <span class="n">final_results</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+            <span class="n">hist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bin_edges</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">vals</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bin_edges</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">out_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">_histogram.txt&quot;</span><span class="p">,</span> <span class="n">hist</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;kde&#39;</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+            <span class="n">vals</span> <span class="o">=</span> <span class="n">final_results</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+            <span class="n">file_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">out_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">_kde_raw.txt&quot;</span>
+            <span class="k">if</span> <span class="n">vals</span><span class="p">:</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%.3f</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">save_detailed</span> <span class="ow">and</span> <span class="n">all_detailed_dfs</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Writing detailed interaction log...&quot;</span><span class="p">)</span>
+        <span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">all_detailed_dfs</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">csv_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">out_dir</span><span class="p">,</span> <span class="s2">&quot;detailed_interactions.csv&quot;</span><span class="p">)</span>
+        <span class="n">final_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">csv_path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Log saved to </span><span class="si">{</span><span class="n">csv_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pipeline completed successfully.&quot;</span><span class="p">)</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">multiprocessing</span>
+    <span class="n">multiprocessing</span><span class="o">.</span><span class="n">freeze_support</span><span class="p">()</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Yazid Hoblos, Joelle Assy, Denys Buryi, Raul Duran De Alba, Rayane Adam.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

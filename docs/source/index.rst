@@ -59,8 +59,8 @@ Supervised by Professor Guillaume Postic.
 
       Explore Python entry points and helper utilities.
 
-   .. grid-item-card:: CLI Usage
-      :link: cli
+   .. grid-item-card:: CLI 
+      :link: cli/index
       :link-type: doc
       :shadow: sm
       :class-card: sd-border-1 sd-rounded-2
@@ -81,5 +81,5 @@ Supervised by Professor Guillaume Postic.
 
    background/index
    library/index
-   cli
+   cli/index
    webtool/index

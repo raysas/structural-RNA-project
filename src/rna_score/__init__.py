@@ -7,7 +7,7 @@ except ImportError:
 from . import lib
 from .lib import download_rna_structures, RNAScorer
 
-__version__ = "0.1.1"
+__version__ = "0.2.0"
 
 __all__ = [
     "lib",

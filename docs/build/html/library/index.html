@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Library API &#8212; rna_score 0.1.0 documentation</title>
+    <title>Library API &#8212; rna_score 0.2.0 documentation</title>
   
   
   
@@ -40,12 +40,22 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../_static/documentation_options.js?v=938c9ccc"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'library/index';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raysas.github.io/structural-RNA-project/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.2.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="rna_score.lib Documentation" href="library.html" />
@@ -90,6 +100,11 @@
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">
+        ✨ <strong>v0.2+</strong> now includes 4 new scoring functions: non-log scoring formulae including direct ratio, inverse ratio, and information gain (Postic et al., 2020)
+    </div>
+</aside>
 
   
     <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
@@ -118,8 +133,8 @@
       
     
     
-    <img src="../_static/logo-light.png" class="logo__image only-light" alt="rna_score 0.1.0 documentation - Home"/>
-    <img src="../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="rna_score 0.1.0 documentation - Home"/>
+    <img src="../_static/logo-light.png" class="logo__image only-light" alt="rna_score 0.2.0 documentation - Home"/>
+    <img src="../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="rna_score 0.2.0 documentation - Home"/>
   
   
 </a></div>
@@ -149,7 +164,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../cli.html">
+  <a class="nav-link nav-internal" href="../cli/index.html">
     Command-Line Interface (CLI)
   </a>
 </li>
@@ -188,6 +203,22 @@
   <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
 </button></div>
       
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/raysas/structural-RNA-project" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
     </div>
     
   </div>
@@ -203,6 +234,10 @@
     </div>
   
 
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
   
 </div>
 
@@ -245,7 +280,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../cli.html">
+  <a class="nav-link nav-internal" href="../cli/index.html">
     Command-Line Interface (CLI)
   </a>
 </li>
@@ -274,6 +309,22 @@
   <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
   <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
 </button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/raysas/structural-RNA-project" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
         
       </div>
     
@@ -352,7 +403,7 @@
 </ul>
 <div class="toctree-wrapper compound">
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">rna_score</span></code> library provides a Python API for RNA structure analysis, distance extraction, scoring, and training. This page documents the public modules, classes, and functions with their docstrings automatically extracted from the source code. In fact, this library is a wrapper around the CLI commands for programmatic access, which are based on the following scripts, whose implementation details are better described in the <a class="reference internal" href="../cli.html"><span class="std std-doc">CLI section</span></a>:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">rna_score</span></code> library provides a Python API for RNA structure analysis, distance extraction, scoring, and training. This page documents the public modules, classes, and functions with their docstrings automatically extracted from the source code. In fact, this library is a wrapper around the CLI commands for programmatic access, which are based on the following scripts, whose implementation details are better described in the <a class="reference internal" href="#../cli.md"><span class="xref myst">CLI section</span></a>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>src/
 ├── access_rna_structures.py
 ├── extract_distances.py
@@ -370,6 +421,71 @@
 <p>The Kernel Density Estimation (KDE) is implemented in <strong>R</strong>, inside the
 <code class="docutils literal notranslate"><span class="pre">kde_training.py</span></code> script, and is invoked from Python.</p>
 </div>
+<section id="key-features">
+<h2>Key Features<a class="headerlink" href="#key-features" title="Link to this heading">#</a></h2>
+<section id="configurable-parameters">
+<h3>Configurable Parameters<a class="headerlink" href="#configurable-parameters" title="Link to this heading">#</a></h3>
+<p>All constants in the pipeline are configurable via both CLI and API:</p>
+<ul class="simple">
+<li><p><strong>Distance cutoff</strong> (<code class="docutils literal notranslate"><span class="pre">cutoff</span></code>): Maximum distance for contacts (default: 20.0 Å)</p></li>
+<li><p><strong>Sequence separation</strong> (<code class="docutils literal notranslate"><span class="pre">seq_sep</span></code>): Minimum residue offset for contacts (default: 4)</p></li>
+<li><p><strong>Bin width</strong> (<code class="docutils literal notranslate"><span class="pre">bin_width</span></code>): Histogram bin size (default: 1.0 Å)</p></li>
+<li><p><strong>Max score</strong> (<code class="docutils literal notranslate"><span class="pre">max_score</span></code>): Score capping value (default: 10.0)</p></li>
+<li><p><strong>Pseudocount</strong> (<code class="docutils literal notranslate"><span class="pre">pseudocount</span></code>): Smoothing parameter (default: 0.0)</p></li>
+</ul>
+</section>
+<section id="atom-representations">
+<h3>Atom Representations<a class="headerlink" href="#atom-representations" title="Link to this heading">#</a></h3>
+<p>The library supports multiple atomic representations:</p>
+<ul class="simple">
+<li><p><strong>Single atom</strong> (default: <code class="docutils literal notranslate"><span class="pre">C3'</span></code>): Distance between specific atoms</p></li>
+<li><p><strong>All atoms</strong> (<code class="docutils literal notranslate"><span class="pre">all</span></code>): Considers all heavy atoms</p></li>
+<li><p><strong>Centroid</strong> (<code class="docutils literal notranslate"><span class="pre">centroid</span></code>): Center of mass of residues</p></li>
+<li><p><strong>Custom selection</strong>: Specify multiple atoms (e.g., <code class="docutils literal notranslate"><span class="pre">P</span></code>, <code class="docutils literal notranslate"><span class="pre">C4'</span></code>, <code class="docutils literal notranslate"><span class="pre">O3'</span></code>)</p></li>
+</ul>
+</section>
+<section id="scoring-formulas">
+<h3>Scoring Formulas<a class="headerlink" href="#scoring-formulas" title="Link to this heading">#</a></h3>
+<p>Training supports multiple scoring formulas via the <code class="docutils literal notranslate"><span class="pre">scoring_formula</span></code> parameter:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Formula</p></th>
+<th class="head"><p>Expression</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Reference</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">log</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-log(f_obs</span> <span class="pre">/</span> <span class="pre">f_ref)</span></code></p></td>
+<td><p>Sippl’s statistical potential (default)</p></td>
+<td><p>Standard</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">inverse</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">f_ref</span> <span class="pre">/</span> <span class="pre">f_obs</span></code></p></td>
+<td><p>Inverse frequency ratio</p></td>
+<td><p>Alternative</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">info-gain</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-(f_obs</span> <span class="pre">-</span> <span class="pre">f_ref)</span> <span class="pre">/</span> <span class="pre">f_ref</span></code></p></td>
+<td><p>Information gain (normalized)</p></td>
+<td><p><a class="reference external" href="https://doi.org/10.1016/j.csbj.2020.08.013">Postic et al., 2020</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ratio</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">f_obs</span> <span class="pre">/</span> <span class="pre">f_ref</span></code></p></td>
+<td><p>Direct frequency ratio</p></td>
+<td><p>Alternative</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Note</strong>: The <code class="docutils literal notranslate"><span class="pre">info-gain</span></code> formula implements the <strong>total information gain</strong> metric from Postic et al. (2020), which is equivalent to <span class="math notranslate nohighlight">\(1 - f_{obs}/f_{ref}\)</span> and is particularly effective for model quality assessment.</p>
+</section>
+<section id="kde-training">
+<h3>KDE Training<a class="headerlink" href="#kde-training" title="Link to this heading">#</a></h3>
+<p>The library implements Kernel Density Estimation using <strong>R’s <code class="docutils literal notranslate"><span class="pre">density()</span></code> function</strong> via rpy2, with automatic fallback to SciPy if R is unavailable.</p>
+</section>
+</section>
 </section>
 
 
@@ -406,6 +522,30 @@
             </div>
             
             
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-features">Key Features</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configurable-parameters">Configurable Parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atom-representations">Atom Representations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scoring-formulas">Scoring Formulas</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kde-training">KDE Training</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

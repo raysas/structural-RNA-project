@@ -377,6 +377,12 @@ class RNAScorer:
             Training method:
             - "histogram": converts binned counts to statistical potentials
             - "kde": trains kernel density estimation models from raw distances
+        scoring_formula : str, default="log"
+            Scoring formula to use:
+            - "log": -log(f_obs / f_ref) [default, Sippl's statistical potential]
+            - "inverse": f_ref / f_obs [inverse frequency ratio]
+            - "info-gain": -(f_obs - f_ref) / f_ref [information gain, Postic et al. 2020]
+            - "ratio": f_obs / f_ref [direct frequency ratio]
 
         Returns
         -------
@@ -453,6 +459,7 @@ class RNAScorer:
 
         # Use extraction method if available and not overridden
         method = kwargs.get("method") or self.extraction_method or "histogram"
+        scoring_formula = kwargs.get("scoring_formula", "log")
         
         cmd = [
             sys.executable, str(script_path),
@@ -462,7 +469,8 @@ class RNAScorer:
             "--pseudocount", str(kwargs.get("pseudocount", 0.0)),
             "--cutoff", str(kwargs.get("cutoff", 20.0)),
             "--bin-width", str(kwargs.get("bin_width", 1.0)),
-            "--method", method
+            "--method", method,
+            "--scoring-formula", scoring_formula
         ]
         
         result = subprocess.run(cmd, check=False, capture_output=True, text=True)

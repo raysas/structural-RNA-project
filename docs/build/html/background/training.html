@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Training: from RNA structures to scoring tables &#8212; rna_score 0.1.0 documentation</title>
+    <title>Training: from RNA structures to scoring tables &#8212; rna_score 0.2.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../_static/documentation_options.js?v=938c9ccc"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -49,6 +49,13 @@
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'background/training';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raysas.github.io/structural-RNA-project/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.2.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Scoring: estimating the energy of a candidate structure" href="scoring.html" />
@@ -93,6 +100,11 @@
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">
+        ✨ <strong>v0.2+</strong> now includes 4 new scoring functions: non-log scoring formulae including direct ratio, inverse ratio, and information gain (Postic et al., 2020)
+    </div>
+</aside>
 
   
     <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
@@ -121,8 +133,8 @@
       
     
     
-    <img src="../_static/logo-light.png" class="logo__image only-light" alt="rna_score 0.1.0 documentation - Home"/>
-    <img src="../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="rna_score 0.1.0 documentation - Home"/>
+    <img src="../_static/logo-light.png" class="logo__image only-light" alt="rna_score 0.2.0 documentation - Home"/>
+    <img src="../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="rna_score 0.2.0 documentation - Home"/>
   
   
 </a></div>
@@ -152,7 +164,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../cli.html">
+  <a class="nav-link nav-internal" href="../cli/index.html">
     Command-Line Interface (CLI)
   </a>
 </li>
@@ -190,6 +202,22 @@
   <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
   <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
 </button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/raysas/structural-RNA-project" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
       
     </div>
     
@@ -252,7 +280,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../cli.html">
+  <a class="nav-link nav-internal" href="../cli/index.html">
     Command-Line Interface (CLI)
   </a>
 </li>
@@ -281,6 +309,22 @@
   <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
   <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
 </button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/raysas/structural-RNA-project" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
         
       </div>
     
@@ -400,6 +444,61 @@
 \bar{u}_{i,j}(r) = -\log\left(\frac{f^{\mathrm{OBS}}_{i,j}(r)}{f^{\mathrm{REF}}_{X,X}(r)}\right)
 \]</div>
 <p>To keep the potential numerically stable, the spec caps the maximum scoring value (default 10). The implementation follows this idea: <code class="docutils literal notranslate"><span class="pre">train.py</span></code> computes <code class="docutils literal notranslate"><span class="pre">-log(obs/ref)</span></code> and caps non-finite values and large values at <code class="docutils literal notranslate"><span class="pre">max_score</span></code>.</p>
+<section id="alternative-scoring-formulas">
+<h3>Alternative Scoring Formulas<a class="headerlink" href="#alternative-scoring-formulas" title="Link to this heading">#</a></h3>
+<p>In addition to the standard log-odds formula (Sippl’s potentials), the system supports alternative scoring functions via the <code class="docutils literal notranslate"><span class="pre">--scoring-formula</span></code> parameter:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Formula</p></th>
+<th class="head"><p>Expression</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Reference</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">log</span></code> (default)</p></td>
+<td><p><span class="math notranslate nohighlight">\(-kT \log\left(\frac{f^{\mathrm{OBS}}}{f^{\mathrm{REF}}}\right)\)</span></p></td>
+<td><p>Sippl’s statistical potential</p></td>
+<td><p>Standard approach</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">inverse</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(\frac{f^{\mathrm{REF}}}{f^{\mathrm{OBS}}}\)</span></p></td>
+<td><p>Inverse frequency ratio (no logarithm)</p></td>
+<td><p>Alternative metric</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">info-gain</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(-\frac{f^{\mathrm{OBS}} - f^{\mathrm{REF}}}{f^{\mathrm{REF}}}\)</span></p></td>
+<td><p>Total information gain (normalized)</p></td>
+<td><p>Postic et al., 2020*</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ratio</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(\frac{f^{\mathrm{OBS}}}{f^{\mathrm{REF}}}\)</span></p></td>
+<td><p>Direct frequency ratio</p></td>
+<td><p>Enrichment metric</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Note on <code class="docutils literal notranslate"><span class="pre">info-gain</span></code> formula</strong>: This implements the information gain metric from <a class="reference external" href="https://doi.org/10.1016/j.csbj.2020.08.013">Postic et al., 2020</a>, which normalizes the frequency difference by the reference frequency:</p>
+<div class="math notranslate nohighlight">
+\[\text{score} = -\sum_{i,j} \frac{f^{\mathrm{OBS}}_{i,j}(r) - f^{\mathrm{REF}}_{i,j}(r)}{f^{\mathrm{REF}}_{i,j}(r)}\]</div>
+<p>These alternatives are useful for:</p>
+<ul class="simple">
+<li><p>Model quality assessment (distinguishing correct from incorrect structures)</p></li>
+<li><p>Exploring non-logarithmic scoring relationships</p></li>
+<li><p>Comparing different statistical frameworks</p></li>
+<li><p>Testing linear vs. nonlinear score transformations</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use information gain formula (Postic et al., 2020)</span>
+rna-score<span class="w"> </span>train<span class="w"> </span>--input-dir<span class="w"> </span>distances<span class="w"> </span>--scoring-formula<span class="w"> </span>info-gain<span class="w"> </span>--output-dir<span class="w"> </span>tables_info_gain
+
+<span class="c1"># Use inverse ratio</span>
+rna-score<span class="w"> </span>train<span class="w"> </span>--input-dir<span class="w"> </span>distances<span class="w"> </span>--scoring-formula<span class="w"> </span>inverse<span class="w"> </span>--output-dir<span class="w"> </span>tables_inv
+</pre></div>
+</div>
+<p>*Postic G, et al. (2020). An information gain-based approach for evaluating protein structure models. <em>Computational and Structural Biotechnology Journal</em>, 18:2228-2236. DOI: <a class="reference external" href="https://doi.org/10.1016/j.csbj.2020.08.013">10.1016/j.csbj.2020.08.013</a></p>
+</section>
 </section>
 <section id="kde-variant-optional-smoother-profiles">
 <h2>KDE variant (optional, smoother profiles)<a class="headerlink" href="#kde-variant-optional-smoother-profiles" title="Link to this heading">#</a></h2>
@@ -462,7 +561,10 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distance-extraction">Distance extraction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-10-pair-specific-distributions-a-reference">Building 10 pair-specific distributions + a reference</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#histogram-frequencies-course-baseline">Histogram frequencies (course baseline)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pseudo-energy-log-odds-score">Pseudo-energy (log-odds score)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pseudo-energy-log-odds-score">Pseudo-energy (log-odds score)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#alternative-scoring-formulas">Alternative Scoring Formulas</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kde-variant-optional-smoother-profiles">KDE variant (optional, smoother profiles)</a></li>
 </ul>
   </nav></div>

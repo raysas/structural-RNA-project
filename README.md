@@ -1,4 +1,4 @@
-# rna-score: RNA Scoring Library
+# rna-score: RNA Scoring tool
 
 ![Status](https://img.shields.io/badge/status-passing-2ea44f?style=flat&logo=github&logoColor=white)
 [![Read the Docs](https://img.shields.io/readthedocs/structural-rna-project?style=flat&logo=readthedocs&logoColor=white&color=2ea44f)](https://structural-rna-project.readthedocs.io) 
@@ -10,11 +10,11 @@
 ![GitHub forks](https://img.shields.io/github/forks/raysas/structural-RNA-project)
 
 
-<a href="https://colab.research.google.com/github/raysas/structural-RNA-project/blob/dev/lib/docs/source/library/user_guide.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open Demo in colab"/></a>
+<a href="https://colab.research.google.com/github/raysas/structural-RNA-project/blob/main/docs/source/library/user_guide.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open Demo in colab"/></a>
 
 **Goal:** Creation of an objective function for the RNA folding problem
 
-This project develops a scoring function to evaluate predicted RNA tertiary structures based on interatomic distance distributions.
+This project develops a scoring function to evaluate predicted RNA tertiary structures based on interatomic distance distributions. 
 
 **Supervised by:** Professor Guillaume Postic  
 **Team:** Joelle Assy, Yazid Hoblos, Denys Buryi, Raul Duran De Alba, Rayane Adam
@@ -23,7 +23,7 @@ This project develops a scoring function to evaluate predicted RNA tertiary stru
 
 ## Overview
 
-rna-score provides tools to download, process, and score RNA 3D structures using statistical models of interatomic distances. The tool is available as a Python CLI tool AND a library package and is also accessible via a web interface:
+rna-score provides tools to download, process, and score RNA 3D structures using statistical models of interatomic distances. The tool is available as a Python CLI tool AND a library package AND is also accessible via a web interface:
 
 🌐 **Try it online:** [https://rna-score.onrender.com/](https://rna-score.onrender.com/)
 

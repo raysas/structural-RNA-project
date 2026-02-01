@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rna_score.lib &#8212; rna_score 0.1.0 documentation</title>
+    <title>rna_score.lib &#8212; rna_score 0.2.0 documentation</title>
   
   
   
@@ -39,12 +39,19 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../../_static/documentation_options.js?v=938c9ccc"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/rna_score/lib';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raysas.github.io/structural-RNA-project/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.2.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -87,6 +94,11 @@
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">
+        ✨ <strong>v0.2+</strong> now includes 4 new scoring functions: non-log scoring formulae including direct ratio, inverse ratio, and information gain (Postic et al., 2020)
+    </div>
+</aside>
 
   
     <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
@@ -115,8 +127,8 @@
       
     
     
-    <img src="../../_static/logo-light.png" class="logo__image only-light" alt="rna_score 0.1.0 documentation - Home"/>
-    <img src="../../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="rna_score 0.1.0 documentation - Home"/>
+    <img src="../../_static/logo-light.png" class="logo__image only-light" alt="rna_score 0.2.0 documentation - Home"/>
+    <img src="../../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="rna_score 0.2.0 documentation - Home"/>
   
   
 </a></div>
@@ -146,7 +158,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../cli.html">
+  <a class="nav-link nav-internal" href="../../cli/index.html">
     Command-Line Interface (CLI)
   </a>
 </li>
@@ -184,6 +196,22 @@
   <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
   <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
 </button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/raysas/structural-RNA-project" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
       
     </div>
     
@@ -244,7 +272,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../cli.html">
+  <a class="nav-link nav-internal" href="../../cli/index.html">
     Command-Line Interface (CLI)
   </a>
 </li>
@@ -273,6 +301,22 @@
   <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
   <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
 </button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/raysas/structural-RNA-project" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
         
       </div>
     
@@ -346,7 +390,13 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">access_rna_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">RNAStructureDownloader</span>
+<span class="c1"># try:</span>
+<span class="c1">#     from .access_rna_structures import RNAStructureDownloader</span>
+<span class="c1"># except ImportError:</span>
+<span class="c1">#     try:</span>
+<span class="c1">#         from ..access_rna_structures import RNAStructureDownloader</span>
+<span class="c1">#     except ImportError:</span>
+<span class="c1">#         from access_rna_structures import RNAStructureDownloader</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">plotly.graph_objects</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">go</span>
@@ -354,7 +404,6 @@
     <span class="n">PLOTLY_AVAILABLE</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="n">PLOTLY_AVAILABLE</span> <span class="o">=</span> <span class="kc">False</span>
-
 
 <div class="viewcode-block" id="download_rna_structures">
 <a class="viewcode-back" href="../../library/library.html#rna_score.lib.download_rna_structures">[docs]</a>
@@ -418,54 +467,61 @@
 <span class="sd">    for notebooks, pipelines, and Python APIs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span>
-
-    <span class="n">downloader</span> <span class="o">=</span> <span class="n">RNAStructureDownloader</span><span class="p">(</span>
-        <span class="n">output_dir</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">output_dir</span><span class="p">),</span>
-        <span class="n">max_workers</span><span class="o">=</span><span class="n">workers</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="n">max_results</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">download_all</span> <span class="k">else</span> <span class="n">max_structures</span>
-
-    <span class="c1"># --- Search phase ---</span>
+    
+    <span class="c1"># -- both development (src/) and installed (site-packages/) locations tral</span>
+    <span class="n">script_candidates</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;access_rna_structures.py&quot;</span><span class="p">,</span>  <span class="c1"># Installed</span>
+        <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span> <span class="o">/</span> <span class="s2">&quot;access_rna_structures.py&quot;</span><span class="p">,</span>  <span class="c1"># Development</span>
+    <span class="p">]</span>
+    
+    <span class="n">script_path</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="n">script_candidates</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">candidate</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="n">script_path</span> <span class="o">=</span> <span class="n">candidate</span>
+            <span class="k">break</span>
+    
+    <span class="k">if</span> <span class="n">script_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;access_rna_structures.py not found. Searched:</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span>
+            <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - </span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">script_candidates</span><span class="p">)</span>
+        <span class="p">)</span>
+    
+    <span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span>
+        <span class="nb">str</span><span class="p">(</span><span class="n">script_path</span><span class="p">),</span>
+        <span class="s2">&quot;-n&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">max_structures</span><span class="p">),</span>
+        <span class="s2">&quot;-f&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">formats</span> <span class="o">+</span> <span class="p">[</span>
+        <span class="s2">&quot;-o&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">output_dir</span><span class="p">),</span>
+        <span class="s2">&quot;-w&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">workers</span><span class="p">)</span>
+    <span class="p">]</span>
+    
+    <span class="k">if</span> <span class="n">download_all</span><span class="p">:</span>
+        <span class="n">cmd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;--all&quot;</span><span class="p">)</span>
+    
     <span class="k">if</span> <span class="n">rna_only</span><span class="p">:</span>
-        <span class="n">pdb_ids</span> <span class="o">=</span> <span class="n">downloader</span><span class="o">.</span><span class="n">get_rna_only_structures</span><span class="p">(</span><span class="n">max_results</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">pdb_ids</span> <span class="o">=</span> <span class="n">downloader</span><span class="o">.</span><span class="n">search_rna_structures</span><span class="p">(</span><span class="n">max_results</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">pdb_ids</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;No RNA structures found.&quot;</span><span class="p">)</span>
-
-    <span class="c1"># Save ID list</span>
-    <span class="n">output_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="p">(</span><span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;pdb_ids.txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pdb_ids</span><span class="p">))</span>
-
-    <span class="n">info</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">cmd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;--rna-only&quot;</span><span class="p">)</span>
+    
     <span class="k">if</span> <span class="n">show_info</span><span class="p">:</span>
-        <span class="n">info</span> <span class="o">=</span> <span class="n">downloader</span><span class="o">.</span><span class="n">get_structure_info</span><span class="p">(</span><span class="n">pdb_ids</span><span class="p">)</span>
-
+        <span class="n">cmd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;--info&quot;</span><span class="p">)</span>
+    
     <span class="k">if</span> <span class="n">list_only</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">{</span>
-            <span class="s2">&quot;pdb_ids&quot;</span><span class="p">:</span> <span class="n">pdb_ids</span><span class="p">,</span>
-            <span class="s2">&quot;output_dir&quot;</span><span class="p">:</span> <span class="n">output_dir</span><span class="p">,</span>
-            <span class="s2">&quot;pdb_dir&quot;</span><span class="p">:</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;pdb&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;mmcif_dir&quot;</span><span class="p">:</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;mmcif&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;info&quot;</span><span class="p">:</span> <span class="n">info</span><span class="p">,</span>
-        <span class="p">}</span>
-
-    <span class="c1"># --- Download phase ---</span>
-    <span class="n">downloader</span><span class="o">.</span><span class="n">download_batch</span><span class="p">(</span><span class="n">pdb_ids</span><span class="p">,</span> <span class="n">formats</span><span class="o">=</span><span class="n">formats</span><span class="p">)</span>
-
-    <span class="p">(</span><span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;downloaded_ids.txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pdb_ids</span><span class="p">))</span>
-
+        <span class="n">cmd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;--list-only&quot;</span><span class="p">)</span>
+    
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="n">id_file</span> <span class="o">=</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="p">(</span><span class="s2">&quot;pdb_ids.txt&quot;</span> <span class="k">if</span> <span class="n">list_only</span> <span class="k">else</span> <span class="s2">&quot;downloaded_ids.txt&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">id_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">pdb_ids</span> <span class="o">=</span> <span class="n">id_file</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">pdb_ids</span> <span class="o">=</span> <span class="p">[]</span>
+    
     <span class="k">return</span> <span class="p">{</span>
         <span class="s2">&quot;pdb_ids&quot;</span><span class="p">:</span> <span class="n">pdb_ids</span><span class="p">,</span>
         <span class="s2">&quot;output_dir&quot;</span><span class="p">:</span> <span class="n">output_dir</span><span class="p">,</span>
         <span class="s2">&quot;pdb_dir&quot;</span><span class="p">:</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;pdb&quot;</span><span class="p">,</span>
         <span class="s2">&quot;mmcif_dir&quot;</span><span class="p">:</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;mmcif&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;info&quot;</span><span class="p">:</span> <span class="n">info</span><span class="p">,</span>
+        <span class="s2">&quot;info&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> 
     <span class="p">}</span></div>
-
-
 
 
 <div class="viewcode-block" id="RNAScorer">
@@ -714,6 +770,12 @@
 <span class="sd">            Training method:</span>
 <span class="sd">            - &quot;histogram&quot;: converts binned counts to statistical potentials</span>
 <span class="sd">            - &quot;kde&quot;: trains kernel density estimation models from raw distances</span>
+<span class="sd">        scoring_formula : str, default=&quot;log&quot;</span>
+<span class="sd">            Scoring formula to use:</span>
+<span class="sd">            - &quot;log&quot;: -log(f_obs / f_ref) [default, Sippl&#39;s statistical potential]</span>
+<span class="sd">            - &quot;inverse&quot;: f_ref / f_obs [inverse frequency ratio]</span>
+<span class="sd">            - &quot;info-gain&quot;: -(f_obs - f_ref) / f_ref [information gain, Postic et al. 2020]</span>
+<span class="sd">            - &quot;ratio&quot;: f_obs / f_ref [direct frequency ratio]</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -790,6 +852,7 @@
 
         <span class="c1"># Use extraction method if available and not overridden</span>
         <span class="n">method</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;method&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">extraction_method</span> <span class="ow">or</span> <span class="s2">&quot;histogram&quot;</span>
+        <span class="n">scoring_formula</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;scoring_formula&quot;</span><span class="p">,</span> <span class="s2">&quot;log&quot;</span><span class="p">)</span>
         
         <span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">script_path</span><span class="p">),</span>
@@ -799,7 +862,8 @@
             <span class="s2">&quot;--pseudocount&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pseudocount&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)),</span>
             <span class="s2">&quot;--cutoff&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cutoff&quot;</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">)),</span>
             <span class="s2">&quot;--bin-width&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bin_width&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)),</span>
-            <span class="s2">&quot;--method&quot;</span><span class="p">,</span> <span class="n">method</span>
+            <span class="s2">&quot;--method&quot;</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span>
+            <span class="s2">&quot;--scoring-formula&quot;</span><span class="p">,</span> <span class="n">scoring_formula</span>
         <span class="p">]</span>
         
         <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>

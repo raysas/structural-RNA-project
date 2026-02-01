@@ -1,0 +1,14 @@
+[
+    {
+        "version": "latest",
+        "url": "https://raysas.github.io/structural-RNA-project/latest/"
+    },
+    {
+        "version": "stable",
+        "url": "https://raysas.github.io/structural-RNA-project/stable/"
+    },
+    {
+        "version": "0.1.1",
+        "url": "https://raysas.github.io/structural-RNA-project/0.1.1/"
+    }
+]

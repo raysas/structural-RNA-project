@@ -13,12 +13,29 @@ from plotly.colors import sample_colorscale
 import plotly.graph_objects as go
 
 def _ensure_dir(path: str):
-    """Create directory if it does not exist."""
+    """Ensure a directory exists.
+
+    Parameters
+    ----------
+    path : str
+        Path to create if it does not already exist.
+    """
     Path(path).mkdir(parents=True, exist_ok=True)
 
 
 def load_score_table(filepath):
-    """Load a score table CSV file (handles KDE or non-KDE)."""
+    """Load a score table CSV file (KDE or histogram formats).
+
+    Parameters
+    ----------
+    filepath : str
+        Path to the score table CSV file.
+
+    Returns
+    -------
+    dict or None
+        Parsed score table data, or ``None`` if the file does not exist.
+    """
     if not os.path.exists(filepath):
         return None
 
@@ -36,7 +53,20 @@ def load_score_table(filepath):
 
 
 def _compute_segments(x, y):
-    """Compute segment coordinates and mid-segment color values."""
+    """Compute segment coordinates and mid-segment color values.
+
+    Parameters
+    ----------
+    x : array-like
+        X coordinates.
+    y : array-like
+        Y coordinates.
+
+    Returns
+    -------
+    tuple
+        ``(segments, segment_values)`` for line coloring.
+    """
     points = np.array([x, y]).T.reshape(-1, 1, 2)
     segments = np.concatenate([points[:-1], points[1:]], axis=1)
     segment_values = (y[:-1] + y[1:]) / 2
@@ -44,11 +74,33 @@ def _compute_segments(x, y):
 
 
 def _compute_normalized_values(y):
-    """Normalize y for color mapping (Plotly)."""
+    """Normalize values for color mapping (Plotly).
+
+    Parameters
+    ----------
+    y : array-like
+        Values to normalize.
+
+    Returns
+    -------
+    numpy.ndarray
+        Normalized values in the range [0, 1].
+    """
     return (y - np.min(y)) / (np.max(y) - np.min(y))
 
 
 def plot_single_profile(pair, score_data, output_path):
+    """Plot a single scoring profile (static PNG).
+
+    Parameters
+    ----------
+    pair : str
+        Nucleotide pair name.
+    score_data : dict
+        Dictionary with ``distance`` and ``score`` keys.
+    output_path : str
+        Path to save the output PNG file.
+    """
     sns.set_theme(style="whitegrid")
 
     x, y = score_data['distance'], score_data['score']
@@ -81,6 +133,17 @@ def plot_single_profile(pair, score_data, output_path):
 
 
 def plot_combined_profiles(pairs_data, output_path, cols=5):
+    """Plot combined scoring profiles in a grid layout (static PNG).
+
+    Parameters
+    ----------
+    pairs_data : dict
+        Mapping of pair names to score data dictionaries.
+    output_path : str
+        Path to save the output PNG file.
+    cols : int, optional
+        Number of columns in the grid.
+    """
     sns.set_theme(style="whitegrid")
 
     n_pairs = len(pairs_data)
@@ -116,6 +179,21 @@ def plot_combined_profiles(pairs_data, output_path, cols=5):
 
 
 def plot_single_profile_plotly(pair, score_data, output_path):
+    """Plot a single scoring profile as an interactive Plotly figure.
+
+    Parameters
+    ----------
+    pair : str
+        Nucleotide pair name.
+    score_data : dict
+        Dictionary with ``distance`` and ``score`` keys.
+    output_path : str
+        Path to save the output HTML file.
+
+    Notes
+    -----
+    Color palette: Plasma.
+    """
     x, y = score_data["distance"], score_data["score"]
 
     y_norm = _compute_normalized_values(y)
@@ -145,6 +223,19 @@ def plot_single_profile_plotly(pair, score_data, output_path):
 
 
 def plot_combined_profiles_plotly(pairs_data, output_path):
+    """Plot combined scoring profiles with an interactive Plotly figure.
+
+    Parameters
+    ----------
+    pairs_data : dict
+        Mapping of pair names to score data dictionaries.
+    output_path : str
+        Path to save the output HTML file.
+
+    Notes
+    -----
+    Color palette: Plasma.
+    """
     fig = go.Figure()
     trace_map = {}
 
@@ -198,7 +289,18 @@ def plot_combined_profiles_plotly(pairs_data, output_path):
 
 
 def run_workflow(args):
-    """Main workflow for generating RNA scoring profile plots."""
+    """Run the scoring profile plotting workflow.
+
+    Parameters
+    ----------
+    args : argparse.Namespace
+        Parsed CLI arguments.
+
+    Returns
+    -------
+    int
+        Exit status code.
+    """
 
     _ensure_dir(args.output_dir)
     _ensure_dir(os.path.join(args.output_dir, "png"))

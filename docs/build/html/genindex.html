@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; rna_score 0.1.0 documentation</title>
+    <title>Index &#8212; rna_score 0.2.0 documentation</title>
   
   
   
@@ -39,12 +39,19 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=01f34227"></script>
+    <script src="_static/documentation_options.js?v=938c9ccc"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raysas.github.io/structural-RNA-project/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.2.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -87,6 +94,11 @@
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">
+        ✨ <strong>v0.2+</strong> now includes 4 new scoring functions: non-log scoring formulae including direct ratio, inverse ratio, and information gain (Postic et al., 2020)
+    </div>
+</aside>
 
   
     <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
@@ -115,8 +127,8 @@
       
     
     
-    <img src="_static/logo-light.png" class="logo__image only-light" alt="rna_score 0.1.0 documentation - Home"/>
-    <img src="_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="rna_score 0.1.0 documentation - Home"/>
+    <img src="_static/logo-light.png" class="logo__image only-light" alt="rna_score 0.2.0 documentation - Home"/>
+    <img src="_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="rna_score 0.2.0 documentation - Home"/>
   
   
 </a></div>
@@ -146,7 +158,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="cli.html">
+  <a class="nav-link nav-internal" href="cli/index.html">
     Command-Line Interface (CLI)
   </a>
 </li>
@@ -184,6 +196,22 @@
   <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
   <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
 </button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/raysas/structural-RNA-project" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
       
     </div>
     
@@ -244,7 +272,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="cli.html">
+  <a class="nav-link nav-internal" href="cli/index.html">
     Command-Line Interface (CLI)
   </a>
 </li>
@@ -273,6 +301,22 @@
   <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
   <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
 </button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/raysas/structural-RNA-project" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
         
       </div>
     
@@ -311,18 +355,87 @@
 
 <div class="genindex-jumpbox">
  <a href="#_"><strong>_</strong></a>
+ | <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
+ | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
+ | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#K"><strong>K</strong></a>
+ | <a href="#L"><strong>L</strong></a>
+ | <a href="#M"><strong>M</strong></a>
+ | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
+ | <a href="#V"><strong>V</strong></a>
+ | <a href="#W"><strong>W</strong></a>
  
 </div>
 <h2 id="_">_</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="library/library.html#rna_score.lib.RNAScorer.__init__">__init__() (rna_score.lib.RNAScorer method)</a>
+      <li><a href="cli/implementation.html#access_rna_structures.RNAStructureDownloader.__init__">__init__() (access_rna_structures.RNAStructureDownloader method)</a>
+
+      <ul>
+        <li><a href="library/library.html#rna_score.lib.RNAScorer.__init__">(rna_score.lib.RNAScorer method)</a>
+</li>
+        <li><a href="cli/implementation.html#score_structures.ScoringTables.__init__">(score_structures.ScoringTables method)</a>
+</li>
+        <li><a href="cli/implementation.html#utils.structure_io.FastParser.__init__">(utils.structure_io.FastParser method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="A">A</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    access_rna_structures
+
+      <ul>
+        <li><a href="cli/implementation.html#module-access_rna_structures">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cli/implementation.html#utils.structure_io.OnlineFetcher.BASE_URL">BASE_URL (utils.structure_io.OnlineFetcher attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cli/implementation.html#kde_training.build_tables">build_tables() (in module kde_training)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cli/implementation.html#score_structures.ScoringTables.canonical_pair_key">canonical_pair_key() (score_structures.ScoringTables method)</a>
+</li>
+      <li><a href="cli/implementation.html#kde_training.compute_density">compute_density() (in module kde_training)</a>
+</li>
+      <li><a href="cli/implementation.html#extract_distances.compute_distances">compute_distances() (in module extract_distances)</a>
+</li>
+      <li><a href="cli/implementation.html#train.compute_frequency">compute_frequency() (in module train)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cli/implementation.html#train.compute_kde">compute_kde() (in module train)</a>
+</li>
+      <li><a href="cli/implementation.html#train.compute_kde_from_raw">compute_kde_from_raw() (in module train)</a>
+</li>
+      <li><a href="cli/implementation.html#train.compute_score">compute_score() (in module train)</a>
+</li>
+      <li><a href="cli/implementation.html#score_structures.compute_structure_score">compute_structure_score() (in module score_structures)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -330,7 +443,13 @@
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cli/implementation.html#access_rna_structures.RNAStructureDownloader.download_batch">download_batch() (access_rna_structures.RNAStructureDownloader method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="library/library.html#rna_score.lib.download_rna_structures">download_rna_structures() (in module rna_score.lib)</a>
+</li>
+      <li><a href="cli/implementation.html#access_rna_structures.RNAStructureDownloader.download_structure">download_structure() (access_rna_structures.RNAStructureDownloader method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -338,7 +457,120 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    extract_distances
+
+      <ul>
+        <li><a href="cli/implementation.html#module-extract_distances">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="library/library.html#rna_score.lib.RNAScorer.extract_distances">extract_distances() (rna_score.lib.RNAScorer method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cli/implementation.html#utils.structure_io.FastParser">FastParser (class in utils.structure_io)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cli/implementation.html#utils.structure_io.OnlineFetcher.get_content">get_content() (utils.structure_io.OnlineFetcher static method)</a>
+</li>
+      <li><a href="cli/implementation.html#access_rna_structures.RNAStructureDownloader.get_rna_only_structures">get_rna_only_structures() (access_rna_structures.RNAStructureDownloader method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cli/implementation.html#score_structures.ScoringTables.get_score">get_score() (score_structures.ScoringTables method)</a>
+</li>
+      <li><a href="cli/implementation.html#access_rna_structures.RNAStructureDownloader.get_structure_info">get_structure_info() (access_rna_structures.RNAStructureDownloader method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    kde_training
+
+      <ul>
+        <li><a href="cli/implementation.html#module-kde_training">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cli/implementation.html#train.load_histogram">load_histogram() (in module train)</a>
+</li>
+      <li><a href="cli/implementation.html#train.load_kde_raw">load_kde_raw() (in module train)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cli/implementation.html#kde_training.load_raw_vectors">load_raw_vectors() (in module kde_training)</a>
+</li>
+      <li><a href="cli/implementation.html#plot_scores.load_score_table">load_score_table() (in module plot_scores)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cli/implementation.html#access_rna_structures.main">main() (in module access_rna_structures)</a>
+
+      <ul>
+        <li><a href="cli/implementation.html#extract_distances.main">(in module extract_distances)</a>
+</li>
+        <li><a href="cli/implementation.html#kde_training.main">(in module kde_training)</a>
+</li>
+        <li><a href="cli/implementation.html#plot_scores.main">(in module plot_scores)</a>
+</li>
+        <li><a href="cli/implementation.html#score_structures.main">(in module score_structures)</a>
+</li>
+        <li><a href="cli/implementation.html#train.main">(in module train)</a>
+</li>
+        <li><a href="cli/implementation.html#utils.validate_pdb_files.main">(in module utils.validate_pdb_files)</a>
+</li>
+      </ul></li>
+      <li>
+    module
+
+      <ul>
+        <li><a href="cli/implementation.html#module-access_rna_structures">access_rna_structures</a>
+</li>
+        <li><a href="cli/implementation.html#module-extract_distances">extract_distances</a>
+</li>
+        <li><a href="cli/implementation.html#module-kde_training">kde_training</a>
+</li>
+        <li><a href="cli/implementation.html#module-plot_scores">plot_scores</a>
+</li>
+        <li><a href="cli/implementation.html#module-score_structures">score_structures</a>
+</li>
+        <li><a href="cli/implementation.html#module-train">train</a>
+</li>
+        <li><a href="cli/implementation.html#module-utils.structure_io">utils.structure_io</a>
+</li>
+        <li><a href="cli/implementation.html#module-utils.validate_pdb_files">utils.validate_pdb_files</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cli/implementation.html#utils.structure_io.OnlineFetcher">OnlineFetcher (class in utils.structure_io)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -346,7 +578,36 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cli/implementation.html#utils.structure_io.FastParser.parse">parse() (utils.structure_io.FastParser method)</a>
+</li>
+      <li><a href="cli/implementation.html#extract_distances.parse_input_file">parse_input_file() (in module extract_distances)</a>
+</li>
+      <li><a href="cli/implementation.html#utils.validate_pdb_files.parse_pdb_for_validation">parse_pdb_for_validation() (in module utils.validate_pdb_files)</a>
+</li>
+      <li><a href="cli/implementation.html#score_structures.parse_structure">parse_structure() (in module score_structures)</a>
+</li>
+      <li><a href="cli/implementation.html#kde_training.pick_backend">pick_backend() (in module kde_training)</a>
+</li>
+      <li><a href="cli/implementation.html#plot_scores.plot_combined_profiles">plot_combined_profiles() (in module plot_scores)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cli/implementation.html#plot_scores.plot_combined_profiles_plotly">plot_combined_profiles_plotly() (in module plot_scores)</a>
+</li>
+      <li>
+    plot_scores
+
+      <ul>
+        <li><a href="cli/implementation.html#module-plot_scores">module</a>
+</li>
+      </ul></li>
       <li><a href="library/library.html#rna_score.lib.RNAScorer.plot_scores">plot_scores() (rna_score.lib.RNAScorer method)</a>
+</li>
+      <li><a href="cli/implementation.html#plot_scores.plot_single_profile">plot_single_profile() (in module plot_scores)</a>
+</li>
+      <li><a href="cli/implementation.html#plot_scores.plot_single_profile_plotly">plot_single_profile_plotly() (in module plot_scores)</a>
+</li>
+      <li><a href="cli/implementation.html#extract_distances.process_dataset_parallel">process_dataset_parallel() (in module extract_distances)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -356,10 +617,16 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="library/library.html#rna_score.lib.RNAScorer">RNAScorer (class in rna_score.lib)</a>
 </li>
+      <li><a href="cli/implementation.html#access_rna_structures.RNAStructureDownloader">RNAStructureDownloader (class in access_rna_structures)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="library/library.html#rna_score.lib.RNAScorer.run_workflow">run_workflow() (rna_score.lib.RNAScorer method)</a>
+      <li><a href="cli/implementation.html#plot_scores.run_workflow">run_workflow() (in module plot_scores)</a>
+
+      <ul>
+        <li><a href="library/library.html#rna_score.lib.RNAScorer.run_workflow">(rna_score.lib.RNAScorer method)</a>
 </li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -368,9 +635,24 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="library/library.html#rna_score.lib.RNAScorer.save_plot_scores">save_plot_scores() (rna_score.lib.RNAScorer method)</a>
 </li>
+      <li><a href="cli/implementation.html#kde_training.save_tables">save_tables() (in module kde_training)</a>
+</li>
+      <li><a href="cli/implementation.html#score_structures.score_single_structure">score_single_structure() (in module score_structures)</a>
+</li>
+      <li><a href="library/library.html#rna_score.lib.RNAScorer.score_structure">score_structure() (rna_score.lib.RNAScorer method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="library/library.html#rna_score.lib.RNAScorer.score_structure">score_structure() (rna_score.lib.RNAScorer method)</a>
+      <li>
+    score_structures
+
+      <ul>
+        <li><a href="cli/implementation.html#module-score_structures">module</a>
+</li>
+      </ul></li>
+      <li><a href="cli/implementation.html#score_structures.ScoringTables">ScoringTables (class in score_structures)</a>
+</li>
+      <li><a href="cli/implementation.html#access_rna_structures.RNAStructureDownloader.search_rna_structures">search_rna_structures() (access_rna_structures.RNAStructureDownloader method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -378,7 +660,54 @@
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    train
+
+      <ul>
+        <li><a href="cli/implementation.html#module-train">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="library/library.html#rna_score.lib.RNAScorer.train_scoring">train_scoring() (rna_score.lib.RNAScorer method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    utils.structure_io
+
+      <ul>
+        <li><a href="cli/implementation.html#module-utils.structure_io">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    utils.validate_pdb_files
+
+      <ul>
+        <li><a href="cli/implementation.html#module-utils.validate_pdb_files">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cli/implementation.html#utils.validate_pdb_files.validate_dataset">validate_dataset() (in module utils.validate_pdb_files)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cli/implementation.html#extract_distances.worker_process">worker_process() (in module extract_distances)</a>
 </li>
   </ul></td>
 </tr></table>

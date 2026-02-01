@@ -1,0 +1,1431 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Implementation &#8212; rna_score 0.2.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=379304cd" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=938c9ccc"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cli/implementation';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raysas.github.io/structural-RNA-project/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.2.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Web Tool" href="../webtool/index.html" />
+    <link rel="prev" title="CLI Usage" href="usage.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">
+        ✨ <strong>v0.2+</strong> now includes 4 new scoring functions: non-log scoring formulae including direct ratio, inverse ratio, and information gain (Postic et al., 2020)
+    </div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.png" class="logo__image only-light" alt="rna_score 0.2.0 documentation - Home"/>
+    <img src="../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="rna_score 0.2.0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../background/index.html">
+    Background
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../library/index.html">
+    Library API
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Command-Line Interface (CLI)
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../webtool/index.html">
+    Web Tool
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/raysas/structural-RNA-project" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../background/index.html">
+    Background
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../library/index.html">
+    Library API
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Command-Line Interface (CLI)
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../webtool/index.html">
+    Web Tool
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/raysas/structural-RNA-project" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="usage.html">CLI Usage</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Implementation</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Command-Line Interface (CLI)</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Implementation</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="implementation">
+<h1>Implementation<a class="headerlink" href="#implementation" title="Link to this heading">#</a></h1>
+<p>Details about the implementation of the <code class="docutils literal notranslate"><span class="pre">rna-score</span></code> CLI tool’s scripts, based on which the library is also built.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>src/
+├── access_rna_structures.py
+├── extract_distances.py
+├── kde_training.py
+├── plot_scores.py
+├── score_structures.py
+├── train.py
+└── utils
+    ├── structure_io.py
+    └── validate_pdb_files.py
+</pre></div>
+</div>
+<section id="module-access_rna_structures">
+<span id="access-rna-structures-py"></span><h2><code class="docutils literal notranslate"><span class="pre">access_rna_structures.py</span></code><a class="headerlink" href="#module-access_rna_structures" title="Link to this heading">#</a></h2>
+<p>Download RNA structures from PDB in PDB and mmCIF formats.
+Allows setting maximum number of structures to download.
+Allows filtering for RNA-only structures.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="access_rna_structures.RNAStructureDownloader">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">access_rna_structures.</span></span><span class="sig-name descname"><span class="pre">RNAStructureDownloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'rna_structures'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/access_rna_structures.html#RNAStructureDownloader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#access_rna_structures.RNAStructureDownloader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Download RNA structures from PDB database.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="access_rna_structures.RNAStructureDownloader.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'rna_structures'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/access_rna_structures.html#RNAStructureDownloader.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#access_rna_structures.RNAStructureDownloader.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize downloader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_dir</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Directory to save structures</p></li>
+<li><p><strong>max_workers</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – Number of parallel downloads</p></li>
+<li><p><strong>delay</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – Delay between requests (seconds)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="access_rna_structures.RNAStructureDownloader.search_rna_structures">
+<span class="sig-name descname"><span class="pre">search_rna_structures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/access_rna_structures.html#RNAStructureDownloader.search_rna_structures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#access_rna_structures.RNAStructureDownloader.search_rna_structures" title="Link to this definition">#</a></dt>
+<dd><p>Search RNA structures in PDB using external query file.
+:type max_results: <span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]</span>
+:param max_results: Maximum number of results to return</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of PDB IDs</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="access_rna_structures.RNAStructureDownloader.get_rna_only_structures">
+<span class="sig-name descname"><span class="pre">get_rna_only_structures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/access_rna_structures.html#RNAStructureDownloader.get_rna_only_structures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#access_rna_structures.RNAStructureDownloader.get_rna_only_structures" title="Link to this definition">#</a></dt>
+<dd><p>Get structures that contain ONLY RNA (no protein or DNA) using external query file.
+:type max_results: <span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]</span>
+:param max_results: Maximum number of results</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of PDB IDs</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="access_rna_structures.RNAStructureDownloader.download_structure">
+<span class="sig-name descname"><span class="pre">download_structure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pdb_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pdb'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/access_rna_structures.html#RNAStructureDownloader.download_structure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#access_rna_structures.RNAStructureDownloader.download_structure" title="Link to this definition">#</a></dt>
+<dd><p>Download a single structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pdb_id</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – PDB identifier</p></li>
+<li><p><strong>format</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Format to download (‘pdb’ or ‘cif’)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if successful, False otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="access_rna_structures.RNAStructureDownloader.download_batch">
+<span class="sig-name descname"><span class="pre">download_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pdb_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['pdb',</span> <span class="pre">'cif']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/access_rna_structures.html#RNAStructureDownloader.download_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#access_rna_structures.RNAStructureDownloader.download_batch" title="Link to this definition">#</a></dt>
+<dd><p>Download multiple structures in parallel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pdb_ids</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span>) – List of PDB IDs</p></li>
+<li><p><strong>formats</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span>) – List of formats to download</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="access_rna_structures.RNAStructureDownloader.get_structure_info">
+<span class="sig-name descname"><span class="pre">get_structure_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pdb_ids</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/access_rna_structures.html#RNAStructureDownloader.get_structure_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#access_rna_structures.RNAStructureDownloader.get_structure_info" title="Link to this definition">#</a></dt>
+<dd><p>Get information about structures.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pdb_ids</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span>) – List of PDB IDs</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dictionary with structure information</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="access_rna_structures.main">
+<span class="sig-prename descclassname"><span class="pre">access_rna_structures.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/access_rna_structures.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#access_rna_structures.main" title="Link to this definition">#</a></dt>
+<dd><p>Main function.</p>
+</dd></dl>
+
+</section>
+<section id="module-extract_distances">
+<span id="extract-distances-py"></span><h2><code class="docutils literal notranslate"><span class="pre">extract_distances.py</span></code><a class="headerlink" href="#module-extract_distances" title="Link to this heading">#</a></h2>
+<p>RNA Distance Extractor Script</p>
+<p>This script processes RNA structures from PDB or mmCIF files (local or remote) to compute
+distance distributions between selected atoms. It supports both intra-chain and inter-chain
+interactions, various atomic selection modes, and parallel processing.</p>
+<p>Parameters / Command-line options:</p>
+<blockquote>
+<div><dl class="option-list">
+<dt><kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></dt>
+<dd><p>Show this help message and exit.</p>
+</dd>
+</dl>
+<p class="attribution">—pdb PDB
+Single RNA PDB ID (remote) or filename (local). Default: None</p>
+</div></blockquote>
+<blockquote>
+<div><dl class="option-list">
+<dt><kbd><span class="option">--list <var>LIST</var></span></kbd></dt>
+<dd><p>Text file containing a list of RNA PDB IDs and optional chain IDs to process.
+Format: &lt;PDB_ID&gt; [CHAIN_ID1 CHAIN_ID2 …]
+Example:</p>
+<blockquote>
+<div><p>1EHZ A
+1Y26 B C
+2OEU</p>
+</div></blockquote>
+<p>Default: None</p>
+</dd>
+</dl>
+<p class="attribution">—folder FOLDER
+Directory containing local PDB or mmCIF files to process in batch.
+Default: None</p>
+</div></blockquote>
+<blockquote>
+<div><dl class="simple">
+<dt>–chains CHAINS [CHAINS …]</dt><dd><p>Specific chains to process for a single PDB or files in a folder. Default: all chains</p>
+</dd>
+</dl>
+<p class="attribution">—format {pdb,mmcif}
+Input file format. Default: pdb</p>
+</div></blockquote>
+<blockquote>
+<div><dl class="option-list">
+<dt><kbd><span class="option">--all-models</span></kbd></dt>
+<dd><p>Process all NMR models instead of just the first model. Default: False</p>
+</dd>
+</dl>
+<p class="attribution">—cores CORES
+Number of CPU cores to use for parallel processing. Default: None (uses all available cores)</p>
+</div></blockquote>
+<blockquote>
+<div><dl>
+<dt>–atom-mode ATOM_MODE [ATOM_MODE …]</dt><dd><dl class="simple">
+<dt>Atom selection mode:</dt><dd><ul class="simple">
+<li><p>Single atom name (e.g., “C3’”)</p></li>
+<li><p>“centroid” for nucleotide centroid</p></li>
+<li><p>“all” for all atoms</p></li>
+<li><p>list of atom names (e.g., “C3’” “P” “O”)</p></li>
+</ul>
+</dd>
+</dl>
+<p>Default: [“C3’”]</p>
+</dd>
+<dt>–dist-mode {intra,inter}</dt><dd><dl class="simple">
+<dt>Interaction mode:</dt><dd><ul class="simple">
+<li><p>“intra” computes distances within the same chain (sequence-separated by –seq-sep)</p></li>
+<li><p>“inter” computes distances between different chains</p></li>
+</ul>
+</dd>
+</dl>
+<p>Default: intra</p>
+</dd>
+</dl>
+<p class="attribution">—cutoff CUTOFF
+Maximum distance (Å) to consider an interaction. Default: 20.0</p>
+</div></blockquote>
+<blockquote>
+<div><dl class="option-list">
+<dt><kbd><span class="option">--seq-sep <var>SEQ_SEP</var></span></kbd></dt>
+<dd><p>Minimum sequence separation for intra-chain interactions. Ignored for inter-chain. Default: 4</p>
+</dd>
+</dl>
+<p class="attribution">—bin-width BIN_WIDTH
+Width of histogram bins (applies if –method=histogram). Default: 1.0</p>
+</div></blockquote>
+<blockquote>
+<div><dl>
+<dt>–method {histogram,kde}</dt><dd><dl class="simple">
+<dt>Output type:</dt><dd><ul class="simple">
+<li><p>histogram: counts of interactions in bins</p></li>
+<li><p>kde: raw distances (can be used for kernel density estimation)</p></li>
+</ul>
+</dd>
+</dl>
+<p>Default: histogram</p>
+</dd>
+</dl>
+<p class="attribution">—out-dir OUT_DIR
+Directory for output files. Default: dist_data</p>
+</div></blockquote>
+<blockquote>
+<div><dl class="option-list">
+<dt><kbd><span class="option">--save-detailed</span></kbd></dt>
+<dd><p>Export detailed CSV log of interactions including coordinates, atom names, chain IDs, and distances. Default: False</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py function">
+<dt class="sig sig-object py" id="extract_distances.parse_input_file">
+<span class="sig-prename descclassname"><span class="pre">extract_distances.</span></span><span class="sig-name descname"><span class="pre">parse_input_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/extract_distances.html#parse_input_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#extract_distances.parse_input_file" title="Link to this definition">#</a></dt>
+<dd><p>Parse a list of PDB IDs and optional chains from a text file.
+Each line: &lt;PDB_ID&gt; [CHAIN_ID1 CHAIN_ID2 …]
+Returns a list of dictionaries: {‘id’: str, ‘chains’: list or None, ‘is_local’: bool}</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="extract_distances.worker_process">
+<span class="sig-prename descclassname"><span class="pre">extract_distances.</span></span><span class="sig-name descname"><span class="pre">worker_process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/extract_distances.html#worker_process"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#extract_distances.worker_process" title="Link to this definition">#</a></dt>
+<dd><p>Worker function to fetch, parse, and compute distances for a single target.
+Returns (results_dict, detailed_df) or (None, None) if processing fails.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="extract_distances.compute_distances">
+<span class="sig-prename descclassname"><span class="pre">extract_distances.</span></span><span class="sig-name descname"><span class="pre">compute_distances</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seq_separation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'intra'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detailed_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/extract_distances.html#compute_distances"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#extract_distances.compute_distances" title="Link to this definition">#</a></dt>
+<dd><p>Computes pairwise distances between atoms in an RNA structure.</p>
+<section id="parameters">
+<h3>Parameters:<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>data<span class="classifier">dict</span></dt><dd><p>Parsed RNA structure data from FastParser.</p>
+</dd>
+<dt>cutoff<span class="classifier">float</span></dt><dd><p>Maximum distance between atoms to be considered a contact (in Ångströms).</p>
+</dd>
+<dt>seq_separation<span class="classifier">int</span></dt><dd><p>Minimum sequence separation for intra-chain distance computations.</p>
+</dd>
+<dt>dist_mode<span class="classifier">str</span></dt><dd><p>Either ‘intra’ (within the same chain) or ‘inter’ (between different chains).</p>
+</dd>
+<dt>detailed_output<span class="classifier">bool, optional</span></dt><dd><p>Whether to return a detailed pandas DataFrame with all distances.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h3>Returns:<a class="headerlink" href="#returns" title="Link to this heading">#</a></h3>
+<p>:
+tuple:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>results<span class="classifier">dict</span></dt><dd><p>Dictionary mapping residue pair types to lists of distances.</p>
+</dd>
+<dt>detailed_df<span class="classifier">pandas.DataFrame or None</span></dt><dd><p>DataFrame with detailed distance information if requested.</p>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="extract_distances.process_dataset_parallel">
+<span class="sig-prename descclassname"><span class="pre">extract_distances.</span></span><span class="sig-name descname"><span class="pre">process_dataset_parallel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">targets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/extract_distances.html#process_dataset_parallel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#extract_distances.process_dataset_parallel" title="Link to this definition">#</a></dt>
+<dd><p>Process a list of targets in parallel using ProcessPoolExecutor.
+Returns final_results (dict of distance lists) and all_detailed_dfs (list of pandas DataFrames)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="extract_distances.main">
+<span class="sig-prename descclassname"><span class="pre">extract_distances.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/extract_distances.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#extract_distances.main" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-kde_training">
+<span id="kde-training-py"></span><h2><code class="docutils literal notranslate"><span class="pre">kde_training.py</span></code><a class="headerlink" href="#module-kde_training" title="Link to this heading">#</a></h2>
+<p>Build KDE-based residue-pair scoring tables using R’s density() via rpy2.
+Reads <a href="#id1"><span class="problematic" id="id2">*</span></a>_kde_raw.txt from extract_distances.py and writes freq/score CSVs.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="kde_training.load_raw_vectors">
+<span class="sig-prename descclassname"><span class="pre">kde_training.</span></span><span class="sig-name descname"><span class="pre">load_raw_vectors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kde_training.html#load_raw_vectors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kde_training.load_raw_vectors" title="Link to this definition">#</a></dt>
+<dd><p>Load raw distance vectors dumped by extract_distances.py –method kde.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kde_training.compute_density">
+<span class="sig-prename descclassname"><span class="pre">kde_training.</span></span><span class="sig-name descname"><span class="pre">compute_density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bandwidth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adjust</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cut</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kde_training.html#compute_density"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kde_training.compute_density" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kde_training.build_tables">
+<span class="sig-prename descclassname"><span class="pre">kde_training.</span></span><span class="sig-name descname"><span class="pre">build_tables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bandwidth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adjust</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cut</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_density</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kde_training.html#build_tables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kde_training.build_tables" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kde_training.save_tables">
+<span class="sig-prename descclassname"><span class="pre">kde_training.</span></span><span class="sig-name descname"><span class="pre">save_tables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pair_tables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kde_training.html#save_tables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kde_training.save_tables" title="Link to this definition">#</a></dt>
+<dd><p>Persist frequency and score tables to CSV.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kde_training.pick_backend">
+<span class="sig-prename descclassname"><span class="pre">kde_training.</span></span><span class="sig-name descname"><span class="pre">pick_backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_python</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kde_training.html#pick_backend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kde_training.pick_backend" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kde_training.main">
+<span class="sig-prename descclassname"><span class="pre">kde_training.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kde_training.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kde_training.main" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-train">
+<span id="train-py"></span><h2><code class="docutils literal notranslate"><span class="pre">train.py</span></code><a class="headerlink" href="#module-train" title="Link to this heading">#</a></h2>
+<p>RNA Scoring Function Training Script</p>
+<p>Computes observed and reference frequencies from distance histograms,
+then calculates pseudo-energy scores using the log-ratio formula.</p>
+<dl class="simple">
+<dt>Usage:</dt><dd><p>python train.py –input-dir dist_data –output-dir training_output</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="train.load_histogram">
+<span class="sig-prename descclassname"><span class="pre">train.</span></span><span class="sig-name descname"><span class="pre">load_histogram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/train.html#load_histogram"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#train.load_histogram" title="Link to this definition">#</a></dt>
+<dd><p>Load a histogram file and return counts as numpy array.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="train.load_kde_raw">
+<span class="sig-prename descclassname"><span class="pre">train.</span></span><span class="sig-name descname"><span class="pre">load_kde_raw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/train.html#load_kde_raw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#train.load_kde_raw" title="Link to this definition">#</a></dt>
+<dd><p>Load raw distances from KDE file.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="train.compute_frequency">
+<span class="sig-prename descclassname"><span class="pre">train.</span></span><span class="sig-name descname"><span class="pre">compute_frequency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">counts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudocount</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/train.html#compute_frequency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#train.compute_frequency" title="Link to this definition">#</a></dt>
+<dd><p>Compute frequency from counts with pseudocount smoothing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>counts</strong> – Array of counts per bin</p></li>
+<li><p><strong>pseudocount</strong> – Small value to avoid division by zero</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Frequency array (normalized counts)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="train.compute_kde">
+<span class="sig-prename descclassname"><span class="pre">train.</span></span><span class="sig-name descname"><span class="pre">compute_kde</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">counts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bin_mid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bandwidth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/train.html#compute_kde"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#train.compute_kde" title="Link to this definition">#</a></dt>
+<dd><p>Compute KDE from histogram counts and bin midpoints.
+Returns density evaluated at bin midpoints.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="train.compute_kde_from_raw">
+<span class="sig-prename descclassname"><span class="pre">train.</span></span><span class="sig-name descname"><span class="pre">compute_kde_from_raw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_distances</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bin_mid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bandwidth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/train.html#compute_kde_from_raw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#train.compute_kde_from_raw" title="Link to this definition">#</a></dt>
+<dd><p>Compute KDE density from raw distance samples evaluated at bin midpoints.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>raw_distances</strong> – Array of raw distance values</p></li>
+<li><p><strong>bin_mid</strong> – Bin midpoints where density is evaluated</p></li>
+<li><p><strong>bandwidth</strong> – Bandwidth method for KDE</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Normalized density array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="train.compute_score">
+<span class="sig-prename descclassname"><span class="pre">train.</span></span><span class="sig-name descname"><span class="pre">compute_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obs_freq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_freq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_score</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formula</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'log'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/train.html#compute_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#train.compute_score" title="Link to this definition">#</a></dt>
+<dd><p>Compute pseudo-energy score using various formulas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obs_freq</strong> – Observed frequency</p></li>
+<li><p><strong>ref_freq</strong> – Reference frequency</p></li>
+<li><p><strong>max_score</strong> – Maximum allowed score value</p></li>
+<li><p><strong>formula</strong> – Scoring formula to use. Options:
+- ‘log’: -log(f_obs / f_ref) [default, Sippl’s statistical potential]
+- ‘inverse’: f_ref / f_obs [inverse ratio]
+- ‘info-gain’: -(f_obs - f_ref) / f_ref [information gain, Postic et al. 2020]
+- ‘ratio’: f_obs / f_ref [direct ratio]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Score array, capped at max_score</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Sippl MJ (1990). Calculation of conformational ensembles from potentials
+of mean force. J Mol Biol 213:859-883.</p></li>
+<li><p>Postic G, et al. (2020). An information gain-based approach for evaluating
+protein structure models. Comput Struct Biotechnol J 18:2228-2236.
+DOI: 10.1016/j.csbj.2020.08.013</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="train.main">
+<span class="sig-prename descclassname"><span class="pre">train.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/train.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#train.main" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-plot_scores">
+<span id="plot-scores-py"></span><h2><code class="docutils literal notranslate"><span class="pre">plot_scores.py</span></code><a class="headerlink" href="#module-plot_scores" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="plot_scores.load_score_table">
+<span class="sig-prename descclassname"><span class="pre">plot_scores.</span></span><span class="sig-name descname"><span class="pre">load_score_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plot_scores.html#load_score_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plot_scores.load_score_table" title="Link to this definition">#</a></dt>
+<dd><p>Load a score table CSV file (KDE or histogram formats).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filepath</strong> (<em>str</em>) – Path to the score table CSV file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Parsed score table data, or <code class="docutils literal notranslate"><span class="pre">None</span></code> if the file does not exist.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plot_scores.plot_single_profile">
+<span class="sig-prename descclassname"><span class="pre">plot_scores.</span></span><span class="sig-name descname"><span class="pre">plot_single_profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pair</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plot_scores.html#plot_single_profile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plot_scores.plot_single_profile" title="Link to this definition">#</a></dt>
+<dd><p>Plot a single scoring profile (static PNG).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pair</strong> (<em>str</em>) – Nucleotide pair name.</p></li>
+<li><p><strong>score_data</strong> (<em>dict</em>) – Dictionary with <code class="docutils literal notranslate"><span class="pre">distance</span></code> and <code class="docutils literal notranslate"><span class="pre">score</span></code> keys.</p></li>
+<li><p><strong>output_path</strong> (<em>str</em>) – Path to save the output PNG file.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plot_scores.plot_combined_profiles">
+<span class="sig-prename descclassname"><span class="pre">plot_scores.</span></span><span class="sig-name descname"><span class="pre">plot_combined_profiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pairs_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plot_scores.html#plot_combined_profiles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plot_scores.plot_combined_profiles" title="Link to this definition">#</a></dt>
+<dd><p>Plot combined scoring profiles in a grid layout (static PNG).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pairs_data</strong> (<em>dict</em>) – Mapping of pair names to score data dictionaries.</p></li>
+<li><p><strong>output_path</strong> (<em>str</em>) – Path to save the output PNG file.</p></li>
+<li><p><strong>cols</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of columns in the grid.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plot_scores.plot_single_profile_plotly">
+<span class="sig-prename descclassname"><span class="pre">plot_scores.</span></span><span class="sig-name descname"><span class="pre">plot_single_profile_plotly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pair</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plot_scores.html#plot_single_profile_plotly"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plot_scores.plot_single_profile_plotly" title="Link to this definition">#</a></dt>
+<dd><p>Plot a single scoring profile as an interactive Plotly figure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pair</strong> (<em>str</em>) – Nucleotide pair name.</p></li>
+<li><p><strong>score_data</strong> (<em>dict</em>) – Dictionary with <code class="docutils literal notranslate"><span class="pre">distance</span></code> and <code class="docutils literal notranslate"><span class="pre">score</span></code> keys.</p></li>
+<li><p><strong>output_path</strong> (<em>str</em>) – Path to save the output HTML file.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Color palette: Plasma.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plot_scores.plot_combined_profiles_plotly">
+<span class="sig-prename descclassname"><span class="pre">plot_scores.</span></span><span class="sig-name descname"><span class="pre">plot_combined_profiles_plotly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pairs_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plot_scores.html#plot_combined_profiles_plotly"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plot_scores.plot_combined_profiles_plotly" title="Link to this definition">#</a></dt>
+<dd><p>Plot combined scoring profiles with an interactive Plotly figure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pairs_data</strong> (<em>dict</em>) – Mapping of pair names to score data dictionaries.</p></li>
+<li><p><strong>output_path</strong> (<em>str</em>) – Path to save the output HTML file.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Color palette: Plasma.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plot_scores.run_workflow">
+<span class="sig-prename descclassname"><span class="pre">plot_scores.</span></span><span class="sig-name descname"><span class="pre">run_workflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plot_scores.html#run_workflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plot_scores.run_workflow" title="Link to this definition">#</a></dt>
+<dd><p>Run the scoring profile plotting workflow.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>args</strong> (<em>argparse.Namespace</em>) – Parsed CLI arguments.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Exit status code.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plot_scores.main">
+<span class="sig-prename descclassname"><span class="pre">plot_scores.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plot_scores.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plot_scores.main" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-score_structures">
+<span id="score-structures-py"></span><h2><code class="docutils literal notranslate"><span class="pre">score_structures.py</span></code><a class="headerlink" href="#module-score_structures" title="Link to this heading">#</a></h2>
+<p>RNA Structure Scoring Script</p>
+<p>Evaluates predicted RNA structures using trained scoring tables.
+Computes total Gibbs free energy estimate by summing interpolated scores.</p>
+<dl class="simple">
+<dt>Usage:</dt><dd><p>python score_structure.py –pdb structure.pdb –tables training_output</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="score_structures.ScoringTables">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">score_structures.</span></span><span class="sig-name descname"><span class="pre">ScoringTables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tables_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/score_structures.html#ScoringTables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#score_structures.ScoringTables" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Container for trained scoring tables with interpolation.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="score_structures.ScoringTables.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tables_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/score_structures.html#ScoringTables.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#score_structures.ScoringTables.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Load all scoring tables from directory.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="score_structures.ScoringTables.get_score">
+<span class="sig-name descname"><span class="pre">get_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pair</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/score_structures.html#ScoringTables.get_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#score_structures.ScoringTables.get_score" title="Link to this definition">#</a></dt>
+<dd><p>Get interpolated score for a base pair at a given distance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pair</strong> – Base pair type (e.g., ‘AA’, ‘AU’)</p></li>
+<li><p><strong>distance</strong> – Distance in Angstroms</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Interpolated score value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="score_structures.ScoringTables.canonical_pair_key">
+<span class="sig-name descname"><span class="pre">canonical_pair_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">res1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">res2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/score_structures.html#ScoringTables.canonical_pair_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#score_structures.ScoringTables.canonical_pair_key" title="Link to this definition">#</a></dt>
+<dd><p>Convert residue pair to canonical key (alphabetically sorted).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="score_structures.parse_structure">
+<span class="sig-prename descclassname"><span class="pre">score_structures.</span></span><span class="sig-name descname"><span class="pre">parse_structure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pdb'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atom_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&quot;C3'&quot;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/score_structures.html#parse_structure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#score_structures.parse_structure" title="Link to this definition">#</a></dt>
+<dd><p>Parse structure file and extract distance data.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="score_structures.compute_structure_score">
+<span class="sig-prename descclassname"><span class="pre">score_structures.</span></span><span class="sig-name descname"><span class="pre">compute_structure_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scoring_tables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seq_sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/score_structures.html#compute_structure_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#score_structures.compute_structure_score" title="Link to this definition">#</a></dt>
+<dd><p>Compute total score for a structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – Parsed structure data</p></li>
+<li><p><strong>scoring_tables</strong> – ScoringTables object</p></li>
+<li><p><strong>cutoff</strong> – Maximum distance to consider</p></li>
+<li><p><strong>seq_sep</strong> – Minimum sequence separation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary with total score and detailed interactions</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="score_structures.score_single_structure">
+<span class="sig-prename descclassname"><span class="pre">score_structures.</span></span><span class="sig-name descname"><span class="pre">score_single_structure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scoring_tables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seq_sep</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atom_mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/score_structures.html#score_single_structure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#score_structures.score_single_structure" title="Link to this definition">#</a></dt>
+<dd><p>Score a single structure and return results.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="score_structures.main">
+<span class="sig-prename descclassname"><span class="pre">score_structures.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/score_structures.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#score_structures.main" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="utils-subpackage">
+<h2><code class="docutils literal notranslate"><span class="pre">utils</span></code> subpackage<a class="headerlink" href="#utils-subpackage" title="Link to this heading">#</a></h2>
+<section id="module-utils.structure_io">
+<span id="utils-structure-io-py"></span><h3><code class="docutils literal notranslate"><span class="pre">utils/structure_io.py</span></code><a class="headerlink" href="#module-utils.structure_io" title="Link to this heading">#</a></h3>
+<p>RNA Structure I/O Module</p>
+<p>This module provides tools to fetch and parse RNA structures from PDB and mmCIF files.</p>
+<section id="main-components">
+<h4>Main Components:<a class="headerlink" href="#main-components" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p>OnlineFetcher:</p></li>
+</ol>
+<p>   - Downloads PDB or mmCIF files from the RCSB Protein Data Bank (in-memory).
+   - Returns the file content as a list of lines.</p>
+<ol class="arabic simple" start="2">
+<li><p>FastParser:</p></li>
+</ol>
+<p>   - Efficiently parses PDB or mmCIF files.
+   - Supports filtering by chain, atom type, and models.
+   - Supports extracting specific atoms, all atoms, or centroids per residue.
+   - Returns structured arrays containing coordinates, residue info, atom info,
+     chain IDs, model IDs, and B-factors.</p>
+</section>
+<section id="workflow-example">
+<h4>Workflow Example:<a class="headerlink" href="#workflow-example" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p>Fetch RNA structure:</p></li>
+</ol>
+<p>    lines = OnlineFetcher.get_content(‘1ABC’, file_format=’pdb’)</p>
+<ol class="arabic simple" start="2">
+<li><p>Parse structure:</p></li>
+</ol>
+<p>    parser = FastParser(atom_mode=”C3’”)
+    data = parser.parse(lines, file_format=’pdb’, pdb_name=’1ABC’)</p>
+</section>
+<section id="dependencies">
+<h4>Dependencies:<a class="headerlink" href="#dependencies" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>numpy</p></li>
+<li><p>urllib</p></li>
+<li><p>collections</p></li>
+</ul>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="utils.structure_io.OnlineFetcher">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">utils.structure_io.</span></span><span class="sig-name descname"><span class="pre">OnlineFetcher</span></span><a class="reference internal" href="../_modules/utils/structure_io.html#OnlineFetcher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.structure_io.OnlineFetcher" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class for fetching PDB or mmCIF files from the RCSB Protein Data Bank online repository.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="utils.structure_io.OnlineFetcher.BASE_URL">
+<span class="sig-name descname"><span class="pre">BASE_URL</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://files.rcsb.org/download/'</span></span><a class="headerlink" href="#utils.structure_io.OnlineFetcher.BASE_URL" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utils.structure_io.OnlineFetcher.get_content">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_content</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pdb_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pdb'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/structure_io.html#OnlineFetcher.get_content"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.structure_io.OnlineFetcher.get_content" title="Link to this definition">#</a></dt>
+<dd><p>Fetches the content of a PDB or mmCIF file for a given PDB ID.</p>
+<section id="parameters">
+<h4>Parameters:<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h4>
+<dl class="simple">
+<dt>pdb_id<span class="classifier">str</span></dt><dd><p>The PDB identifier of the structure.</p>
+</dd>
+<dt>file_format<span class="classifier">str, optional</span></dt><dd><p>Either ‘pdb’ or ‘mmcif’ to specify the file format. Default is ‘pdb’.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h4>Returns:<a class="headerlink" href="#returns" title="Link to this heading">#</a></h4>
+<p>:
+list[str] or None</p>
+<blockquote>
+<div><p>List of lines from the file if successful; None if download fails.</p>
+</div></blockquote>
+</section>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="utils.structure_io.FastParser">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">utils.structure_io.</span></span><span class="sig-name descname"><span class="pre">FastParser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atom_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[&quot;C3'&quot;]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/structure_io.html#FastParser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.structure_io.FastParser" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Efficient parser for extracting atomic coordinates and related information from PDB or mmCIF files for RNA.</p>
+<section id="attributes">
+<h4>Attributes:<a class="headerlink" href="#attributes" title="Link to this heading">#</a></h4>
+<dl class="simple">
+<dt>atom_mode<span class="classifier">str or set</span></dt><dd><p>Defines which atoms to retain during parsing. Options:
+- specific atom name (e.g., “C3’”)
+- ‘centroid’: compute centroid of all atoms per residue
+- ‘all’: keep all atoms
+- list of atom names</p>
+</dd>
+<dt>allowed_bases<span class="classifier">set</span></dt><dd><p>Set of RNA nucleotide bases to keep (‘A’, ‘U’, ‘C’, ‘G’).</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="utils.structure_io.FastParser.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atom_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[&quot;C3'&quot;]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/structure_io.html#FastParser.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.structure_io.FastParser.__init__" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utils.structure_io.FastParser.parse">
+<span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pdb'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdb_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'unknown'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chains_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_all_models</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/structure_io.html#FastParser.parse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.structure_io.FastParser.parse" title="Link to this definition">#</a></dt>
+<dd><p>Parse the structure file and extract atom coordinates.</p>
+<section id="id1">
+<h5>Parameters:<a class="headerlink" href="#id1" title="Link to this heading">#</a></h5>
+<dl class="simple">
+<dt>lines<span class="classifier">list[str]</span></dt><dd><p>Lines of the PDB or mmCIF file content.</p>
+</dd>
+<dt>file_format<span class="classifier">str, optional</span></dt><dd><p>‘pdb’ or ‘mmcif’. Default is ‘pdb’.</p>
+</dd>
+<dt>pdb_name<span class="classifier">str, optional</span></dt><dd><p>Name/ID of the structure for reference. Default is ‘unknown’.</p>
+</dd>
+<dt>chains_filter<span class="classifier">list or None, optional</span></dt><dd><p>List of chain IDs to include. If None, all chains are included.</p>
+</dd>
+<dt>use_all_models<span class="classifier">bool, optional</span></dt><dd><p>Whether to include all NMR models. Default is False (first model only).</p>
+</dd>
+</dl>
+</section>
+<section id="id2">
+<h5>Returns:<a class="headerlink" href="#id2" title="Link to this heading">#</a></h5>
+<p>:
+dict or None</p>
+<blockquote>
+<div><p>Dictionary with parsed atom data, or None if parsing fails.</p>
+</div></blockquote>
+</section>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+</section>
+<section id="module-utils.validate_pdb_files">
+<span id="utils-validate-pdb-files-py"></span><h3><code class="docutils literal notranslate"><span class="pre">utils/validate_pdb_files.py</span></code><a class="headerlink" href="#module-utils.validate_pdb_files" title="Link to this heading">#</a></h3>
+<p>Validate and filter RNA structures before training.
+Checks for C3’ atoms, chain length, and structure quality.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="utils.validate_pdb_files.parse_pdb_for_validation">
+<span class="sig-prename descclassname"><span class="pre">utils.validate_pdb_files.</span></span><span class="sig-name descname"><span class="pre">parse_pdb_for_validation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pdb_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/validate_pdb_files.html#parse_pdb_for_validation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.validate_pdb_files.parse_pdb_for_validation" title="Link to this definition">#</a></dt>
+<dd><p>Parse PDB file and extract validation information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary with validation metrics</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="utils.validate_pdb_files.validate_dataset">
+<span class="sig-prename descclassname"><span class="pre">utils.validate_pdb_files.</span></span><span class="sig-name descname"><span class="pre">validate_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_residues</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/validate_pdb_files.html#validate_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.validate_pdb_files.validate_dataset" title="Link to this definition">#</a></dt>
+<dd><p>Validate all PDB files in a directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_dir</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></span>) – Directory containing PDB files</p></li>
+<li><p><strong>output_dir</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></span>) – Optional directory to copy valid files</p></li>
+<li><p><strong>min_residues</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – Minimum number of RNA residues required</p></li>
+<li><p><strong>max_resolution</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – Maximum resolution (Angstroms)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple of (valid_files, invalid_files)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="utils.validate_pdb_files.main">
+<span class="sig-prename descclassname"><span class="pre">utils.validate_pdb_files.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/validate_pdb_files.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.validate_pdb_files.main" title="Link to this definition">#</a></dt>
+<dd><p>Main function.</p>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="usage.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">CLI Usage</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../webtool/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Web Tool</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-access_rna_structures"><code class="docutils literal notranslate"><span class="pre">access_rna_structures.py</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#access_rna_structures.RNAStructureDownloader"><code class="docutils literal notranslate"><span class="pre">RNAStructureDownloader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#access_rna_structures.RNAStructureDownloader.__init__"><code class="docutils literal notranslate"><span class="pre">RNAStructureDownloader.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#access_rna_structures.RNAStructureDownloader.search_rna_structures"><code class="docutils literal notranslate"><span class="pre">RNAStructureDownloader.search_rna_structures()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#access_rna_structures.RNAStructureDownloader.get_rna_only_structures"><code class="docutils literal notranslate"><span class="pre">RNAStructureDownloader.get_rna_only_structures()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#access_rna_structures.RNAStructureDownloader.download_structure"><code class="docutils literal notranslate"><span class="pre">RNAStructureDownloader.download_structure()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#access_rna_structures.RNAStructureDownloader.download_batch"><code class="docutils literal notranslate"><span class="pre">RNAStructureDownloader.download_batch()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#access_rna_structures.RNAStructureDownloader.get_structure_info"><code class="docutils literal notranslate"><span class="pre">RNAStructureDownloader.get_structure_info()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#access_rna_structures.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-extract_distances"><code class="docutils literal notranslate"><span class="pre">extract_distances.py</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#extract_distances.parse_input_file"><code class="docutils literal notranslate"><span class="pre">parse_input_file()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#extract_distances.worker_process"><code class="docutils literal notranslate"><span class="pre">worker_process()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#extract_distances.compute_distances"><code class="docutils literal notranslate"><span class="pre">compute_distances()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#extract_distances.process_dataset_parallel"><code class="docutils literal notranslate"><span class="pre">process_dataset_parallel()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#extract_distances.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-kde_training"><code class="docutils literal notranslate"><span class="pre">kde_training.py</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kde_training.load_raw_vectors"><code class="docutils literal notranslate"><span class="pre">load_raw_vectors()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kde_training.compute_density"><code class="docutils literal notranslate"><span class="pre">compute_density()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kde_training.build_tables"><code class="docutils literal notranslate"><span class="pre">build_tables()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kde_training.save_tables"><code class="docutils literal notranslate"><span class="pre">save_tables()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kde_training.pick_backend"><code class="docutils literal notranslate"><span class="pre">pick_backend()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kde_training.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-train"><code class="docutils literal notranslate"><span class="pre">train.py</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train.load_histogram"><code class="docutils literal notranslate"><span class="pre">load_histogram()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train.load_kde_raw"><code class="docutils literal notranslate"><span class="pre">load_kde_raw()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train.compute_frequency"><code class="docutils literal notranslate"><span class="pre">compute_frequency()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train.compute_kde"><code class="docutils literal notranslate"><span class="pre">compute_kde()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train.compute_kde_from_raw"><code class="docutils literal notranslate"><span class="pre">compute_kde_from_raw()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train.compute_score"><code class="docutils literal notranslate"><span class="pre">compute_score()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-plot_scores"><code class="docutils literal notranslate"><span class="pre">plot_scores.py</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot_scores.load_score_table"><code class="docutils literal notranslate"><span class="pre">load_score_table()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot_scores.plot_single_profile"><code class="docutils literal notranslate"><span class="pre">plot_single_profile()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot_scores.plot_combined_profiles"><code class="docutils literal notranslate"><span class="pre">plot_combined_profiles()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot_scores.plot_single_profile_plotly"><code class="docutils literal notranslate"><span class="pre">plot_single_profile_plotly()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot_scores.plot_combined_profiles_plotly"><code class="docutils literal notranslate"><span class="pre">plot_combined_profiles_plotly()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot_scores.run_workflow"><code class="docutils literal notranslate"><span class="pre">run_workflow()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot_scores.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-score_structures"><code class="docutils literal notranslate"><span class="pre">score_structures.py</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#score_structures.ScoringTables"><code class="docutils literal notranslate"><span class="pre">ScoringTables</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#score_structures.ScoringTables.__init__"><code class="docutils literal notranslate"><span class="pre">ScoringTables.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#score_structures.ScoringTables.get_score"><code class="docutils literal notranslate"><span class="pre">ScoringTables.get_score()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#score_structures.ScoringTables.canonical_pair_key"><code class="docutils literal notranslate"><span class="pre">ScoringTables.canonical_pair_key()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#score_structures.parse_structure"><code class="docutils literal notranslate"><span class="pre">parse_structure()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#score_structures.compute_structure_score"><code class="docutils literal notranslate"><span class="pre">compute_structure_score()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#score_structures.score_single_structure"><code class="docutils literal notranslate"><span class="pre">score_single_structure()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#score_structures.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#utils-subpackage"><code class="docutils literal notranslate"><span class="pre">utils</span></code> subpackage</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#module-utils.structure_io"><code class="docutils literal notranslate"><span class="pre">utils/structure_io.py</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#main-components">Main Components:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow-example">Workflow Example:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#dependencies">Dependencies:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#utils.structure_io.OnlineFetcher"><code class="docutils literal notranslate"><span class="pre">OnlineFetcher</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#utils.structure_io.OnlineFetcher.BASE_URL"><code class="docutils literal notranslate"><span class="pre">OnlineFetcher.BASE_URL</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#utils.structure_io.OnlineFetcher.get_content"><code class="docutils literal notranslate"><span class="pre">OnlineFetcher.get_content()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#utils.structure_io.FastParser"><code class="docutils literal notranslate"><span class="pre">FastParser</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#utils.structure_io.FastParser.__init__"><code class="docutils literal notranslate"><span class="pre">FastParser.__init__()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#utils.structure_io.FastParser.parse"><code class="docutils literal notranslate"><span class="pre">FastParser.parse()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#module-utils.validate_pdb_files"><code class="docutils literal notranslate"><span class="pre">utils/validate_pdb_files.py</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#utils.validate_pdb_files.parse_pdb_for_validation"><code class="docutils literal notranslate"><span class="pre">parse_pdb_for_validation()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#utils.validate_pdb_files.validate_dataset"><code class="docutils literal notranslate"><span class="pre">validate_dataset()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#utils.validate_pdb_files.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Yazid Hoblos, Joelle Assy, Denys Buryi, Raul Duran De Alba, Rayane Adam.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
