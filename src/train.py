@@ -89,21 +89,49 @@ def compute_kde_from_raw(raw_distances, bin_mid, bandwidth=None):
         return np.zeros_like(bin_mid)
 
 
-def compute_score(obs_freq, ref_freq, max_score=10.0):
+def compute_score(obs_freq, ref_freq, max_score=10.0, formula='log'):
     """
-    Compute pseudo-energy score: -log(f_obs / f_ref)
+    Compute pseudo-energy score using various formulas.
     
     Args:
         obs_freq: Observed frequency
         ref_freq: Reference frequency
         max_score: Maximum allowed score value
+        formula: Scoring formula to use. Options:
+            - 'log': -log(f_obs / f_ref) [default, Sippl's statistical potential]
+            - 'inverse': f_ref / f_obs [inverse ratio]
+            - 'info-gain': -(f_obs - f_ref) / f_ref [information gain, Postic et al. 2020]
+            - 'ratio': f_obs / f_ref [direct ratio]
     
     Returns:
         Score array, capped at max_score
+        
+    References:
+        - Sippl MJ (1990). Calculation of conformational ensembles from potentials 
+          of mean force. J Mol Biol 213:859-883.
+        - Postic G, et al. (2020). An information gain-based approach for evaluating 
+          protein structure models. Comput Struct Biotechnol J 18:2228-2236.
+          DOI: 10.1016/j.csbj.2020.08.013
     """
     
     with np.errstate(divide='ignore', invalid='ignore'):
-        score = -np.log(obs_freq / ref_freq)
+        if formula == 'log':
+            # Standard log-ratio formula: -log(f_obs / f_ref)
+            score = -np.log(obs_freq / ref_freq)
+        elif formula == 'inverse':
+            # Inverse ratio: f_ref / f_obs
+            score = ref_freq / obs_freq
+        elif formula == 'info-gain':
+            # Information gain (normalized): -(f_obs - f_ref) / f_ref
+            # Equivalent to: 1 - f_obs/f_ref
+            # From Postic et al. (2020) for model quality assessment
+            score = -(obs_freq - ref_freq) / ref_freq
+        elif formula == 'ratio':
+            # Direct ratio: f_obs / f_ref
+            score = obs_freq / ref_freq
+        else:
+            raise ValueError(f"Unknown scoring formula: {formula}. Choose from: log, inverse, info-gain, ratio")
+        
         # Replace inf and nan with max_score
         score = np.where(np.isfinite(score), score, max_score)
         score = np.minimum(score, max_score)
@@ -163,6 +191,12 @@ def main():
         choices=['histogram', 'kde'],
         default='histogram',
         help='Training method: histogram (default) or kde'
+    )
+    parser.add_argument(
+        '--scoring-formula',
+        choices=['log', 'inverse', 'info-gain', 'ratio'],
+        default='log',
+        help='Scoring formula: log=-log(obs/ref) [default], inverse=ref/obs, info-gain=-(obs-ref)/ref, ratio=obs/ref'
     )
     
     args = parser.parse_args()
@@ -248,6 +282,8 @@ def main():
                 print(f"  WARNING: {pair} has no data, skipping...")
                 continue
             obs_freq = compute_kde_from_raw(obs_raw, bin_mid)
+            # Compute score
+            score = compute_score(obs_freq, ref_freq, args.max_score, args.scoring_formula)
         else:
             hist_file = os.path.join(args.input_dir, f'{pair}_histogram.txt')
             if not os.path.exists(hist_file):
@@ -260,7 +296,7 @@ def main():
             obs_freq = compute_frequency(obs_counts, args.pseudocount)
         
         # Compute score
-        score = compute_score(obs_freq, ref_freq, args.max_score)
+        score = compute_score(obs_freq, ref_freq, args.max_score, args.scoring_formula)
         
         # Save frequency table
         freq_table = np.column_stack([bin_min, bin_max, bin_mid, obs_freq])
@@ -298,7 +334,8 @@ def main():
         'cutoff': args.cutoff,
         'bin_width': args.bin_width,
         'n_bins': int(n_bins),
-        'pairs': processed_pairs
+        'pairs': processed_pairs,
+        'scoring_formula': args.scoring_formula
     }
     
     metadata_path = os.path.join(args.output_dir, 'metadata.json')
