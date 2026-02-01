@@ -66,6 +66,33 @@ pip install -e .
 | **Detailed Log**    | Save a CSV file with full information for every measured distance.  | `--save-detailed`                             | Saves: **PDB**, **Model**, **Chain IDs**, **Residue IDs**, **Atom Names**, **B-factors**, **AltLocs**, **Distance**, and **Pair Type**.                                          |
 | **Output Directory**| Location where results will be written.                             | `--out-dir OUT_DIR`                           | Default: `dist_data/`.                                                                                                                                                            |
 
+## Additional Features
+
+### Configurable Parameters
+All constants are exposed as CLI arguments and API parameters:
+- Distance cutoff, sequence separation, bin width, max score, pseudocount
+
+### Multiple Atom Representations
+Beyond C3′: all atoms, centroid, or custom atom selections (e.g., P, C4′, O3′)
+
+### KDE Training with R
+Kernel Density Estimation using R's `density()` function via rpy2, with SciPy fallback
+
+### Alternative Scoring Formulas
+Choose between:
+- **log** (default): `-log(f_obs / f_ref)` — Sippl's statistical potential
+- **inverse**: `f_ref / f_obs` — inverse frequency ratio
+- **info-gain**: `-(f_obs - f_ref) / f_ref` — information gain ([Postic et al., 2020](https://doi.org/10.1016/j.csbj.2020.08.013))
+- **ratio**: `f_obs / f_ref` — direct frequency ratio
+
+Example:
+```bash
+# Use information gain for model quality assessment
+rna-score train --input-dir distances --scoring-formula info-gain --output-dir tables_infogain
+```
+
+📖 **See [documentation](https://structural-rna-project.readthedocs.io) for detailed usage and API reference.**
+
 ## Code Structure
 
 - **`src/`**  
