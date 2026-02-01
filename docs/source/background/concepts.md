@@ -6,6 +6,18 @@ Because computing an exact physical free energy for an arbitrary RNA conformatio
 
 If a geometric pattern appears frequently in experimentally determined RNA structures, it is assumed to be energetically favorable. Conversely, rare patterns are treated as less favorable. Patterns are modeled through interatomic distances between nucleotides (here: using only the C3′ atom by default, or a configurable alternative).
 
+## Configurable Parameters
+
+The pipeline provides flexibility through several configurable parameters:
+
+- **Atom representation**: C3′ (default), all atoms, centroid, or specific atom selections
+- **Distance cutoff**: Maximum contact distance (default: 20 Å)
+- **Sequence separation**: Minimum residue offset for contacts (default: 4)
+- **Bin width**: Histogram discretization (default: 1.0 Å)
+- **Scoring formula**: Log-odds (default), inverse ratio, info-gain, or direct ratio
+
+## Statistical Potential
+
 For each nucleotide-type pair $ (i, j) \in \{A, U, C, G\}^2 $, we estimate:
 
 - an observed distance distribution $ f^{\mathrm{OBS}}_{i,j}(r) $ from real structures,

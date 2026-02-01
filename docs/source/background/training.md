@@ -47,6 +47,38 @@ $$
 
 To keep the potential numerically stable, the spec caps the maximum scoring value (default 10). The implementation follows this idea: `train.py` computes `-log(obs/ref)` and caps non-finite values and large values at `max_score`.
 
+### Alternative Scoring Formulas
+
+In addition to the standard log-odds formula (Sippl's potentials), the system supports alternative scoring functions via the `--scoring-formula` parameter:
+
+| Formula | Expression | Description | Reference |
+|---------|------------|-------------|----------|
+| `log` (default) | $-kT \log\left(\frac{f^{\mathrm{OBS}}}{f^{\mathrm{REF}}}\right)$ | Sippl's statistical potential | Standard approach |
+| `inverse` | $\frac{f^{\mathrm{REF}}}{f^{\mathrm{OBS}}}$ | Inverse frequency ratio (no logarithm) | Alternative metric |
+| `info-gain` | $-\frac{f^{\mathrm{OBS}} - f^{\mathrm{REF}}}{f^{\mathrm{REF}}}$ | Total information gain (normalized) | Postic et al., 2020* |
+| `ratio` | $\frac{f^{\mathrm{OBS}}}{f^{\mathrm{REF}}}$ | Direct frequency ratio | Enrichment metric |
+
+**Note on `info-gain` formula**: This implements the information gain metric from [Postic et al., 2020](https://doi.org/10.1016/j.csbj.2020.08.013), which normalizes the frequency difference by the reference frequency:
+
+$$\text{score} = -\sum_{i,j} \frac{f^{\mathrm{OBS}}_{i,j}(r) - f^{\mathrm{REF}}_{i,j}(r)}{f^{\mathrm{REF}}_{i,j}(r)}$$
+
+These alternatives are useful for:
+- Model quality assessment (distinguishing correct from incorrect structures)
+- Exploring non-logarithmic scoring relationships
+- Comparing different statistical frameworks
+- Testing linear vs. nonlinear score transformations
+
+Example:
+```bash
+# Use information gain formula (Postic et al., 2020)
+rna-score train --input-dir distances --scoring-formula info-gain --output-dir tables_info_gain
+
+# Use inverse ratio
+rna-score train --input-dir distances --scoring-formula inverse --output-dir tables_inv
+```
+
+*Postic G, et al. (2020). An information gain-based approach for evaluating protein structure models. *Computational and Structural Biotechnology Journal*, 18:2228-2236. DOI: [10.1016/j.csbj.2020.08.013](https://doi.org/10.1016/j.csbj.2020.08.013)
+
 ## KDE variant (optional, smoother profiles)
 
 Besides the histogram-based baseline, the repository also supports a KDE workflow:

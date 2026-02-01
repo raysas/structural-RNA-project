@@ -205,10 +205,28 @@ rna-score train [OPTIONS]
 | `--input-dir` | str | dist_data | Directory with distance distributions |
 | `--output-dir` | str | training_output | Output directory for scoring tables |
 | `--method {histogram,kde}` | str | histogram | Training method |
+| `--scoring-formula {log,inverse,difference,ratio}` | str | log | Scoring formula (see below) |
 | `--max-score` | float | 10.0 | Maximum score cap to prevent outliers |
 | `--pseudocount` | float | 0.0 | Pseudocount for smoothing (prevents division by zero) |
 | `--cutoff` | float | 20.0 | Maximum distance (Å) - must match extraction |
 | `--bin-width` | float | 1.0 | Bin width (Å) - must match extraction |
+
+### Scoring Formulas
+
+The `--scoring-formula` parameter controls how scores are computed from observed and reference frequency distributions:
+
+| Formula | Expression | Description | Use Case | Reference |
+|---------|------------|-------------|----------|----------|
+| **log** (default) | `-log(f_obs / f_ref)` | Sippl's statistical potential | Default choice for knowledge-based scoring | Standard |
+| **inverse** | `f_ref / f_obs` | Inverse frequency ratio | Linear relationship without logarithm | Alternative |
+| **info-gain** | `-(f_obs - f_ref) / f_ref` | Information gain (normalized) | Model quality assessment | Postic+ 2020 |
+| **ratio** | `f_obs / f_ref` | Direct frequency ratio | Enrichment/depletion scores | Alternative |
+
+**Notes:**
+- The `log` formula is the standard Sippl's potential used in most knowledge-based potentials in structural biology
+- The `info-gain` formula implements the **total information gain** approach from [Postic et al., 2020](https://doi.org/10.1016/j.csbj.2020.08.013), particularly effective for distinguishing correct from incorrect structural models
+- Alternative formulas are useful for exploring different scoring schemes or when non-logarithmic relationships are expected
+- The formula choice is saved in `metadata.json` for reproducibility
 
 ### Examples
 
@@ -228,6 +246,19 @@ Train using KDE method:
 
 ```bash
 rna-score train --input-dir kde_distances --output-dir kde_tables --method kde
+```
+
+Train with alternative scoring formula:
+
+```bash
+# Standard log formula
+rna-score train --input-dir dist_data --output-dir tables_log --scoring-formula log
+
+# Inverse ratio formula
+rna-score train --input-dir dist_data --output-dir tables_inverse --scoring-formula inverse
+
+# Information gain formula
+rna-score train --input-dir dist_data --output-dir tables_infogain --scoring-formula info-gain
 ```
 
 ### Output Files
@@ -360,6 +391,7 @@ rna-score workflow [OPTIONS]
 | `--output-dir` | str | Base output directory (default: workflow_output) |
 | `--format` | str | File format (default: pdb) |
 | `--method` | str | Training method (default: histogram) |
+| `--scoring-formula` | str | Scoring formula (default: log) |
 | `--atom-mode` | list | Atom selection (default: C3') |
 | `--cutoff` | float | Distance cutoff (default: 20.0) |
 | `--seq-sep` | int | Sequence separation (default: 4) |
@@ -381,7 +413,18 @@ rna-score workflow \
   --score-list tests/scoring_list.txt \
   --output-dir workflow_output \
   --format mmcif \
-  --method histogram
+  --method histogram \
+  --scoring-formula log
+```
+
+Workflow with alternative scoring formula:
+
+```bash
+rna-score workflow \
+  --train-folder structures/ \
+  --score-list to_score.txt \
+  --scoring-formula info-gain \
+  --output-dir results_infogain
 ```
 
 Workflow with custom parameters:
@@ -393,6 +436,7 @@ rna-score workflow \
   --atom-mode P C4 \
   --cutoff 25.0 \
   --cores 8 \
+  --scoring-formula info-gain \
   --output-dir results
 ```
 
